@@ -2,20 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@font-face {
+  font-family: "Outfit";
+  src: url("/assets/fonts/Outfit/Outfit-VariableFont_wght.ttf")
+    format("truetype-variations");
+  font-weight: 100 900; /* Supporte les poids de 100 à 900 */
+  font-style: normal;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@font-face {
+  font-family: "Mona Sans";
+  src: url("/assets/fonts/MonaSans/MonaSans-SemiBold.otf") format("opentype");
+  font-weight: 600; /* Semi-bold */
+  font-style: normal;
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@font-face {
+  font-family: "Mona Sans";
+  src: url("/assets/fonts/MonaSans/MonaSans-Medium.otf") format("opentype");
+  font-weight: 500; /* Medium */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Mona Sans";
+  src: url("/assets/fonts/MonaSans/MonaSans-Regular.otf") format("opentype");
+  font-weight: 400; /* Regular */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Mona Sans";
+  src: url("/assets/fonts/MonaSans/MonaSans-Light.otf") format("opentype");
+  font-weight: 300; /* Light */
+  font-style: normal;
 }
