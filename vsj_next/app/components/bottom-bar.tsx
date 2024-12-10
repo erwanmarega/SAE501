@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { motion } from "framer-motion";
 import DashboardIcon from "./ui/interactive-icons/dashboardIcon";
 import CalendarIcon from "./ui/interactive-icons/calendarIcon";
@@ -10,18 +10,21 @@ import GroupeIcon from "./ui/interactive-icons/groupeIcon";
 import MapIcon from "./ui/interactive-icons/mapIcon";
 import { TypingText } from "./ui/typing-text";
 import { AnimatedCloud } from "./ui/animated-cloud";
+import { LanguageContext } from "../contexts/language-context";
 
 type BottomBarProps = {
   isPage?: boolean;
+  setCurrentPage: (page: string) => void;
+  currentPage: string;
 };
 
-const BottomBar: React.FC<BottomBarProps> = ({ isPage = false }) => {
-  const [selectedIcon, setSelectedIcon] = useState<string>("");
+const BottomBar: React.FC<BottomBarProps> = ({
+  isPage = false,
+  setCurrentPage,
+  currentPage,
+}) => {
+  const { currentLocale } = useContext(LanguageContext);
   const [showBar, setShowBar] = useState<boolean>(!isPage);
-
-  const handleIconClick = (iconName: string) => {
-    setSelectedIcon(iconName);
-  };
 
   useEffect(() => {
     if (!isPage) return;
@@ -46,121 +49,148 @@ const BottomBar: React.FC<BottomBarProps> = ({ isPage = false }) => {
     };
   }, [isPage]);
 
+  // Fonction pour déterminer si une page est sélectionnée
+  const isSelected = (page: string) => currentPage === page;
+
+  // Définir les traductions directement
+  const translations = {
+    en: {
+      Calendar: "Calendar",
+      Message: "Messages",
+      Group: "Group",
+      Stats: "Statistics",
+      Map: "Map",
+    },
+    fr: {
+      Calendar: "Calendrier",
+      Message: "Messages",
+      Group: "Groupe",
+      Stats: "Statistiques",
+      Map: "Carte",
+    },
+  } as const;
+
+  const t = translations[currentLocale];
+
   return (
-    <motion.div
-      initial={{ y: isPage ? 100 : 0 }}
-      animate={{ y: showBar ? 0 : 125 }}
-      transition={{
-        type: "spring",
-        stiffness: 200,
-        damping: 20,
-      }}
-      className="overflow-hidden bg-white w-[550px] flex items-center rounded-3xl fixed bottom-7 shadow-lg p-5 h-20 gap-8 border-1 border-[#ECECEC] m-auto"
-      style={{
-        boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.1)",
-      }}
-    >
-      <div onClick={() => handleIconClick("dashboard")}>
-        <DashboardIcon isSelected={selectedIcon === "dashboard"} />
-      </div>
-      <div className="flex items-center w-full justify-around">
-        <div
-          onClick={() => handleIconClick("calendar")}
-          className={`flex flex-col items-center gap-1 transition-transform duration-300 ${
-            selectedIcon === "calendar" ? "translate-y-[-7px]" : "translate-y-0"
-          }`}
-        >
-          <CalendarIcon isSelected={selectedIcon === "calendar"} />
-          {selectedIcon === "calendar" && (
-            <>
-              <div className="flex flex-col items-center">
+    <div className="flex justify-center">
+      <motion.div
+        initial={{ y: isPage ? 100 : 0 }}
+        animate={{ y: showBar ? 0 : 125 }}
+        transition={{
+          type: "spring",
+          stiffness: 200,
+          damping: 20,
+        }}
+        className="overflow-hidden bg-white w-[550px] flex items-center rounded-3xl fixed bottom-7 shadow-lg p-5 h-20 gap-8 border-1 border-[#ECECEC] m-auto"
+        style={{
+          boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.1)",
+        }}
+      >
+        <div>
+          <button onClick={() => setCurrentPage("Dashboard")}>
+            <DashboardIcon isSelected={isSelected("Dashboard")} />
+          </button>
+        </div>
+
+        <div className="flex items-center w-full justify-around">
+          <div
+            className={`flex flex-col items-center gap-1 transition-transform duration-300 ${
+              isSelected("Calendar") ? "translate-y-[-7px]" : "translate-y-0"
+            }`}
+          >
+            <button onClick={() => setCurrentPage("Calendar")}>
+              <CalendarIcon isSelected={isSelected("Calendar")} />
+            </button>
+            {isSelected("Calendar") && (
+              <>
                 <TypingText
-                  text="Calendrier"
+                  text={t.Calendar}
                   className="absolute -bottom-4 m-auto font-outfit font-bold text-[#818181] text-xs"
                 />
-              </div>
-              <AnimatedCloud color="rgba(237, 72, 72, 0.15)" />
-            </>
-          )}
-        </div>
-        <div
-          onClick={() => handleIconClick("message")}
-          className={`flex flex-col items-center gap-1 transition-transform duration-300 ${
-            selectedIcon === "message" ? "translate-y-[-7px]" : "translate-y-0"
-          }`}
-        >
-          <MessageIcon isSelected={selectedIcon === "message"} />
-          {selectedIcon === "message" && (
-            <>
-              <div className="flex flex-col items-center z-10">
+                <AnimatedCloud color="rgba(237, 72, 72, 0.15)" />
+              </>
+            )}
+          </div>
+
+          <div
+            className={`flex flex-col items-center gap-1 transition-transform duration-300 ${
+              isSelected("Message") ? "translate-y-[-7px]" : "translate-y-0"
+            }`}
+          >
+            <button onClick={() => setCurrentPage("Message")}>
+              <MessageIcon isSelected={isSelected("Message")} />
+            </button>
+            {isSelected("Message") && (
+              <>
                 <TypingText
-                  text="Messages"
+                  text={t.Message}
                   className="absolute -bottom-4 m-auto font-outfit font-bold text-[#818181] text-xs"
                 />
-              </div>
-              <AnimatedCloud color="rgba(68, 210, 115, 0.15)" />
-            </>
-          )}
-        </div>
-        <div
-          onClick={() => handleIconClick("groupe")}
-          className={`flex flex-col items-center gap-1 transition-transform duration-300 ${
-            selectedIcon === "groupe" ? "translate-y-[-7px]" : "translate-y-0"
-          }`}
-        >
-          <GroupeIcon isSelected={selectedIcon === "groupe"} />
-          {selectedIcon === "groupe" && (
-            <>
-              <div className="flex flex-col items-center">
+                <AnimatedCloud color="rgba(68, 210, 115, 0.15)" />
+              </>
+            )}
+          </div>
+
+          <div
+            className={`flex flex-col items-center gap-1 transition-transform duration-300 ${
+              isSelected("Group") ? "translate-y-[-7px]" : "translate-y-0"
+            }`}
+          >
+            <button onClick={() => setCurrentPage("Group")}>
+              <GroupeIcon isSelected={isSelected("Group")} />
+            </button>
+            {isSelected("Group") && (
+              <>
                 <TypingText
-                  text="Groupe"
+                  text={t.Group}
                   className="absolute -bottom-4 m-auto font-outfit font-bold text-[#818181] text-xs"
                 />
-              </div>
-              <AnimatedCloud color="rgba(123,104,238,0.15)" />
-            </>
-          )}
-        </div>
-        <div
-          onClick={() => handleIconClick("stats")}
-          className={`flex flex-col items-center gap-1 transition-transform duration-300 ${
-            selectedIcon === "stats" ? "translate-y-[-7px]" : "translate-y-0"
-          }`}
-        >
-          <StatsIcon isSelected={selectedIcon === "stats"} />
-          {selectedIcon === "stats" && (
-            <>
-              <div className="flex flex-col items-center">
+                <AnimatedCloud color="rgba(123,104,238,0.15)" />
+              </>
+            )}
+          </div>
+
+          <div
+            className={`flex flex-col items-center gap-1 transition-transform duration-300 ${
+              isSelected("Stats") ? "translate-y-[-7px]" : "translate-y-0"
+            }`}
+          >
+            <button onClick={() => setCurrentPage("Stats")}>
+              <StatsIcon isSelected={isSelected("Stats")} />
+            </button>
+            {isSelected("Stats") && (
+              <>
                 <TypingText
-                  text="Statistiques"
+                  text={t.Stats}
                   className="absolute -bottom-4 m-auto font-outfit font-bold text-[#818181] text-xs"
                 />
-              </div>
-              <AnimatedCloud color="rgba(52, 140, 255, 0.15)" />
-            </>
-          )}
-        </div>
-        <div
-          onClick={() => handleIconClick("map")}
-          className={`flex flex-col items-center gap-1 transition-transform duration-300 ${
-            selectedIcon === "map" ? "translate-y-[-7px]" : "translate-y-0"
-          }`}
-        >
-          <MapIcon isSelected={selectedIcon === "map"} />
-          {selectedIcon === "map" && (
-            <>
-              <div className="flex flex-col items-center">
+                <AnimatedCloud color="rgba(52, 140, 255, 0.15)" />
+              </>
+            )}
+          </div>
+
+          <div
+            className={`flex flex-col items-center gap-1 transition-transform duration-300 ${
+              isSelected("Map") ? "translate-y-[-7px]" : "translate-y-0"
+            }`}
+          >
+            <button onClick={() => setCurrentPage("Map")}>
+              <MapIcon isSelected={isSelected("Map")} />
+            </button>
+            {isSelected("Map") && (
+              <>
                 <TypingText
-                  text="Carte"
+                  text={t.Map}
                   className="absolute -bottom-4 m-auto font-outfit font-bold text-[#818181] text-xs"
                 />
-              </div>
-              <AnimatedCloud color="rgba(250, 218, 94, 0.15)" />
-            </>
-          )}
+                <AnimatedCloud color="rgba(250, 218, 94, 0.15)" />
+              </>
+            )}
+          </div>
         </div>
-      </div>
-    </motion.div>
+      </motion.div>
+    </div>
   );
 };
 

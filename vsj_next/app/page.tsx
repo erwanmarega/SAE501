@@ -1,49 +1,58 @@
-import Link from "next/link";
+"use client";
+
+import React, { useState, useContext } from "react";
+import BottomBar from "./components/bottom-bar";
+
+// Import des composants de page
+import DashboardPage from "./dashboard/page";
+import CalendarPage from "./calendar/page";
+import MessagePage from "./message/page";
+import GroupPage from "./group/page";
+import MapPage from "./map/page";
+import Header from "./components/header";
+import StatsPage from "./stats/page";
+import { LanguageContext } from "./contexts/language-context";
 
 export default function Home() {
+  // État pour suivre la page actuelle, par défaut "Dashboard"
+  const [currentPage, setCurrentPage] = useState("Dashboard");
+
+  // État pour la langue, par défaut "en"
+  const { currentLocale, setCurrentLocale } = useContext(LanguageContext);
+
+  // Fonction pour changer la langue
+  const handleLanguageChange = (locale: "en" | "fr") => {
+    setCurrentLocale(locale);
+  };
+
+  // Fonction pour rendre le composant correspondant
+  const renderPage = () => {
+    switch (currentPage) {
+      case "Dashboard":
+        return <DashboardPage />;
+      case "Calendar":
+        return <CalendarPage />;
+      case "Message":
+        return <MessagePage />;
+      case "Group":
+        return <GroupPage />;
+      case "Map":
+        return <MapPage />;
+      case "Stats":
+        return <StatsPage />;
+      default:
+        return <DashboardPage />;
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-6">
-      <h1 className="text-4xl font-bold text-black mb-8">Sommaire des Pages</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        <Link href="/authentification">
-          <div className="bg-white shadow-md rounded-lg p-6 text-center transform transition-all hover:scale-105 hover:shadow-xl">
-            <p className="text-xl font-semibold text-gray-800">
-              Page Authentification
-            </p>
-          </div>
-        </Link>
-        <Link href="/dashboard">
-          <div className="bg-white shadow-md rounded-lg p-6 text-center transform transition-all hover:scale-105 hover:shadow-xl">
-            <p className="text-xl font-semibold text-gray-800">
-              Page Dashboard
-            </p>
-          </div>
-        </Link>
-        <Link href="/calendar">
-          <div className="bg-white shadow-md rounded-lg p-6 text-center transform transition-all hover:scale-105 hover:shadow-xl">
-            <p className="text-xl font-semibold text-gray-800">Page Calendar</p>
-          </div>
-        </Link>
-        <Link href="/message">
-          <div className="bg-white shadow-md rounded-lg p-6 text-center transform transition-all hover:scale-105 hover:shadow-xl">
-            <p className="text-xl font-semibold text-gray-800">
-              Page Messagerie
-            </p>
-          </div>
-        </Link>
-        <Link href="/group">
-          <div className="bg-white shadow-md rounded-lg p-6 text-center transform transition-all hover:scale-105 hover:shadow-xl">
-            <p className="text-xl font-semibold text-gray-800">Page Groupe</p>
-          </div>
-        </Link>
-        <Link href="/stats">
-          <div className="bg-white shadow-md rounded-lg p-6 text-center transform transition-all hover:scale-105 hover:shadow-xl">
-            <p className="text-xl font-semibold text-gray-800">
-              Page Statistiques
-            </p>
-          </div>
-        </Link>
-      </div>
+    <div className="bg-[#F7F7F7] h-screen">
+      <Header onLanguageChange={handleLanguageChange} />
+      {/* Composant actuellement affiché */}
+      {renderPage()}
+
+      {/* Bar de navigation inférieure */}
+      <BottomBar setCurrentPage={setCurrentPage} currentPage={currentPage} />
     </div>
   );
 }
