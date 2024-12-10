@@ -4,7 +4,7 @@ import React from "react";
 import Image from "next/image";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary" | "danger";
+  variant?: "primary" | "secondary" | "danger" | "outline";
   icon?: string; // URL ou chemin vers l'image
   iconAlt?: string; // Texte alternatif pour l'icône
 }
