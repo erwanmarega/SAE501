@@ -34,9 +34,8 @@ const Signup: React.FC = () => {
     if (step === 2 && barWidthStep1To2 > 0) {
       setBarWidthStep1To2((prev) => Math.max(prev - 100, 0)); // Ne pas descendre en dessous de 0
     }
-    // Animer la barre pour la réduction de droite à gauche entre 2 et 3
     if (step === 3 && barWidthStep2To3 > 0) {
-      setBarWidthStep2To3((prev) => Math.max(prev - 100, 0)); // Ne pas descendre en dessous de 0
+      setBarWidthStep2To3((prev) => Math.max(prev - 100, 0));
     }
   };
 
