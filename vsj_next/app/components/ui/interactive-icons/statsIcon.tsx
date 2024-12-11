@@ -25,8 +25,11 @@ const StatsIcon: React.FC<IconProps> = ({ isSelected }) => {
         width="9"
         height="19"
         rx="4.5"
-        fill={!isSelected && !hoverEffect ? "#D5D8E5" : "#348CFF"}
-        className="transition-colors "
+        className={`transition-colors ${
+          !isSelected && !hoverEffect
+            ? "fill-[#D5D8E5] dark:fill-[#545454]"
+            : "fill-[#348CFF]"
+        }`}
       />
       <rect
         x="15"
@@ -34,8 +37,11 @@ const StatsIcon: React.FC<IconProps> = ({ isSelected }) => {
         width="9"
         height="33"
         rx="4.5"
-        fill={!isSelected && !hoverEffect ? "#D5D8E5" : "#348CFF"}
-        className="transition-colors"
+        className={`transition-colors ${
+          !isSelected && !hoverEffect
+            ? "fill-[#D5D8E5] dark:fill-[#545454]"
+            : "fill-[#348CFF]"
+        }`}
       />
       <rect
         x="30"
@@ -43,16 +49,22 @@ const StatsIcon: React.FC<IconProps> = ({ isSelected }) => {
         width="9"
         height="24"
         rx="4.5"
-        fill={!isSelected && !hoverEffect ? "#D5D8E5" : "#348CFF"}
-        className="transition-colors"
+        className={`transition-colors ${
+          !isSelected && !hoverEffect
+            ? "fill-[#D5D8E5] dark:fill-[#545454]"
+            : "fill-[#348CFF]"
+        }`}
       />
       <rect
         x="45"
         width="9"
         height="41"
         rx="4.5"
-        fill={!isSelected && !hoverEffect ? "#D5D8E5" : "#348CFF"}
-        className="transition-colors"
+        className={`transition-colors ${
+          !isSelected && !hoverEffect
+            ? "fill-[#D5D8E5] dark:fill-[#545454]"
+            : "fill-[#348CFF]"
+        }`}
       />
     </svg>
   );

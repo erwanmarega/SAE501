@@ -1,5 +1,5 @@
 import React from "react";
-import BottomBar from "../components/bottom-bar";
+import BottomBar from "../components/bottombar/bottom-bar";
 
 const StatsPage = () => {
   return (

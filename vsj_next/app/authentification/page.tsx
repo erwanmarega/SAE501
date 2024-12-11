@@ -2,28 +2,25 @@
 
 import React, { useState } from "react";
 import Logo from "../components/ui/logo";
-import ToggleSlide from "../components/ui/toggleSlide";
+import ToggleSlide from "../components/ui/toggle-slide";
 import Image from "next/image";
 import LoginPage from "./login";
 import SignupPage from "./signup";
 import Button from "../components/ui/button";
 import GoogleIcon from "@/public/assets/icons/google_icon.svg";
-import Message from "./message";
-import LanguageSwitcher from "../components/ui/language-switcher";
+import Message from "./ui/message";
+import LanguageSwitcher from "../components/header/ui/language-switcher";
+import ThemeToggle from "./ui/theme-toggle";
+import { useLanguage } from "../components/header/ui/context/language-provider";
 
 // Images
 import BackgroundIMG_01 from "@/public/assets/img/backgroundIMG_01.png";
-import ThemeToggle from "../components/ui/theme-toggle";
 
 const AuthentificationPage = () => {
-  const [currentLocale, setCurrentLocale] = useState<"en" | "fr">("en");
+  const { language } = useLanguage(); // Récupération de la langue
   const [toggleValue, setToggleValue] = useState<"Connexion" | "Inscription">(
     "Connexion"
   );
-
-  const handleLanguageChange = (locale: "en" | "fr") => {
-    setCurrentLocale(locale); // Change la langue localement
-  };
 
   const handleToggleAuth = (active: "Connexion" | "Inscription") => {
     setToggleValue(active);
@@ -40,32 +37,27 @@ const AuthentificationPage = () => {
   return (
     <div className="grid grid-cols-2 h-screen bg-[#FAFAFA] overflow-hidden">
       <Logo placement="left" />
-      <LanguageSwitcher
-        currentLocale={currentLocale}
-        onLanguageChange={handleLanguageChange}
-      />
-      <ThemeToggle />
-      <section className="col-start-1 col-end-3 md:col-end-1 flex flex-col items-left m-auto gap-10 justify-start h-[500]">
-        <header className="flex flex-col gap-4 h-[100]">
+      <section className="col-start-1 col-end-3 md:col-end-1 flex flex-col items-left m-auto gap-10 justify-start h-[500px]">
+        <header className="flex flex-col gap-4 h-[100px]">
           <div>
             <h3 className="font-outfit font-bold text-2xl">
               {toggleValue === "Connexion"
-                ? currentLocale === "en"
-                  ? "Login"
-                  : "Se connecter"
-                : currentLocale === "en"
-                ? "Sign Up"
-                : "S'inscrire"}
+                ? language === "fr"
+                  ? "Se connecter"
+                  : "Login"
+                : language === "fr"
+                ? "S'inscrire"
+                : "Sign Up"}
             </h3>
             <h5 className="font-outfit font-light text-lg text-[#475467]">
-              {currentLocale === "en"
-                ? "Welcome to VSJ Swimming!"
-                : "Bienvenue chez VSJ natation !"}
+              {language === "fr"
+                ? "Bienvenue chez VSJ natation !"
+                : "Welcome to VSJ Swimming!"}
             </h5>
           </div>
           <ToggleSlide
-            leftLabel={currentLocale === "en" ? "Login" : "Connexion"}
-            rightLabel={currentLocale === "en" ? "Sign Up" : "Inscription"}
+            leftLabel={language === "fr" ? "Connexion" : "Login"}
+            rightLabel={language === "fr" ? "Inscription" : "Sign Up"}
             onChange={(position) =>
               handleToggleAuth(
                 position === "left" ? "Connexion" : "Inscription"
@@ -80,36 +72,36 @@ const AuthentificationPage = () => {
           {toggleValue === "Connexion" ? (
             <>
               <Button variant="primary">
-                {currentLocale === "en" ? "Login" : "Se connecter"}
+                {language === "fr" ? "Se connecter" : "Login"}
               </Button>
               <Button variant="outline" icon={GoogleIcon}>
-                {currentLocale === "en"
-                  ? "Login with Google"
-                  : "Se connecter avec Google"}
+                {language === "fr"
+                  ? "Se connecter avec Google"
+                  : "Login with Google"}
               </Button>
             </>
           ) : (
             <>
               <Button variant="primary">
-                {currentLocale === "en" ? "Sign Up" : "S'inscrire"}
+                {language === "fr" ? "S'inscrire" : "Sign Up"}
               </Button>
               <Button variant="outline" icon={GoogleIcon}>
-                {currentLocale === "en"
-                  ? "Sign Up with Google"
-                  : "S'inscrire avec Google"}
+                {language === "fr"
+                  ? "S'inscrire avec Google"
+                  : "Sign Up with Google"}
               </Button>
             </>
           )}
 
           <p className="font-mona font-light text-xs">
-            {currentLocale === "en"
-              ? "Don't have an account?"
-              : "Vous n'avez pas de compte ?"}{" "}
+            {language === "fr"
+              ? "Vous n'avez pas de compte ?"
+              : "Don't have an account?"}{" "}
             <span
               className="font-bold cursor-pointer text-[#348CFF]"
               onClick={() => handleToggleAuth("Inscription")}
             >
-              {currentLocale === "en" ? "Sign Up" : "S'inscrire"}
+              {language === "fr" ? "S'inscrire" : "Sign Up"}
             </span>
           </p>
         </footer>
@@ -117,9 +109,7 @@ const AuthentificationPage = () => {
       <section className="hidden md:flex relative m-3 rounded-xl overflow-hidden">
         <Image
           src={BackgroundIMG_01}
-          alt={
-            currentLocale === "en" ? "Image of a swimmer" : "Image d'un nageur"
-          }
+          alt={language === "fr" ? "Image d'un nageur" : "Image of a swimmer"}
           className="h-full w-full object-cover"
         />
         <Message />

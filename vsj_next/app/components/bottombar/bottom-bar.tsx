@@ -2,15 +2,15 @@
 
 import React, { useState, useEffect, useContext } from "react";
 import { motion } from "framer-motion";
-import DashboardIcon from "./ui/interactive-icons/dashboardIcon";
-import CalendarIcon from "./ui/interactive-icons/calendarIcon";
-import StatsIcon from "./ui/interactive-icons/statsIcon";
-import MessageIcon from "./ui/interactive-icons/messageIcon";
-import GroupeIcon from "./ui/interactive-icons/groupeIcon";
-import MapIcon from "./ui/interactive-icons/mapIcon";
-import { TypingText } from "./ui/typing-text";
-import { AnimatedCloud } from "./ui/animated-cloud";
-import { LanguageContext } from "../contexts/language-context";
+import DashboardIcon from "../ui/interactive-icons/dashboardIcon";
+import CalendarIcon from "../ui/interactive-icons/calendarIcon";
+import StatsIcon from "../ui/interactive-icons/statsIcon";
+import MessageIcon from "../ui/interactive-icons/messageIcon";
+import GroupeIcon from "../ui/interactive-icons/groupeIcon";
+import MapIcon from "../ui/interactive-icons/mapIcon";
+import { TypingText } from "../ui/typing-text";
+import { AnimatedCloud } from "../ui/animated-cloud";
+import { useLanguage } from "../header/ui/context/language-provider";
 
 type BottomBarProps = {
   isPage?: boolean;
@@ -23,7 +23,7 @@ const BottomBar: React.FC<BottomBarProps> = ({
   setCurrentPage,
   currentPage,
 }) => {
-  const { currentLocale } = useContext(LanguageContext);
+  const { language } = useLanguage();
   const [showBar, setShowBar] = useState<boolean>(!isPage);
 
   useEffect(() => {
@@ -52,26 +52,6 @@ const BottomBar: React.FC<BottomBarProps> = ({
   // Fonction pour déterminer si une page est sélectionnée
   const isSelected = (page: string) => currentPage === page;
 
-  // Définir les traductions directement
-  const translations = {
-    en: {
-      Calendar: "Calendar",
-      Message: "Messages",
-      Group: "Group",
-      Stats: "Statistics",
-      Map: "Map",
-    },
-    fr: {
-      Calendar: "Calendrier",
-      Message: "Messages",
-      Group: "Groupe",
-      Stats: "Statistiques",
-      Map: "Carte",
-    },
-  } as const;
-
-  const t = translations[currentLocale];
-
   return (
     <div className="flex justify-center">
       <motion.div
@@ -82,7 +62,7 @@ const BottomBar: React.FC<BottomBarProps> = ({
           stiffness: 200,
           damping: 20,
         }}
-        className="overflow-hidden bg-white w-[550px] flex items-center rounded-3xl fixed bottom-7 shadow-lg p-5 h-20 gap-8 border-1 border-[#ECECEC] m-auto"
+        className="overflow-hidden bg-white dark:bg-[#2E2E2E] dark:border-[#545454] dark:border-2 w-[550px] flex items-center rounded-3xl fixed bottom-7 shadow-lg p-5 h-20 gap-8 border-1 border-[#ECECEC] m-auto"
         style={{
           boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.1)",
         }}
@@ -105,7 +85,7 @@ const BottomBar: React.FC<BottomBarProps> = ({
             {isSelected("Calendar") && (
               <>
                 <TypingText
-                  text={t.Calendar}
+                  text={language === "fr" ? "Calendrier" : "Calendar"}
                   className="absolute -bottom-4 m-auto font-outfit font-bold text-[#818181] text-xs"
                 />
                 <AnimatedCloud color="rgba(237, 72, 72, 0.15)" />
@@ -124,7 +104,7 @@ const BottomBar: React.FC<BottomBarProps> = ({
             {isSelected("Message") && (
               <>
                 <TypingText
-                  text={t.Message}
+                  text={language === "fr" ? "Message" : "Message"}
                   className="absolute -bottom-4 m-auto font-outfit font-bold text-[#818181] text-xs"
                 />
                 <AnimatedCloud color="rgba(68, 210, 115, 0.15)" />
@@ -143,7 +123,7 @@ const BottomBar: React.FC<BottomBarProps> = ({
             {isSelected("Group") && (
               <>
                 <TypingText
-                  text={t.Group}
+                  text={language === "fr" ? "Groupe" : "Group"}
                   className="absolute -bottom-4 m-auto font-outfit font-bold text-[#818181] text-xs"
                 />
                 <AnimatedCloud color="rgba(123,104,238,0.15)" />
@@ -162,7 +142,7 @@ const BottomBar: React.FC<BottomBarProps> = ({
             {isSelected("Stats") && (
               <>
                 <TypingText
-                  text={t.Stats}
+                  text={language === "fr" ? "Stats" : "Stats"}
                   className="absolute -bottom-4 m-auto font-outfit font-bold text-[#818181] text-xs"
                 />
                 <AnimatedCloud color="rgba(52, 140, 255, 0.15)" />
@@ -181,7 +161,7 @@ const BottomBar: React.FC<BottomBarProps> = ({
             {isSelected("Map") && (
               <>
                 <TypingText
-                  text={t.Map}
+                  text={language === "fr" ? "Carte 3D" : "3D Map"}
                   className="absolute -bottom-4 m-auto font-outfit font-bold text-[#818181] text-xs"
                 />
                 <AnimatedCloud color="rgba(250, 218, 94, 0.15)" />

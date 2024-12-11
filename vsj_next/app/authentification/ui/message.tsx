@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import ArrowCarousel from "../components/ui/arrow-carousel";
+import ArrowCarousel from "../../components/ui/arrow-carousel";
 
 type Citation = {
   author: string;
