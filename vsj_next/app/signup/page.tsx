@@ -1,13 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion } from "framer-motion";
 import Confetti from "react-confetti";
-import Logo from "../components/ui/logo";
 
 const Signup: React.FC = () => {
   const [step, setStep] = useState(1);
   const [showConfetti, setShowConfetti] = useState(false);
+  const [barWidthStep1To2, setBarWidthStep1To2] = useState(0); // Barre entre 1 et 2
+  const [barWidthStep2To3, setBarWidthStep2To3] = useState(0); // Barre entre 2 et 3
 
   const handleNextStep = () => {
     if (step === 3) {
@@ -16,28 +16,48 @@ const Signup: React.FC = () => {
     } else {
       setStep((prev) => Math.min(prev + 1, 3));
     }
+
+    // Animer la barre entre l'étape 1 et 2
+    if (step === 1 && barWidthStep1To2 < 100) {
+      setBarWidthStep1To2((prev) => Math.min(prev + 100, 100)); // Ne pas dépasser 100%
+    }
+    // Animer la barre entre l'étape 2 et 3
+    if (step === 2 && barWidthStep2To3 < 100) {
+      setBarWidthStep2To3((prev) => Math.min(prev + 100, 100)); // Ne pas dépasser 100%
+    }
   };
 
-  const handlePreviousStep = () => setStep((prev) => Math.max(prev - 1, 1));
+  const handlePreviousStep = () => {
+    setStep((prev) => Math.max(prev - 1, 1));
+
+    // Animer la barre pour la réduction de droite à gauche entre 1 et 2
+    if (step === 2 && barWidthStep1To2 > 0) {
+      setBarWidthStep1To2((prev) => Math.max(prev - 100, 0)); // Ne pas descendre en dessous de 0
+    }
+    // Animer la barre pour la réduction de droite à gauche entre 2 et 3
+    if (step === 3 && barWidthStep2To3 > 0) {
+      setBarWidthStep2To3((prev) => Math.max(prev - 100, 0)); // Ne pas descendre en dessous de 0
+    }
+  };
 
   const stepTitles = ["Informations personnelles", "Résidence", "Coordonnées"];
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 text-base md:text-lg">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 text-[1.125rem] md:text-xl">
       {showConfetti && <Confetti />}
-      <div className="w-full max-w-4xl p-8 min-h-[400px]">
+      <div className="w-full max-w-5xl p-10">
         {step === 4 ? (
           <div className="flex flex-col items-center">
-            <div className="text-4xl mb-6 flex items-center justify-center w-16 h-16 bg-blue-500 text-white rounded-full">
+            <div className="text-5xl mb-8 flex items-center justify-center w-20 h-20 bg-blue-500 text-white rounded-full">
               ✓
             </div>
-            <h1 className="text-2xl font-bold text-black mb-4">
+            <h1 className="text-3xl font-bold text-black mb-6">
               Profil bien enregistré
             </h1>
-            <div className="text-6xl mb-6">👏</div>
+            <div className="text-7xl mb-8">👏</div>
             <button
-              className="bg-blue-500 text-white font-medium text-sm py-3 px-12 rounded-md hover:bg-blue-600 transition-all"
-              onClick={() => (window.location.href = "/")}
+              className="bg-blue-500 text-white font-medium text-lg py-4 px-16 rounded-md hover:bg-blue-600 transition-all"
+              onClick={() => (window.location.href = "/home")}
             >
               Démarrer l'expérience →
             </button>
@@ -45,56 +65,70 @@ const Signup: React.FC = () => {
         ) : (
           <>
             {/* En-tête */}
-            <div className="flex flex-col items-center mb-10">
-              <Logo placement="center" />
-              <h1 className="text-xl font-semibold text-gray-700 text-center leading-tight">
+            <div className="flex flex-col items-center mb-12">
+              <img
+                src="./assets/img/logo.png"
+                alt="Logo"
+                className="w-20 h-20 mb-6"
+              />
+              <h1 className="text-2xl font-semibold text-gray-700 text-center leading-tight">
                 <span className="text-blue-500 underline">Bienvenue</span>, pour
                 continuer votre inscription, veuillez compléter votre profil
               </h1>
-              <h2 className="text-lg font-bold text-gray-600 mt-6">
+              <h2 className="text-xl font-bold text-gray-600 mt-8">
                 {stepTitles[step - 1]}
               </h2>
             </div>
 
             {/* Progression */}
-            <div className="flex items-center justify-center gap-2 mb-10">
-              <div className="flex items-center gap-2">
+            <div className="flex items-center justify-center gap-3 mb-12">
+              {/* Barre entre 1 et 2 */}
+              <div className="flex items-center gap-3">
                 <div
-                  className={`w-10 h-10 flex items-center justify-center rounded-full text-lg font-medium ${
-                    step >= 1
+                  className={`w-12 h-12 flex items-center justify-center rounded-full text-xl font-medium ${
+                    step > 1
+                      ? "bg-blue-500 text-white"
+                      : "bg-blue-500 text-white"
+                  }`}
+                >
+                  {step > 1 ? "✔" : "1"}
+                </div>
+                <div className="relative w-20 h-[4px] bg-gray-300">
+                  <div
+                    className={`absolute left-0 top-0 h-full bg-blue-500`}
+                    style={{
+                      width: `${barWidthStep1To2}%`,
+                      transition: "width 0.5s ease",
+                    }}
+                  ></div>
+                </div>
+              </div>
+              {/* Barre entre 2 et 3 */}
+              <div className="flex items-center gap-3">
+                <div
+                  className={`w-12 h-12 flex items-center justify-center rounded-full text-xl font-medium ${
+                    step > 2
+                      ? "bg-blue-500 text-white"
+                      : step === 2
                       ? "bg-blue-500 text-white"
                       : "bg-gray-300 text-gray-500"
                   }`}
                 >
-                  1
+                  {step > 2 ? "✔" : "2"}
                 </div>
-                <motion.div
-                  className="h-[3px] bg-gray-300"
-                  animate={{ width: step > 1 ? "100%" : "0%" }}
-                  transition={{ duration: 0.5 }}
-                  style={{ width: "4rem" }}
-                />
-              </div>
-              <div className="flex items-center gap-2">
-                <div
-                  className={`w-10 h-10 flex items-center justify-center rounded-full text-lg font-medium ${
-                    step >= 2
-                      ? "bg-blue-500 text-white"
-                      : "bg-gray-300 text-gray-500"
-                  }`}
-                >
-                  2
+                <div className="relative w-20 h-[4px] bg-gray-300">
+                  <div
+                    className={`absolute left-0 top-0 h-full bg-blue-500`}
+                    style={{
+                      width: `${barWidthStep2To3}%`,
+                      transition: "width 0.5s ease",
+                    }}
+                  ></div>
                 </div>
-                <motion.div
-                  className="h-[3px] bg-gray-300"
-                  animate={{ width: step === 3 ? "100%" : "0%" }}
-                  transition={{ duration: 0.5 }}
-                  style={{ width: "4rem" }}
-                />
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-3">
                 <div
-                  className={`w-10 h-10 flex items-center justify-center rounded-full text-lg font-medium ${
+                  className={`w-12 h-12 flex items-center justify-center rounded-full text-xl font-medium ${
                     step === 3
                       ? "bg-blue-500 text-white"
                       : "bg-gray-300 text-gray-500"
@@ -107,91 +141,89 @@ const Signup: React.FC = () => {
 
             {/* Formulaires */}
             {step === 1 && (
-              <form className="grid grid-cols-3 gap-4 mb-8">
+              <form className="grid grid-cols-3 gap-6 mb-10">
                 <input
                   type="text"
                   name="nom"
                   placeholder="Nom"
-                  className="col-span-1 border border-gray-300 rounded-md p-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="col-span-1 border border-gray-300 rounded-md p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <input
                   type="text"
                   name="prenom"
                   placeholder="Prénom"
-                  className="col-span-1 border border-gray-300 rounded-md p-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="col-span-1 border border-gray-300 rounded-md p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <input
                   type="date"
                   name="dateNaissance"
                   placeholder="JJ/MM/AAAA"
-                  className="col-span-1 border border-gray-300 rounded-md p-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="col-span-1 border border-gray-300 rounded-md p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </form>
             )}
 
             {step === 2 && (
-              <form className="grid grid-cols-3 gap-4 mb-8">
+              <form className="grid grid-cols-3 gap-6 mb-10">
                 <input
                   type="text"
                   name="adresse"
                   placeholder="Adresse"
-                  className="col-span-1 border border-gray-300 rounded-md p-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="col-span-1 border border-gray-300 rounded-md p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <input
                   type="text"
                   name="codePostal"
                   placeholder="Code Postal"
-                  className="col-span-1 border border-gray-300 rounded-md p-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="col-span-1 border border-gray-300 rounded-md p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <input
                   type="text"
                   name="ville"
                   placeholder="Ville"
-                  className="col-span-1 border border-gray-300 rounded-md p-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="col-span-1 border border-gray-300 rounded-md p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </form>
             )}
 
             {step === 3 && (
-              <form className="grid grid-cols-3 gap-4 mb-8">
+              <form className="grid grid-cols-3 gap-6 mb-10">
                 <input
                   type="text"
                   name="telephone"
                   placeholder="Téléphone"
-                  className="col-span-1 border border-gray-300 rounded-md p-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="col-span-1 border border-gray-300 rounded-md p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <input
                   type="email"
                   name="email"
                   placeholder="Adresse mail"
-                  className="col-span-1 border border-gray-300 rounded-md p-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="col-span-1 border border-gray-300 rounded-md p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <input
                   type="text"
                   name="ville"
                   placeholder="Ville"
-                  className="col-span-1 border border-gray-300 rounded-md p-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="col-span-1 border border-gray-300 rounded-md p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </form>
             )}
 
             {/* Boutons */}
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-1">
               <button
                 type="button"
                 onClick={handleNextStep}
-                className="w-full bg-blue-500 text-white font-medium text-sm py-3 rounded-md hover:bg-blue-600 transition-all"
+                className="w-full bg-blue-500 text-white font-medium text-lg py-4 rounded-md hover:bg-blue-600 transition-all"
               >
                 Continuer →
               </button>
-              <div className="h-12">
+              <div className="h-16">
                 <button
                   type="button"
                   onClick={handlePreviousStep}
-                  className={`w-full text-black font-medium text-sm py-3 rounded-md border-none hover:underline transition-all ${
-                    step > 1
-                      ? "opacity-100 pointer-events-auto"
-                      : "opacity-0 pointer-events-none"
+                  className={`w-full text-black font-medium text-lg py-4 rounded-md border-none hover:underline transition-all ${
+                    step > 1 ? "visible" : "invisible"
                   }`}
                 >
                   ← Étape précédente
