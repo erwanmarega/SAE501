@@ -1,29 +1,20 @@
 "use client";
 
-import React, { useState, useContext } from "react";
-import BottomBar from "./components/bottom-bar";
+import React, { useState } from "react";
+import BottomBar from "./components/bottombar/bottom-bar";
 
 // Import des composants de page
 import DashboardPage from "./dashboard/page";
 import CalendarPage from "./calendar/page";
-import MessagePage from "./message/page";
+import MessagePage from "./message/message";
 import GroupPage from "./group/page";
 import MapPage from "./map/page";
-import Header from "./components/header";
+import Header from "./components/header/header";
 import StatsPage from "./stats/page";
-import { LanguageContext } from "./contexts/language-context";
 
 export default function Home() {
   // État pour suivre la page actuelle, par défaut "Dashboard"
   const [currentPage, setCurrentPage] = useState("Dashboard");
-
-  // État pour la langue, par défaut "en"
-  const { currentLocale, setCurrentLocale } = useContext(LanguageContext);
-
-  // Fonction pour changer la langue
-  const handleLanguageChange = (locale: "en" | "fr") => {
-    setCurrentLocale(locale);
-  };
 
   // Fonction pour rendre le composant correspondant
   const renderPage = () => {
@@ -46,13 +37,19 @@ export default function Home() {
   };
 
   return (
-    <div className="bg-[#F7F7F7] h-screen">
-      <Header onLanguageChange={handleLanguageChange} />
+    <div className="bg-[#F7F7F7] dark:bg-[#262629] h-screen overflow-hidden">
+      {/* Composant d'en-tête */}
+      <Header />
+
       {/* Composant actuellement affiché */}
       {renderPage()}
 
-      {/* Bar de navigation inférieure */}
-      <BottomBar setCurrentPage={setCurrentPage} currentPage={currentPage} />
+      {/* Barre de navigation inférieure */}
+      <BottomBar
+        setCurrentPage={setCurrentPage}
+        currentPage={currentPage}
+        isPage={currentPage !== "Dashboard"}
+      />
     </div>
   );
 }

@@ -11,14 +11,14 @@ interface LogoProps {
 const Logo: React.FC<LogoProps> = ({ placement }) => {
   // Définir les classes Tailwind CSS en fonction du placement
   const placementClasses: { [key in LogoProps["placement"]]: string } = {
-    left: "absolute top-2 left-6",
-    center: "absolute top-2 left-1/2 transform -translate-x-1/2",
-    right: "absolute top-2 right-6",
+    left: "absolute top-1 left-6",
+    center: "absolute top-1 left-1/2 transform -translate-x-1/2",
+    right: "absolute top-1 right-6",
   };
 
   return (
     <div className={placementClasses[placement]}>
-      <Image src={LogoVSJ} alt="Logo de VSJ Natation" width={56} height={56} />
+      <Image src={LogoVSJ} alt="Logo de VSJ Natation" width={50} height={56} />
     </div>
   );
 };

@@ -16,7 +16,7 @@ export default {
         "drop-1": "0 6px 12px rgba(0, 0, 0, 0.15)",
         "bar-shadow": "0 5px 10px 0 rgba(0, 0, 0, 0.1)", // Votre ombre personnalisée
         // Ombre externe pour accentuer la surélévation
-        "card-shadow": "24px 4px 34px rgba(0, 0, 0, 0.04)", // custom shadow
+        "card-shadow": "4px 4px 8px rgba(0, 0, 0, 0.05)", // custom shadow
       },
       fontFamily: {
         outfit: ["Outfit", "sans-serif"], // Pour Outfit
