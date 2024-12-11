@@ -37,3 +37,33 @@
   font-weight: 300; /* Light */
   font-style: normal;
 }
+@keyframes grow {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+@keyframes grow {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.progress-bar {
+  height: 4px;
+  width: 100%;
+  background-color: #d1d5db;
+  overflow: hidden;
+  position: relative;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.progress-bar.progress-active {
+  background-color: #3b82f6;
+  animation: grow 0.5s ease-in-out forwards;
+}
