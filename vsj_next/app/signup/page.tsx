@@ -57,7 +57,7 @@ const Signup: React.FC = () => {
             <div className="text-7xl mb-8">👏</div>
             <button
               className="bg-blue-500 text-white font-medium text-lg py-4 px-16 rounded-md hover:bg-blue-600 transition-all"
-              onClick={() => (window.location.href = "/home")}
+              onClick={() => (window.location.href = "/")}
             >
               Démarrer l'expérience →
             </button>

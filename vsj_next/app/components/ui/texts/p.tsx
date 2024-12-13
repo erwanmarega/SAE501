@@ -1,13 +1,20 @@
 import React from "react";
 
 interface PProps {
-  className: string;
+  className?: string;
   children: React.ReactNode;
+  variant?: "default" | "mini";
 }
 
-const P = ({ children, className }: PProps) => {
+const P = ({ children, className, variant = "default" }: PProps) => {
+  const variantClasses = variant === "mini" ? "text-3xs" : "text-sm";
+
   return (
-    <p className={`font-mona font-normal text-sm ${className}`}>{children}</p>
+    <p
+      className={`font-mona font-normal text-[#636363] ${variantClasses} ${className}`}
+    >
+      {children}
+    </p>
   );
 };
 

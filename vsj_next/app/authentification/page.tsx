@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Logo from "../components/ui/logo";
-import ToggleSlide from "../components/ui/toggle-slide";
+import ToggleSlide from "./ui/toggle-slide";
 import Image from "next/image";
 import LoginPage from "./login";
 import SignupPage from "./signup";
@@ -10,11 +10,11 @@ import Button from "../components/ui/button";
 import GoogleIcon from "@/public/assets/icons/google_icon.svg";
 import Message from "./ui/message";
 import LanguageSwitcher from "../components/header/ui/language-switcher";
-import ThemeToggle from "./ui/theme-toggle";
+import ThemeToggle from "../components/header/ui/theme-toggle";
 import { useLanguage } from "../components/header/ui/context/language-provider";
 
 // Images
-import BackgroundIMG_01 from "@/public/assets/img/backgroundIMG_01.png";
+import BackgroundIMG_01 from "@/public/assets/img/login/backgroundIMG_01.png";
 
 const AuthentificationPage = () => {
   const { language } = useLanguage(); // Récupération de la langue
@@ -98,7 +98,7 @@ const AuthentificationPage = () => {
               ? "Vous n'avez pas de compte ?"
               : "Don't have an account?"}{" "}
             <span
-              className="font-bold cursor-pointer text-[#348CFF]"
+              className="font-bold cursor-pointer text-primary"
               onClick={() => handleToggleAuth("Inscription")}
             >
               {language === "fr" ? "S'inscrire" : "Sign Up"}

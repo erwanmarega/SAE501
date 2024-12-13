@@ -62,7 +62,7 @@ const BottomBar: React.FC<BottomBarProps> = ({
           stiffness: 200,
           damping: 20,
         }}
-        className="overflow-hidden bg-white dark:bg-[#2E2E2E] dark:border-[#545454] dark:border-2 w-[550px] flex items-center rounded-3xl fixed bottom-7 shadow-lg p-5 h-20 gap-8 border-1 border-[#ECECEC] m-auto"
+        className="overflow-hidden bg-white dark:bg-[#2E2E2E]  w-[550px] flex items-center rounded-3xl fixed bottom-7 shadow-lg p-5 h-20 gap-8 border-1 border-[#ECECEC] m-auto"
         style={{
           boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.1)",
         }}
