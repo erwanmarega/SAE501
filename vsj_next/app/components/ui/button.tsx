@@ -19,7 +19,7 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   const variantClasses = {
     primary:
-      "h-12 bg-[#348CFF] text-white shadow-inner-1 shadow-inner-2 shadow-drop-1 font-outfit font-bold text-sm w-80 flex items-center justify-center gap-2",
+      "h-12 bg-primary text-white shadow-inner-1 shadow-inner-2 shadow-drop-1 font-outfit font-bold text-sm w-80 flex items-center justify-center gap-2",
     outline:
       "h-12 bg-white text-black shadow-3d-button font-outfit font-bold text-sm w-80 border border-[#D0D5DD] flex items-center justify-center gap-2",
     danger:

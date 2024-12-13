@@ -4,13 +4,14 @@ import React, { useState } from "react";
 import BottomBar from "./components/bottombar/bottom-bar";
 
 // Import des composants de page
-import DashboardPage from "./dashboard/page";
-import CalendarPage from "./calendar/page";
-import MessagePage from "./message/message";
-import GroupPage from "./group/page";
-import MapPage from "./map/page";
+import Dashboard from "./dashboard/dashboard";
+import Calendar from "./calendar/Calendar";
+import Message from "./message/message";
+import Group from "./group/group";
+import Map from "./map/map";
+import Stats from "./stats/stats";
+
 import Header from "./components/header/header";
-import StatsPage from "./stats/page";
 
 export default function Home() {
   // État pour suivre la page actuelle, par défaut "Dashboard"
@@ -20,19 +21,19 @@ export default function Home() {
   const renderPage = () => {
     switch (currentPage) {
       case "Dashboard":
-        return <DashboardPage />;
+        return <Dashboard />;
       case "Calendar":
-        return <CalendarPage />;
+        return <Calendar />;
       case "Message":
-        return <MessagePage />;
+        return <Message />;
       case "Group":
-        return <GroupPage />;
+        return <Group />;
       case "Map":
-        return <MapPage />;
+        return <Map />;
       case "Stats":
-        return <StatsPage />;
+        return <Stats />;
       default:
-        return <DashboardPage />;
+        return <Dashboard />;
     }
   };
 

@@ -1,6 +1,6 @@
 import React from "react";
 
-const MapPage = () => {
+const Map = () => {
   return (
     <div>
       <h1>Page 3D MAP</h1>
@@ -8,4 +8,4 @@ const MapPage = () => {
   );
 };
 
-export default MapPage;
+export default Map;

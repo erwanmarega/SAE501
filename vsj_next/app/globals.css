@@ -67,3 +67,27 @@
   background-color: #3b82f6;
   animation: grow 0.5s ease-in-out forwards;
 }
+
+@layer base {
+  body {
+    @apply text-gray-900 dark:text-white;
+  }
+
+  /* Optionnel : Définir d'autres éléments textuels pour hériter de la couleur du corps */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  span,
+  a,
+  li,
+  div,
+  button,
+  input,
+  textarea {
+    @apply text-gray-900 dark:text-white;
+  }
+}

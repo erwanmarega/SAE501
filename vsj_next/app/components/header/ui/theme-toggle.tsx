@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import SunIcon from "../../components/ui/interactive-icons/sunIcon";
-import MoonIcon from "../../components/ui/interactive-icons/moonIcon";
+import SunIcon from "../../ui/interactive-icons/sunIcon";
+import MoonIcon from "../../ui/interactive-icons/moonIcon";
 
 const ThemeToggle = () => {
   const [isDark, setIsDark] = useState(() => {
@@ -34,8 +34,8 @@ const ThemeToggle = () => {
         }}
         transition={{
           type: "spring",
-          stiffness: 250,
-          damping: 50,
+          stiffness: 200,
+          damping: 20,
         }}
       />
       <div

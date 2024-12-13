@@ -1,7 +1,7 @@
 import React from "react";
 import BottomBar from "../components/bottombar/bottom-bar";
 
-const GroupPage = () => {
+const Group = () => {
   return (
     <div>
       <h1>Page GROUPE</h1>
@@ -9,4 +9,4 @@ const GroupPage = () => {
   );
 };
 
-export default GroupPage;
+export default Group;
