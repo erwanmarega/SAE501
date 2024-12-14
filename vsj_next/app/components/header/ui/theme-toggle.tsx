@@ -6,9 +6,15 @@ import SunIcon from "../../ui/interactive-icons/sunIcon";
 import MoonIcon from "../../ui/interactive-icons/moonIcon";
 
 const ThemeToggle = () => {
-  const [isDark, setIsDark] = useState(() => {
-    return localStorage.getItem("theme") === "dark";
-  });
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    // Vérifie que le code s'exécute côté client
+    if (typeof window !== "undefined") {
+      const theme = localStorage.getItem("theme");
+      setIsDark(theme === "dark");
+    }
+  }, []);
 
   useEffect(() => {
     if (isDark) {

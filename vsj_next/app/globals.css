@@ -70,7 +70,7 @@
 
 @layer base {
   body {
-    @apply text-gray-900 dark:text-white;
+    @apply dark:text-white;
   }
 
   /* Optionnel : Définir d'autres éléments textuels pour hériter de la couleur du corps */
@@ -88,6 +88,6 @@
   button,
   input,
   textarea {
-    @apply text-gray-900 dark:text-white;
+    @apply dark:text-white;
   }
 }
