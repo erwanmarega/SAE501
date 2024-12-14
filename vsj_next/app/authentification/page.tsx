@@ -9,8 +9,6 @@ import SignupPage from "./signup";
 import Button from "../components/ui/button";
 import GoogleIcon from "@/public/assets/icons/google_icon.svg";
 import Message from "./ui/message";
-import LanguageSwitcher from "../components/header/ui/language-switcher";
-import ThemeToggle from "../components/header/ui/theme-toggle";
 import { useLanguage } from "../components/header/ui/context/language-provider";
 
 // Images

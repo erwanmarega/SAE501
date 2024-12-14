@@ -24,6 +24,8 @@ export default {
       },
       colors: {
         primary: "#348CFF",
+        "dark-card": "#2E2E2E",
+        "dark-element": "#545454",
         "secondary-dashboard": "#343434",
         "secondary-group": "#7B68EE",
         "secondary-message": "#44D273",
@@ -43,8 +45,9 @@ export default {
         },
       },
       fontSize: {
-        "3xs": ["0.625rem", "0.875rem"], // 10px font-size, 14px line-height
-        "2xs": ["0.6875rem", "1rem"], // 11px font-size, 16px line-height
+        "2xs": ["0.6875rem", "1rem"],
+        "3xs": ["0.625rem", "0.875rem"],
+        "5xs": ["0.5rem", "0.75rem"],
       },
     },
   },

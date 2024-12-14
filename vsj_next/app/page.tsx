@@ -1,11 +1,12 @@
 "use client";
 
+import "./globals.css";
 import React, { useState } from "react";
 import BottomBar from "./components/bottombar/bottom-bar";
 
 // Import des composants de page
 import Dashboard from "./dashboard/dashboard";
-import Calendar from "./calendar/Calendar";
+import Calendar from "./calendar/calendar";
 import Message from "./message/message";
 import Group from "./group/group";
 import Map from "./map/map";
@@ -15,7 +16,7 @@ import Header from "./components/header/header";
 
 export default function Home() {
   // État pour suivre la page actuelle, par défaut "Dashboard"
-  const [currentPage, setCurrentPage] = useState("Dashboard");
+  const [currentPage, setCurrentPage] = useState("");
 
   // Fonction pour rendre le composant correspondant
   const renderPage = () => {
@@ -33,7 +34,7 @@ export default function Home() {
       case "Stats":
         return <Stats />;
       default:
-        return <Dashboard />;
+        return <Calendar />;
     }
   };
 
