@@ -6,8 +6,8 @@ import Confetti from "react-confetti";
 const Signup: React.FC = () => {
   const [step, setStep] = useState(1);
   const [showConfetti, setShowConfetti] = useState(false);
-  const [barWidthStep1To2, setBarWidthStep1To2] = useState(0); // Barre entre 1 et 2
-  const [barWidthStep2To3, setBarWidthStep2To3] = useState(0); // Barre entre 2 et 3
+  const [barWidthStep1To2, setBarWidthStep1To2] = useState(0);
+  const [barWidthStep2To3, setBarWidthStep2To3] = useState(0);
 
   const handleNextStep = () => {
     if (step === 3) {
@@ -17,26 +17,22 @@ const Signup: React.FC = () => {
       setStep((prev) => Math.min(prev + 1, 3));
     }
 
-    // Animer la barre entre l'étape 1 et 2
     if (step === 1 && barWidthStep1To2 < 100) {
-      setBarWidthStep1To2((prev) => Math.min(prev + 100, 100)); // Ne pas dépasser 100%
+      setBarWidthStep1To2((prev) => Math.min(prev + 100, 100));
     }
-    // Animer la barre entre l'étape 2 et 3
     if (step === 2 && barWidthStep2To3 < 100) {
-      setBarWidthStep2To3((prev) => Math.min(prev + 100, 100)); // Ne pas dépasser 100%
+      setBarWidthStep2To3((prev) => Math.min(prev + 100, 100));
     }
   };
 
   const handlePreviousStep = () => {
     setStep((prev) => Math.max(prev - 1, 1));
 
-    // Animer la barre pour la réduction de droite à gauche entre 1 et 2
     if (step === 2 && barWidthStep1To2 > 0) {
-      setBarWidthStep1To2((prev) => Math.max(prev - 100, 0)); // Ne pas descendre en dessous de 0
+      setBarWidthStep1To2((prev) => Math.max(prev - 100, 0));
     }
-    // Animer la barre pour la réduction de droite à gauche entre 2 et 3
     if (step === 3 && barWidthStep2To3 > 0) {
-      setBarWidthStep2To3((prev) => Math.max(prev - 100, 0)); // Ne pas descendre en dessous de 0
+      setBarWidthStep2To3((prev) => Math.max(prev - 100, 0));
     }
   };
 
@@ -64,7 +60,7 @@ const Signup: React.FC = () => {
           </div>
         ) : (
           <>
-            {/* En-tête */}
+            {}
             <div className="flex flex-col items-center mb-12">
               <img
                 src="./assets/img/logo.png"
@@ -80,9 +76,9 @@ const Signup: React.FC = () => {
               </h2>
             </div>
 
-            {/* Progression */}
+            {}
             <div className="flex items-center justify-center gap-3 mb-12">
-              {/* Barre entre 1 et 2 */}
+              {}
               <div className="flex items-center gap-3">
                 <div
                   className={`w-12 h-12 flex items-center justify-center rounded-full text-xl font-medium ${
@@ -103,7 +99,7 @@ const Signup: React.FC = () => {
                   ></div>
                 </div>
               </div>
-              {/* Barre entre 2 et 3 */}
+              {}
               <div className="flex items-center gap-3">
                 <div
                   className={`w-12 h-12 flex items-center justify-center rounded-full text-xl font-medium ${
@@ -139,7 +135,7 @@ const Signup: React.FC = () => {
               </div>
             </div>
 
-            {/* Formulaires */}
+            {}
             {step === 1 && (
               <form className="grid grid-cols-3 gap-6 mb-10">
                 <input
@@ -209,7 +205,7 @@ const Signup: React.FC = () => {
               </form>
             )}
 
-            {/* Boutons */}
+            {}
             <div className="flex flex-col gap-1">
               <button
                 type="button"
