@@ -45,7 +45,11 @@ const Signup: React.FC = () => {
         {step === 4 ? (
           <div className="flex flex-col items-center">
             <div className="text-5xl mb-8 flex items-center justify-center w-20 h-20 bg-blue-500 text-white rounded-full">
-              ✓
+              <img
+                src="./assets/img/icon.png"
+                alt="Check"
+                className="w-12 h-12"
+              />
             </div>
             <h1 className="text-3xl font-bold text-black mb-6">
               Profil bien enregistré
@@ -60,25 +64,30 @@ const Signup: React.FC = () => {
           </div>
         ) : (
           <>
-            {}
             <div className="flex flex-col items-center mb-12">
               <img
                 src="./assets/img/logo.png"
                 alt="Logo"
                 className="w-20 h-20 mb-6"
               />
-              <h1 className="text-2xl font-semibold text-gray-700 text-center leading-tight">
-                <span className="text-blue-500 underline">Bienvenue</span>, pour
-                continuer votre inscription, veuillez compléter votre profil
+              <h1 className="text-2xl font-semibold text-gray-700 text-center leading-tight relative">
+                <span className="text-gray-700">Bienvenue</span>, pour continuer
+                votre inscription, veuillez compléter votre profil
+                {/* Underline sous le texte "Bienvenue" */}
+                <div
+                  className="absolute left-0 bottom-[-4px] h-[3px] bg-[#348CFF] mt-1"
+                  style={{
+                    width: "115px",
+                    borderRadius: "5px", // Arrondir les coins
+                  }}
+                ></div>
               </h1>
               <h2 className="text-xl font-bold text-gray-600 mt-8">
                 {stepTitles[step - 1]}
               </h2>
             </div>
 
-            {}
             <div className="flex items-center justify-center gap-3 mb-12">
-              {}
               <div className="flex items-center gap-3">
                 <div
                   className={`w-12 h-12 flex items-center justify-center rounded-full text-xl font-medium ${
@@ -87,11 +96,19 @@ const Signup: React.FC = () => {
                       : "bg-blue-500 text-white"
                   }`}
                 >
-                  {step > 1 ? "✔" : "1"}
+                  {step > 1 ? (
+                    <img
+                      src="./assets/img/icon.png"
+                      alt="Checked"
+                      className="w-5 h-5"
+                    />
+                  ) : (
+                    "1"
+                  )}
                 </div>
                 <div className="relative w-20 h-[4px] bg-gray-300">
                   <div
-                    className={`absolute left-0 top-0 h-full bg-blue-500`}
+                    className="absolute left-0 top-0 h-full bg-blue-500"
                     style={{
                       width: `${barWidthStep1To2}%`,
                       transition: "width 0.5s ease",
@@ -99,7 +116,6 @@ const Signup: React.FC = () => {
                   ></div>
                 </div>
               </div>
-              {}
               <div className="flex items-center gap-3">
                 <div
                   className={`w-12 h-12 flex items-center justify-center rounded-full text-xl font-medium ${
@@ -110,11 +126,19 @@ const Signup: React.FC = () => {
                       : "bg-gray-300 text-gray-500"
                   }`}
                 >
-                  {step > 2 ? "✔" : "2"}
+                  {step > 2 ? (
+                    <img
+                      src="./assets/img/icon.png"
+                      alt="Checked"
+                      className="w-5 h-5"
+                    />
+                  ) : (
+                    "2"
+                  )}
                 </div>
                 <div className="relative w-20 h-[4px] bg-gray-300">
                   <div
-                    className={`absolute left-0 top-0 h-full bg-blue-500`}
+                    className="absolute left-0 top-0 h-full bg-blue-500"
                     style={{
                       width: `${barWidthStep2To3}%`,
                       transition: "width 0.5s ease",
@@ -130,31 +154,29 @@ const Signup: React.FC = () => {
                       : "bg-gray-300 text-gray-500"
                   }`}
                 >
-                  3
+                  {step === 3 ? <p>3</p> : "3"}
                 </div>
               </div>
             </div>
 
-            {}
             {step === 1 && (
               <form className="grid grid-cols-3 gap-6 mb-10">
                 <input
                   type="text"
                   name="nom"
                   placeholder="Nom"
-                  className="col-span-1 border border-gray-300 rounded-md p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="col-span-1 border border-gray-300 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <input
                   type="text"
                   name="prenom"
                   placeholder="Prénom"
-                  className="col-span-1 border border-gray-300 rounded-md p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="col-span-1 border border-gray-300 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <input
                   type="date"
                   name="dateNaissance"
-                  placeholder="JJ/MM/AAAA"
-                  className="col-span-1 border border-gray-300 rounded-md p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="col-span-1 border border-gray-300 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </form>
             )}
@@ -165,47 +187,40 @@ const Signup: React.FC = () => {
                   type="text"
                   name="adresse"
                   placeholder="Adresse"
-                  className="col-span-1 border border-gray-300 rounded-md p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="col-span-1 border border-gray-300 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <input
                   type="text"
                   name="codePostal"
                   placeholder="Code Postal"
-                  className="col-span-1 border border-gray-300 rounded-md p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="col-span-1 border border-gray-300 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <input
                   type="text"
                   name="ville"
                   placeholder="Ville"
-                  className="col-span-1 border border-gray-300 rounded-md p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="col-span-1 border border-gray-300 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </form>
             )}
 
             {step === 3 && (
-              <form className="grid grid-cols-3 gap-6 mb-10">
+              <form className="grid grid-cols-2 gap-6 mb-10">
                 <input
                   type="text"
                   name="telephone"
                   placeholder="Téléphone"
-                  className="col-span-1 border border-gray-300 rounded-md p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="col-span-1 border border-gray-300 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <input
                   type="email"
                   name="email"
                   placeholder="Adresse mail"
-                  className="col-span-1 border border-gray-300 rounded-md p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-                <input
-                  type="text"
-                  name="ville"
-                  placeholder="Ville"
-                  className="col-span-1 border border-gray-300 rounded-md p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="col-span-1 border border-gray-300 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </form>
             )}
 
-            {}
             <div className="flex flex-col gap-1">
               <button
                 type="button"
