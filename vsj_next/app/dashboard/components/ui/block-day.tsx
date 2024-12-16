@@ -71,7 +71,7 @@ const BlockDay = ({
       </main>
       {!isRestDay && coach && (
         <footer className="absolute bottom-1 right-1 text-[#636363]">
-          <p className="font-outfit text-2xs font-normal dark:text-[#CACACA]">
+          <p className="font-outfit text-2xs font-normal dark:text-[#CACACA] truncate">
             Coach <span className="font-medium"> {coach}</span>
           </p>
         </footer>

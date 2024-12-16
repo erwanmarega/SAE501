@@ -91,3 +91,30 @@
     @apply dark:text-white;
   }
 }
+
+@keyframes blinkBorder {
+  0% {
+    border-color: transparent;
+  }
+  50% {
+    border-color: #348cff; /* Couleur primary */
+  }
+  100% {
+    border-color: transparent;
+  }
+}
+
+.blinking-border {
+  border: 2px solid transparent;
+  animation: blinkBorder 1s infinite;
+  border-radius: 6px;
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+}
+
+input[type="time"]::-moz-focus-inner {
+  border: 0;
+}
