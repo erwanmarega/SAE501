@@ -21,6 +21,16 @@ interface EventsContextValue {
   draggingSessionId: string | null;
   setDraggingSessionId: (id: string | null) => void;
   addSessionToDate: (sessionId: string, date: string) => void;
+  addTrainingType: (
+    date: string,
+    title: string,
+    category: string,
+    time: string,
+    duration: string,
+    intensity: string,
+    description: string,
+    coach?: string[]
+  ) => void;
 }
 
 const EventsContext = createContext<EventsContextValue | undefined>(undefined);
@@ -125,6 +135,40 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
     });
   };
 
+  // Nouvelle fonction pour ajouter un training type
+  const addTrainingType = (
+    date: string,
+    title: string,
+    category: string,
+    time: string,
+    duration: string,
+    intensity: string,
+    description: string,
+    coach: string[] = []
+  ) => {
+    // Crée un nouvel événement de type training
+    const newEvent: Event = {
+      status: "training",
+      title,
+      details: {
+        coach,
+        intensity: intensity as "facile" | "moyen" | "difficile",
+        category,
+        duration,
+        description,
+      },
+    };
+
+    // Ajoute l'événement à la date indiquée
+    setDataEvents((prev) => {
+      const existingEvents = prev[date] || [];
+      return {
+        ...prev,
+        [date]: [...existingEvents, newEvent],
+      };
+    });
+  };
+
   return (
     <EventsContext.Provider
       value={{
@@ -132,6 +176,7 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
         draggingSessionId,
         setDraggingSessionId,
         addSessionToDate,
+        addTrainingType,
       }}
     >
       {children}

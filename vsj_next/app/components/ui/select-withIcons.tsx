@@ -1,18 +1,22 @@
-import React, { useState, useRef } from "react";
+"use client";
+
+import React, { useState, useRef, useEffect } from "react";
 import clsx from "clsx";
 
 interface Option {
   value: string;
   label: string;
-  icon: React.ReactNode; // Icône SVG associée à l'option
+  icon: React.ReactNode;
 }
 
 interface SelectWithIconsProps {
   name: string;
   options: Option[];
   placeholder?: string;
-  className?: string; // Prop pour les classes personnalisées du conteneur principal
-  classNameContainer?: string; // Prop pour les classes personnalisées du conteneur global
+  className?: string;
+  classNameContainer?: string;
+  value: string; // Valeur contrôlée
+  onChange: (newValue: string) => void; // Callback onChange avec la valeur directement
 }
 
 const SelectWithIcons = ({
@@ -21,17 +25,33 @@ const SelectWithIcons = ({
   placeholder = "Select an option",
   className,
   classNameContainer,
+  value,
+  onChange,
 }: SelectWithIconsProps) => {
-  const [selectedValue, setSelectedValue] = useState<string | null>(null);
-  const [selectedIcon, setSelectedIcon] = useState<React.ReactNode | null>(
-    null
-  );
   const [open, setOpen] = useState(false);
+
+  const selectedOption = options.find((option) => option.value === value);
+
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const handleSelect = (value: string, icon: React.ReactNode) => {
-    setSelectedValue(value);
-    setSelectedIcon(icon);
+  // Fermeture du menu au clic en dehors
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const handleSelect = (selectedValue: string) => {
+    onChange(selectedValue); // Appel du callback avec la nouvelle valeur
     setOpen(false);
   };
 
@@ -48,11 +68,9 @@ const SelectWithIcons = ({
         onClick={() => setOpen(!open)}
       >
         <div className="flex items-center gap-2">
-          {selectedIcon && <span>{selectedIcon}</span>}
+          {selectedOption && <span>{selectedOption.icon}</span>}
           <span className="text-black font-mona font-medium text-sm">
-            {selectedValue
-              ? options.find((option) => option.value === selectedValue)?.label
-              : placeholder}
+            {selectedOption ? selectedOption.label : placeholder}
           </span>
         </div>
         <svg
@@ -77,7 +95,7 @@ const SelectWithIcons = ({
             <li
               key={option.value}
               className="flex items-center gap-2 px-3 py-2 cursor-pointer hover:bg-gray-100"
-              onClick={() => handleSelect(option.value, option.icon)}
+              onClick={() => handleSelect(option.value)}
             >
               {option.icon}
               <span className="text-black font-mona font-medium text-sm">
