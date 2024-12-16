@@ -31,6 +31,8 @@ interface EventsContextValue {
     description: string,
     coach?: string[]
   ) => void;
+  whatShow: string;
+  setWhatShow: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const EventsContext = createContext<EventsContextValue | undefined>(undefined);
@@ -169,6 +171,8 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
     });
   };
 
+  const [whatShow, setWhatShow] = useState("type");
+
   return (
     <EventsContext.Provider
       value={{
@@ -177,6 +181,8 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
         setDraggingSessionId,
         addSessionToDate,
         addTrainingType,
+        whatShow,
+        setWhatShow,
       }}
     >
       {children}

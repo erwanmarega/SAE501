@@ -5,9 +5,10 @@ import React, { useState } from "react";
 import Card from "@/app/components/ui/card";
 import SideBarTypes from "./ui/sideBarTypes";
 import SideBarNew from "./ui/sideBarNew";
+import { useEvents } from "../database/events-context";
 
 const SidebarCard = () => {
-  const [whatShow, setWhatShow] = useState("new");
+  const { whatShow, setWhatShow } = useEvents();
 
   const showThat = () => {
     switch (whatShow) {

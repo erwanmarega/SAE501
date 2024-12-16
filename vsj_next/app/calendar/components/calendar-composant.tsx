@@ -37,7 +37,7 @@ const CalendarComposant = ({ currentDate }: CalendarComposantProps) => {
     }
   }
 
-  const { dataEvents, draggingSessionId } = useEvents();
+  const { dataEvents, draggingSessionId, setWhatShow } = useEvents();
 
   // Toujours 42 jours, donc 6 lignes
   const numRows = 6;
@@ -96,6 +96,9 @@ const CalendarComposant = ({ currentDate }: CalendarComposantProps) => {
                   firstEvent?.status === "competition",
               }
             )}
+            onClick={() => {
+              firstEvent?.status === "training" && setWhatShow("new");
+            }}
           >
             <p className="font-outfit font-semibold text-sm text-[#6E6E6E]">
               {day.getDate()}
