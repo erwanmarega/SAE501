@@ -1,23 +1,23 @@
+"use client";
 import Image from "next/image";
+import { Swiper, SwiperSlide } from "swiper/react";
+//import { Navigation, Pagination } from "swiper"; // Importation correcte des modules
+import "swiper/swiper-bundle.css"; // Importation du CSS de Swiper
+
+// Utilisation des modules
+//Swiper.use([Navigation, Pagination]);
 
 export default function GroupePage() {
   return (
     <div className="bg-gray-100 min-h-screen p-4">
-      {/* Header Section */}
+      {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        {/* Logo centré */}
         <div className="absolute left-1/2 transform -translate-x-1/2">
-          <Image
-            src="/assets/img/logo.png" // Remplacez par le chemin vers votre logo
-            alt="Logo"
-            width={65} // Taille du logo
-            height={40} // Taille du logo
-          />
+          <Image src="/assets/img/logo.png" alt="Logo" width={65} height={40} />
         </div>
-        {/* Avatar en haut à droite */}
         <div className="flex items-center">
           <Image
-            src="/assets/img/Group274.png" // Remplacez par le chemin vers l'avatar
+            src="/assets/img/Group274.png"
             alt="Avatar"
             width={40}
             height={40}
@@ -25,60 +25,69 @@ export default function GroupePage() {
         </div>
       </div>
 
-      {/* Performance History */}
+      {/* Historique des performances */}
       <div className="bg-white rounded-2xl shadow-md p-4 mb-6">
         <h2 className="text-xl font-semibold mb-3">
           Historique des performances
         </h2>
-        <div className="grid grid-cols-4 gap-3">
-          {[...Array(4)].map((_, index) => (
-            <div
-              key={index}
-              className="bg-[#F5F5F5] rounded-2xl flex flex-col items-center"
-            >
-              <p className="text-lg font-medium mb-1">Tournoi de Malreaux</p>
-              <p className="text-xs text-gray-600">12 décembre 2023</p>
-              <div className="text-base font-semibold mt-1 mb-3">
-                4ème - 30"56'10
-              </div>
-              <p className="text-center text-xs text-gray-500 mb-3">
-                Vous avez réalisé une performance d'équipe digne des plus
-                grands, je vous félicite !
-              </p>
-              <p className="text-center text-sm text-blue-600 mb-2 font-semibold">
-                Meilleures performances
-              </p>
-              <div className="flex space-x-1">
-                {[...Array(4)].map((_, i) => (
-                  <div key={i} className="text-center">
-                    <Image
-                      src="/assets/img/Group274.png"
-                      alt="Avatar"
-                      width={40}
-                      height={40}
-                    />
-                    <p className="text-xs mt-1">Taylor</p>
-                    <p className="text-xs text-gray-500">30"56'10</p>
+        <div className="relative">
+          <Swiper
+            spaceBetween={20}
+            slidesPerView={4}
+            navigation={true} // Navigation activée
+            pagination={{ clickable: true }} // Pagination cliquable
+            breakpoints={{
+              640: { slidesPerView: 1 },
+              768: { slidesPerView: 2 },
+              1024: { slidesPerView: 4 },
+            }}
+          >
+            {[...Array(8)].map((_, index) => (
+              <SwiperSlide key={index}>
+                <div className="bg-[#F5F5F5] rounded-2xl flex flex-col items-center p-4">
+                  <p className="text-lg font-medium mb-1">
+                    Tournoi de Malreaux
+                  </p>
+                  <p className="text-xs text-gray-600">12 décembre 2023</p>
+                  <div className="text-base font-semibold mt-1 mb-3">
+                    4ème - 30"56'10
                   </div>
-                ))}
-              </div>
-            </div>
-          ))}
+                  <p className="text-center text-xs text-gray-500 mb-3">
+                    Vous avez réalisé une performance d'équipe digne des plus
+                    grands, je vous félicite !
+                  </p>
+                  <p className="text-center text-sm text-blue-600 mb-2 font-semibold">
+                    Meilleures performances
+                  </p>
+                  <div className="flex space-x-1">
+                    {[...Array(4)].map((_, i) => (
+                      <div key={i} className="text-center">
+                        <Image
+                          src="/assets/img/Group274.png"
+                          alt="Avatar"
+                          width={40}
+                          height={40}
+                        />
+                        <p className="text-xs mt-1">Taylor</p>
+                        <p className="text-xs text-gray-500">30"56'10</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </div>
       </div>
 
-      {/* Swimmers Count and List */}
+      {/* Autres sections */}
       <div className="grid grid-cols-4 gap-6 mb-6">
-        {/* Réduire la largeur de la div pour les nageurs */}
+        {/* Section 1 */}
         <div className="bg-white rounded-3xl shadow-md p-4 col-span-2">
-          {" "}
-          {/* Increased the radius here */}
           <h2 className="text-xl font-semibold mb-3 inline-block bg-blue-500 text-white px-2 py-1 rounded">
             Nombres de nageurs : 25
           </h2>
           <div className="bg-[#F5F5F5] p-4 rounded-3xl">
-            {" "}
-            {/* Increased the radius here */}
             <ul className="grid grid-cols-2 gap-4">
               {[...Array(10)].map((_, index) => (
                 <li
@@ -99,15 +108,14 @@ export default function GroupePage() {
                       </p>
                     </div>
                   </div>
-                  <p className="text-xs text-gray-600 ml-2">17 ans</p>{" "}
-                  {/* Réduction de l'espace entre l'âge et le nom */}
+                  <p className="text-xs text-gray-600 ml-2">17 ans</p>
                 </li>
               ))}
             </ul>
           </div>
         </div>
 
-        {/* Upcoming Competition */}
+        {/* Section 2 */}
         <div className="bg-white rounded-2xl shadow-md p-4 col-span-2">
           <h2 className="text-xl font-semibold mb-4 text-center">
             Prochaine compétition
