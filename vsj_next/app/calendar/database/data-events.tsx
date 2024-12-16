@@ -37,9 +37,9 @@ const DataEvents: Record<string, CalendarEvent[]> = {
       title: "Compétition Papillon Interne",
       details: {
         coach: ["Martin", "Dupont", "Lefèvre"],
-        intensity: "difficile", // cohérent avec TrainingTypesProps
-        category: "papillon", // cohérent avec TrainingTypesProps
-        duration: "2 heures", // string librement mais cohérent
+        intensity: "difficile",
+        category: "papillon",
+        duration: "2 heures",
         description:
           "Compétition interne pour évaluer les progrès en papillon.",
       },

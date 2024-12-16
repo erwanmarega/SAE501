@@ -27,6 +27,21 @@ const DragCard: React.FC<DragCardProps> = ({
       id: sessionId,
     });
 
+  // Styles pour le drag avec un effet smooth et opacité réduite
+  const style: React.CSSProperties = {
+    transform: transform
+      ? `translate3d(${transform.x}px, ${transform.y}px, 0) scale(${
+          isDragging ? 1.05 : 1
+        })`
+      : undefined,
+    transition: isDragging
+      ? "transform 0.1s ease-out"
+      : "transform 0.2s ease-out",
+    opacity: isDragging ? 0.9 : 1,
+    cursor: isDragging ? "grabbing" : "grab",
+    touchAction: "none", // Empêche le défilement pendant le drag sur mobile
+  };
+
   const whatIntensity = () => {
     switch (intensity) {
       case "facile":
@@ -38,14 +53,6 @@ const DragCard: React.FC<DragCardProps> = ({
       default:
         return "/assets/icons/intensityDefault.svg";
     }
-  };
-
-  const style: React.CSSProperties = {
-    transform: transform
-      ? `translate(${transform.x}px, ${transform.y}px)`
-      : undefined,
-    opacity: isDragging ? 0.5 : 1,
-    cursor: "grab",
   };
 
   return (
