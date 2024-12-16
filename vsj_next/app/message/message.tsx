@@ -69,7 +69,7 @@ const MessagePage = () => {
   };
 
   return (
-    <div className="h-[90vh] w-screen bg-[#F7F7F7] flex justify-center items-end pb-6">
+    <div className="h-[75vh] w-screen bg-[#F7F7F7] flex justify-center items-end pb-6">
       <div className="w-[85%] h-[94%] bg-transparent flex gap-6">
         {/* Liste des contacts */}
         <div className="w-[30%] flex flex-col bg-white border-r border-gray-200 rounded-lg shadow-lg">
