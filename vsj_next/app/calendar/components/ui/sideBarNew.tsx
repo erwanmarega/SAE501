@@ -1,17 +1,20 @@
 "use client";
 
 import React, { useState } from "react";
-import H4 from "@/app/components/ui/texts/h4";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { useEvents } from "../../database/events-context";
+
+// Components
 import CloseButton from "./closeButton";
 import Button from "@/app/components/ui/button";
+import H4 from "@/app/components/ui/texts/h4";
 
 // Inputs
 import Input from "@/app/components/ui/input";
 import Textarea from "@/app/components/ui/text-area";
 import Select from "@/app/components/ui/select";
-import InputHour from "@/app/components/ui/input-hour";
+import InputHourWithDuration from "@/app/components/ui/input-hour";
 import SelectWithIcons from "@/app/components/ui/select-withIcons";
 
 // Icons
@@ -24,7 +27,31 @@ interface SideBarNewProps {
 }
 
 const SideBarNew = ({ setWhatShow }: SideBarNewProps) => {
+  const { addTrainingType } = useEvents();
+
+  // États pour chaque valeur
+  const [title, setTitle] = useState("");
+  const [category, setCategory] = useState("");
   const [time, setTime] = useState("18:00");
+  const [duration, setDuration] = useState("30 minutes"); // Nouvel état pour la durée
+  const [intensity, setIntensity] = useState("");
+  const [description, setDescription] = useState("");
+
+  // Fonction de sauvegarde (exemple)
+  const handleSave = () => {
+    addTrainingType(
+      "23/12/2024", // Date où vous souhaitez ajouter ce training
+      title,
+      category,
+      time,
+      duration,
+      intensity,
+      description,
+      ["Martin"] // Coachs (optionnel)
+    );
+
+    setWhatShow("new");
+  };
 
   return (
     <div className="w-full h-full flex flex-col overflow-hidden justify-between">
@@ -32,18 +59,17 @@ const SideBarNew = ({ setWhatShow }: SideBarNewProps) => {
       <header className="w-full flex flex-col gap-4 items-center">
         <Input
           type="text"
-          name="Ttile"
+          name="Title"
           placeholder="Entrez un titre"
           className="!w-full mt-6"
           classNameContainer="items-center"
-        ></Input>
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
         <div className="h-[1px] bg-slate-200 w-96"></div>
       </header>
 
-      <main
-        className="flex flex-col h-3/5 
-       justify-between"
-      >
+      <main className="flex flex-col h-3/5 justify-between">
         <div className="flex justify-between items-center">
           <H4>Catégorie</H4>
           <Select
@@ -55,21 +81,29 @@ const SideBarNew = ({ setWhatShow }: SideBarNewProps) => {
               { value: "back-crawl", label: "Dos crawlé" },
             ]}
             placeholder="Choisir"
-            className="!w-full "
+            className="!w-full"
+            classNameContainer="w-44"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
           />
         </div>
-        <div className="flex justify-between  items-center">
+
+        <div className="flex justify-between items-center">
           <H4>Horaires</H4>
           <div>
-            <InputHour
+            <InputHourWithDuration
               name="appointmentTime"
               value={time}
               onChange={(e) => setTime(e.target.value)}
+              duration={duration}
+              onDurationChange={(newDuration) => setDuration(newDuration)}
               className="!w-full"
+              classNameContainer="w-full"
             />
           </div>
         </div>
-        <div className="flex justify-between  items-center">
+
+        <div className="flex justify-between items-center">
           <H4>Intensité</H4>
           <div>
             <SelectWithIcons
@@ -93,7 +127,7 @@ const SideBarNew = ({ setWhatShow }: SideBarNewProps) => {
                   icon: (
                     <Image
                       src={MediumItensityIcon}
-                      alt="High Intensity"
+                      alt="Medium Intensity"
                       width={20}
                       height={20}
                     />
@@ -105,7 +139,7 @@ const SideBarNew = ({ setWhatShow }: SideBarNewProps) => {
                   icon: (
                     <Image
                       src={LowItensityIcon}
-                      alt="High Intensity"
+                      alt="Low Intensity"
                       width={20}
                       height={20}
                     />
@@ -114,56 +148,37 @@ const SideBarNew = ({ setWhatShow }: SideBarNewProps) => {
               ]}
               placeholder="Choisir le niveau"
               className="!w-full"
-              classNameContainer="!w-full"
+              classNameContainer="w-44"
+              value={intensity}
+              onChange={(newValue) => setIntensity(newValue)}
             />
           </div>
         </div>
-        <div className="flex justify-between  items-center">
-          <H4>Coach</H4>
-          <div>
-            <Input
-              type="text"
-              name="Adresse"
-              placeholder="Entrez une adresse"
-              className="!w-full "
-            />
-          </div>
-        </div>
-        <div className="flex justify-between  items-center">
+
+        <div className="flex justify-between items-start">
           <H4>Description</H4>
           <div>
             <Textarea
-              type="text"
               name="Adresse"
-              placeholder="Entrez une adresse"
+              placeholder="Entrez une description...."
               className="!w-full"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
             />
           </div>
         </div>
       </main>
+
       <footer>
         <div className="w-full flex items-center justify-center">
           <div>
-            <p
-              className="text-3xl opacity-0
-            "
-            >
-              hsej
-            </p>
-            <p
-              className="text-3xl opacity-0
-            "
-            >
-              hsej
-            </p>
+            <p className="text-3xl opacity-0">hsej</p>
+            <p className="text-3xl opacity-0">hsej</p>
           </div>
-          <Button
-            onClick={() => setWhatShow("new")}
-            className="absolute bottom-6 !w-44"
-          >
+          <Button onClick={handleSave} className="absolute bottom-6 !w-44">
             Enregistrez
           </Button>
-        </div>{" "}
+        </div>
       </footer>
     </div>
   );

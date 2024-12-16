@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import clsx from "clsx";
 
@@ -5,8 +7,10 @@ interface SelectProps {
   name: string;
   options: { value: string; label: string }[];
   placeholder?: string;
-  className?: string; // Prop pour les classes personnalisées du select
-  classNameContainer?: string; // Prop pour les classes personnalisées du conteneur
+  className?: string;
+  classNameContainer?: string;
+  value: string; // Ajout de la prop value
+  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void; // Ajout de la prop onChange
 }
 
 const Select = ({
@@ -15,6 +19,8 @@ const Select = ({
   placeholder,
   className,
   classNameContainer,
+  value,
+  onChange,
 }: SelectProps) => {
   return (
     <div className={clsx("relative flex flex-col", classNameContainer)}>
@@ -24,7 +30,8 @@ const Select = ({
           "border border-gray-300 rounded-md px-3 py-2 w-80 max-w-md text-black font-mona font-medium text-sm bg-transparent focus:outline-none focus:border-2 focus:border-black appearance-none placeholder:font-normal",
           className
         )}
-        defaultValue=""
+        value={value} // Valeur contrôlée
+        onChange={onChange} // Callback onChange
       >
         {placeholder && (
           <option value="" disabled>

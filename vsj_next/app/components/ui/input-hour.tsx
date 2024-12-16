@@ -1,10 +1,14 @@
-import React from "react";
+"use client";
+
+import React, { useRef } from "react";
 import clsx from "clsx";
 
-interface InputHourProps {
+interface InputHourWithDurationProps {
   name: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  value: string; // Valeur contrôlée pour l'heure
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void; // Callback pour changement d'heure
+  duration: string; // Valeur contrôlée pour la durée
+  onDurationChange: (newDuration: string) => void; // Callback pour changement de durée
   min?: string;
   max?: string;
   required?: boolean;
@@ -12,36 +16,48 @@ interface InputHourProps {
   classNameContainer?: string;
 }
 
-const InputHour = ({
+const InputHourWithDuration = ({
   name,
   value,
   onChange,
+  duration,
+  onDurationChange,
   min = "00:00",
   max = "23:59",
   required = false,
   className,
   classNameContainer,
-}: InputHourProps) => {
-  return (
-    <form className={clsx("max-w-[8rem] mx-auto", classNameContainer)}>
-      <div className="relative">
-        {/* Icône Horloge à Droite */}
-        <div className="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
-          <svg
-            className="w-4 h-4 text-gray-500 dark:text-gray-400"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              fillRule="evenodd"
-              d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </div>
+}: InputHourWithDurationProps) => {
+  const [dropdownOpen, setDropdownOpen] = React.useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
+  const handleDurationSelect = (selectedDuration: string) => {
+    onDurationChange(selectedDuration);
+    setDropdownOpen(false);
+  };
+
+  // Fermer le dropdown si on clique à l'extérieur
+  React.useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  return (
+    <form
+      className={clsx("max-w-[13rem] mx-auto", classNameContainer)}
+      ref={dropdownRef}
+    >
+      <div className="flex relative">
         {/* Champ Input de type Time */}
         <input
           type="time"
@@ -53,13 +69,76 @@ const InputHour = ({
           max={max}
           required={required}
           className={clsx(
-            "bg-white border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500",
+            "rounded-none rounded-s-lg bg-white border text-gray-900 leading-none focus:ring-blue-500 focus:border-blue-500 block flex-1 w-full text-sm border-gray-300 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500",
             className
           )}
         />
+
+        {/* Bouton Dropdown pour la Durée */}
+        <button
+          id="dropdown-duration-button"
+          type="button"
+          onClick={() => setDropdownOpen(!dropdownOpen)}
+          className="border-s-0 flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-gray-900 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600"
+        >
+          {duration}
+          <svg
+            className="w-2.5 h-2.5 ms-2.5"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 10 6"
+          >
+            <path
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="m1 1 4 4 4-4"
+            />
+          </svg>
+        </button>
+
+        {/* Dropdown Menu */}
+        {dropdownOpen && (
+          <div
+            id="dropdown-duration"
+            className="absolute right-0 top-full mt-1 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-36 dark:bg-gray-700"
+          >
+            <ul className="py-2 text-sm text-gray-700 dark:text-gray-200">
+              <li>
+                <button
+                  type="button"
+                  onClick={() => handleDurationSelect("30 minutes")}
+                  className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                >
+                  30 minutes
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  onClick={() => handleDurationSelect("1 hour")}
+                  className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                >
+                  1 hour
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  onClick={() => handleDurationSelect("2 hours")}
+                  className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                >
+                  2 hours
+                </button>
+              </li>
+            </ul>
+          </div>
+        )}
       </div>
     </form>
   );
 };
 
-export default InputHour;
+export default InputHourWithDuration;
