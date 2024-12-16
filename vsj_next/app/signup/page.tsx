@@ -163,7 +163,6 @@ const Signup: React.FC = () => {
 
             {step === 1 && (
               <form className="grid grid-cols-3 gap-6 mb-10">
-                <Input type="text" name="nom" placeholder="Nom" />
                 <input
                   type="text"
                   name="nom"
