@@ -29,7 +29,7 @@ const Button: React.FC<ButtonProps> = ({
   };
 
   const formatClasses = {
-    big: "!h-14",
+    big: "!h-14 !w-full",
     standard: "",
   };
 
