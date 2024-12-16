@@ -25,21 +25,19 @@ const InputHour = ({
   return (
     <form className={clsx("max-w-[8rem] mx-auto", classNameContainer)}>
       <div className="relative">
-        {/* Nouvelle Icône Horloge à Droite */}
+        {/* Icône Horloge à Droite */}
         <div className="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
           <svg
-            width="20"
-            height="21"
-            viewBox="0 0 20 21"
-            fill="none"
+            className="w-4 h-4 text-gray-500 dark:text-gray-400"
+            aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            viewBox="0 0 24 24"
           >
             <path
-              d="M10 4.5V10.5H14.5M19 10.5C19 11.6819 18.7672 12.8522 18.3149 13.9442C17.8626 15.0361 17.1997 16.0282 16.364 16.864C15.5282 17.6997 14.5361 18.3626 13.4442 18.8149C12.3522 19.2672 11.1819 19.5 10 19.5C8.8181 19.5 7.64778 19.2672 6.55585 18.8149C5.46392 18.3626 4.47177 17.6997 3.63604 16.864C2.80031 16.0282 2.13738 15.0361 1.68508 13.9442C1.23279 12.8522 1 11.6819 1 10.5C1 8.11305 1.94821 5.82387 3.63604 4.13604C5.32387 2.44821 7.61305 1.5 10 1.5C12.3869 1.5 14.6761 2.44821 16.364 4.13604C18.0518 5.82387 19 8.11305 19 10.5Z"
-              stroke="#C3C4C6"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+              fillRule="evenodd"
+              d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z"
+              clipRule="evenodd"
             />
           </svg>
         </div>
