@@ -4,23 +4,20 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useEvents } from "../../database/events-context";
-
 // Components
 import CloseButton from "./closeButton";
 import Button from "@/app/components/ui/button";
 import H4 from "@/app/components/ui/texts/h4";
-
-// Inputs
-import Input from "@/app/components/ui/input";
+import P from "@/app/components/ui/texts/p";
 import Textarea from "@/app/components/ui/text-area";
-import Select from "@/app/components/ui/select";
-import InputHourWithDuration from "@/app/components/ui/input-hour";
-import SelectWithIcons from "@/app/components/ui/select-withIcons";
 
 // Icons
 import LowItensityIcon from "@/public/assets/icons/lowIntensity.svg";
 import MediumItensityIcon from "@/public/assets/icons/mediumIntensity.svg";
 import HighItensityIcon from "@/public/assets/icons/highIntensity.svg";
+import Profil from "@/app/components/profil/profil";
+import Separator from "./separator";
+import IntensitySelect from "./intensity-select";
 
 interface SideBarNewProps {
   setWhatShow: React.Dispatch<React.SetStateAction<string>>;
@@ -29,12 +26,28 @@ interface SideBarNewProps {
 const SideBarNew = ({ setWhatShow }: SideBarNewProps) => {
   const { addTrainingType } = useEvents();
 
+  const [intensity, setIntensity] = useState<string>("Facile");
+  const handleIntensitySelect = (level: number) => {
+    switch (level) {
+      case 1:
+        setIntensity("Facile");
+        break;
+      case 2:
+        setIntensity("Moyen");
+        break;
+      case 3:
+        setIntensity("Difficile");
+        break;
+      default:
+        setIntensity("");
+    }
+  };
+
   // États pour chaque valeur
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [time, setTime] = useState("18:00");
   const [duration, setDuration] = useState("30 minutes"); // Nouvel état pour la durée
-  const [intensity, setIntensity] = useState("");
   const [description, setDescription] = useState("");
 
   // Fonction de sauvegarde (exemple)
@@ -54,127 +67,93 @@ const SideBarNew = ({ setWhatShow }: SideBarNewProps) => {
   };
 
   return (
-    <div className="w-full h-full flex flex-col overflow-hidden justify-between">
+    <div className="w-full h-full flex flex-col overflow-hidden justify-between ">
       <CloseButton onClick={() => setWhatShow("type")} />
-      <header className="w-full flex flex-col gap-4 items-center">
-        <Input
-          type="text"
-          name="Title"
-          placeholder="Entrez un titre"
-          className="!w-full mt-6"
-          classNameContainer="items-center"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        <div className="h-[1px] bg-slate-200 w-96"></div>
+      {/*BADGE*/}
+      <div className="absolute top-4 left-4">
+        <div className="bg-primary/15 rounded-full py-2 px-4">
+          <p className="text-primary font-mona font-medium text-xs text-center whitespace-nowrap">
+            Brasse
+          </p>
+        </div>
+      </div>
+      {/*BADGE*/}
+      <header className="w-full flex flex-col gap-4 items-center p-4">
+        <div>
+          <H4 className="!text-2xl text-center mb-0">10X200m </H4>
+          <P className="text-center mt-0 !text-xs">10 Janvier</P>
+        </div>
       </header>
 
-      <main className="flex flex-col h-3/5 justify-between">
-        <div className="grid grid-cols-2">
-          <H4>Catégorie</H4>
-          <Select
-            name="Type"
-            options={[
-              { value: "crawl", label: "Crawl" },
-              { value: "brasse", label: "Brasse" },
-              { value: "papillon", label: "Papillon" },
-              { value: "back-crawl", label: "Dos crawlé" },
-            ]}
-            placeholder="Choisir"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            classNameContainer="w-max mr-0 ml-auto"
-          />
-        </div>
+      <main className="flex flex-col px-2 -mt-14">
+        <section className="border-t-2 border-gray-100 py-4 h-20 flex items-center w-full">
+          <div className="grid grid-cols-[1fr_auto] items-center w-full">
+            <H4>Horaires</H4>
+            <div className="flex items-center justify-end gap-4 ml-auto mr-0 w-full">
+              <P className="text-end text-lg+ !font-light">18:00 - 19:30</P>
 
-        <div className="grid grid-cols-2">
-          <H4>Horaires</H4>
-          <div>
-            <InputHourWithDuration
-              name="appointmentTime"
-              value={time}
-              onChange={(e) => setTime(e.target.value)}
-              duration={duration}
-              onDurationChange={(newDuration) => setDuration(newDuration)}
-              classNameContainer="w-max mr-0 ml-auto"
-            />
+              <Image
+                src={"/assets/icons/charts-hour/30.svg"}
+                alt="Durée de 30min"
+                width={60}
+                height={60}
+                className="-mt-2 -mr-4"
+              />
+            </div>
           </div>
-        </div>
+        </section>
 
-        <div className="grid grid-cols-2">
-          <H4>Intensité</H4>
-          <div>
-            <SelectWithIcons
-              name="Difficulty"
-              options={[
-                {
-                  value: "high",
-                  label: "Élevé",
-                  icon: (
-                    <Image
-                      src={HighItensityIcon}
-                      alt="High Intensity"
-                      width={20}
-                      height={20}
-                    />
-                  ),
-                },
-                {
-                  value: "medium",
-                  label: "Moyen",
-                  icon: (
-                    <Image
-                      src={MediumItensityIcon}
-                      alt="Medium Intensity"
-                      width={20}
-                      height={20}
-                    />
-                  ),
-                },
-                {
-                  value: "low",
-                  label: "Facile",
-                  icon: (
-                    <Image
-                      src={LowItensityIcon}
-                      alt="Low Intensity"
-                      width={20}
-                      height={20}
-                    />
-                  ),
-                },
-              ]}
-              placeholder="Choisir le niveau"
-              value={intensity}
-              onChange={(newValue) => setIntensity(newValue)}
-              classNameContainer="w-max mr-0 ml-auto"
-            />
+        <section className="border-t-2 border-gray-100 py-4 h-20 flex items-center w-full">
+          <div className="grid grid-cols-[1fr_auto] items-center w-full">
+            <H4>Intensité</H4>
+            <div className="flex items-center justify-end gap-4 ml-auto mr-0 w-full">
+              <P className="text-end text-lg+ !font-light"> {intensity}</P>
+              <div>
+                <IntensitySelect onSelect={handleIntensitySelect} />
+              </div>
+            </div>
           </div>
-        </div>
+        </section>
 
-        <div className="grid grid-cols-2">
-          <H4>Description</H4>
-          <div>
-            <Textarea
-              name="Adresse"
-              placeholder="Entrez une description...."
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              classNameContainer="w-max mr-0 ml-auto"
-            />
+        <section className="border-t-2 border-gray-100 py-4 h-20 flex items-center w-full">
+          <div className="grid grid-cols-[1fr_auto] items-center w-full">
+            <H4>Groupe</H4>
+            <div className="flex items-center justify-end gap-4 ml-auto -mr-1 w-full">
+              <P className="text-end text-lg+ !font-light text-nowrap">
+                {" "}
+                Groupe A
+              </P>
+
+              <Profil size={55} />
+            </div>
           </div>
-        </div>
+        </section>
+
+        <section className="border-t-2 border-b-2 border-gray-100 py-4 h-32">
+          <div className="grid grid-rows-[max-content_1fr]">
+            <H4>Description</H4>
+            <div className="rounded-lg py-2 px-2 mt-2">
+              <div>
+                <Textarea
+                  name="Adresse"
+                  placeholder="Entrez une description...."
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  classNameContainer="w-5/6 mr-0 ml-auto"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
 
       <footer>
-        <div className="w-full flex items-center justify-center">
-          <div>
-            <p className="text-3xl opacity-0">hsej</p>
-            <p className="text-3xl opacity-0">hsej</p>
-          </div>
-          <Button onClick={handleSave} className="absolute bottom-6 !w-44">
-            Enregistrez
+        <div className="w-full flex items-center justify-between gap-12">
+          <Button className="" variant="outline">
+            Absent
           </Button>
+
+          <Button variant="primary">Présent</Button>
         </div>
       </footer>
     </div>
