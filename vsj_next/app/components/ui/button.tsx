@@ -6,6 +6,7 @@ import Image from "next/image";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "secondary" | "danger" | "outline";
+  format?: "big";
   icon?: string; // URL ou chemin vers l'image
   iconAlt?: string; // Texte alternatif pour l'icône
 }
@@ -13,6 +14,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 const Button: React.FC<ButtonProps> = ({
   children,
   variant = "primary",
+  format = "standard",
   icon,
   iconAlt = "Icon",
   className,
@@ -27,29 +29,14 @@ const Button: React.FC<ButtonProps> = ({
       "h-10 bg-red-500 text-white hover:bg-red-600 font-outfit font-bold text-sm flex items-center justify-center gap-2",
   };
 
-  return variant === "primary" ? (
-    <motion.button
-      className={`${variantClasses[variant]} ${className}`}
-      whileHover={{
-        boxShadow: "0px 0px 0px rgba(0, 0, 0, 0)",
-      }}
-      transition={{ duration: 0.3 }}
-      {...props}
-    >
-      {icon && (
-        <Image
-          src={icon}
-          alt={iconAlt}
-          width={20}
-          height={20}
-          className="inline-block"
-        />
-      )}
-      <span>{children}</span>
-    </motion.button>
-  ) : (
+  const formatClasses = {
+    big: "!h-14 !w-full",
+    standard: "",
+  };
+
+  return (
     <button
-      className={`px-4 py-2 rounded-md ${variantClasses[variant]} ${className}`}
+      className={`px-4 py-2 rounded-md ${variantClasses[variant]} ${formatClasses[format]} ${className}`}
       {...props}
     >
       {icon && (

@@ -1,4 +1,3 @@
-
 export default function Home() {
   return (
     <div className="bg-gray-100 min-h-screen flex flex-col items-center px-4 py-8 select-none">
@@ -33,7 +32,7 @@ export default function Home() {
           </div>
           <p className="text-xl font-bold text-gray-800 mb-0.5">225.00€</p>
           <p className="text-xs text-gray-500">Facturation annuelle à 225 €</p>
-          <button className="mt-4 bg-blue-600 text-white py-2 px-4 rounded-md w-full hover:bg-blue-700">
+          <button className="mt-4 bg-primary text-white py-2 px-4 rounded-md w-full hover:bg-blue-700">
             Souscrire →
           </button>
           <div className="w-65 h-0.5 bg-[#E8EAE9] mx-auto mt-4"></div>
@@ -84,7 +83,7 @@ export default function Home() {
           </div>
           <p className="text-xl font-bold text-gray-800 mb-0.5">300.00€</p>
           <p className="text-xs text-gray-500">Facturation annuelle à 300 €</p>
-          <button className="mt-4 bg-blue-600 text-white py-2 px-4 rounded-md w-full hover:bg-blue-700">
+          <button className="mt-4 bg-primary text-white py-2 px-4 rounded-md w-full hover:bg-blue-700">
             Souscrire →
           </button>
           <div className="w-65 h-0.5 bg-[#E8EAE9] mx-auto mt-4"></div>
@@ -134,7 +133,7 @@ export default function Home() {
           </div>
           <p className="text-xl font-bold text-gray-800 mb-0.5">250.00€</p>
           <p className="text-xs text-gray-500">Facturation annuelle à 250 €</p>
-          <button className="mt-4 bg-blue-600 text-white py-2 px-4 rounded-md w-full hover:bg-blue-700">
+          <button className="mt-4 bg-primary text-white py-2 px-4 rounded-md w-full hover:bg-blue-700">
             Souscrire →
           </button>
           <div className="w-65 h-0.5 bg-[#E8EAE9] mx-auto mt-4"></div>

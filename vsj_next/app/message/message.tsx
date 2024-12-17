@@ -1,10 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, ChangeEvent, KeyboardEvent } from "react";
+import Image from "next/image";
 
-const MessagePage = () => {
-  const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState("");
-  const [uploadedFile, setUploadedFile] = useState(null); // Pour gérer les fichiers uploadés
-  const [contacts] = useState([
+interface Message {
+  content: string;
+  sender: string;
+  createdAt: Date;
+  file?: string | null;
+}
+
+interface Contact {
+  id: number;
+  name: string;
+  lastMessage: string;
+  date: string;
+  avatar: string;
+}
+
+const Chat: React.FC = () => {
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [newMessage, setNewMessage] = useState<string>("");
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+
+  const contacts: Contact[] = [
     {
       id: 1,
       name: "Erwan",
@@ -26,51 +43,47 @@ const MessagePage = () => {
       date: "Sept 12",
       avatar: "https://via.placeholder.com/40",
     },
-  ]);
+  ];
 
   useEffect(() => {
     fetch("http://localhost:8000/api/messages")
       .then((response) => response.json())
       .then((data) => setMessages(data))
-      .catch((error) =>
-        console.error("Erreur lors du chargement des messages:", error)
-      );
+      .catch((error) => console.error("Erreur lors du chargement des messages:", error));
   }, []);
 
-  const handleFileUpload = (event) => {
-    const file = event.target.files[0];
+  const handleFileUpload = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
     if (file) {
-      setUploadedFile(file); // Stocke le fichier dans l'état
+      setUploadedFile(file);
     }
   };
 
   const sendMessage = () => {
     if (newMessage.trim() === "" && !uploadedFile) return;
 
-    // Crée une nouvelle structure de message
-    const newMsg = {
+    const newMsg: Message = {
       content: newMessage,
-      sender: "ReactUser",
+      sender: "NextUser",
       createdAt: new Date(),
-      file: uploadedFile ? URL.createObjectURL(uploadedFile) : null, // Gère les fichiers
+      file: uploadedFile ? URL.createObjectURL(uploadedFile) : null,
     };
 
-    // Simule l'envoi
-    setMessages([...messages, newMsg]);
+    setMessages((prev) => [...prev, newMsg]);
     setNewMessage("");
-    setUploadedFile(null); // Réinitialise l'état du fichier
+    setUploadedFile(null);
   };
 
-  const handleKeyDown = (event) => {
+  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      event.preventDefault(); // Empêche le saut de ligne
+      event.preventDefault();
       sendMessage();
     }
   };
 
   return (
-    <div className="h-[75vh] w-screen bg-[#F7F7F7] flex justify-center items-end pb-6">
-      <div className="w-[85%] h-[94%] bg-transparent flex gap-6">
+    <div className="h-screen w-screen bg-[#F7F7F7] flex justify-center items-end pb-6">
+      <div className="w-[85%] h-[90%] bg-transparent flex gap-6">
         {/* Liste des contacts */}
         <div className="w-[30%] flex flex-col bg-white border-r border-gray-200 rounded-lg shadow-lg">
           <header className="p-4 border-b border-gray-200">
@@ -87,9 +100,11 @@ const MessagePage = () => {
                 key={contact.id}
                 className="flex items-center p-4 border-b hover:bg-gray-100 cursor-pointer"
               >
-                <img
+                <Image
                   src={contact.avatar}
                   alt={contact.name}
+                  width={40}
+                  height={40}
                   className="w-10 h-10 rounded-full"
                 />
                 <div className="ml-3">
@@ -98,9 +113,7 @@ const MessagePage = () => {
                     {contact.lastMessage}
                   </p>
                 </div>
-                <span className="ml-auto text-sm text-gray-400">
-                  {contact.date}
-                </span>
+                <span className="ml-auto text-sm text-gray-400">{contact.date}</span>
               </div>
             ))}
           </div>
@@ -113,9 +126,11 @@ const MessagePage = () => {
         <div className="w-[70%] flex flex-col bg-white rounded-lg shadow-lg">
           <header className="p-4 bg-white shadow flex justify-between items-center">
             <div className="flex items-center">
-              <img
+              <Image
                 src="https://via.placeholder.com/40"
                 alt="Erwan"
+                width={40}
+                height={40}
                 className="w-10 h-10 rounded-full"
               />
               <div className="ml-3">
@@ -129,21 +144,23 @@ const MessagePage = () => {
               <div
                 key={index}
                 className={`mb-4 flex ${
-                  msg.sender === "ReactUser" ? "justify-end" : "justify-start"
+                  msg.sender === "NextUser" ? "justify-end" : "justify-start"
                 }`}
               >
                 <div
                   className={`max-w-xs p-3 rounded-lg shadow ${
-                    msg.sender === "ReactUser"
+                    msg.sender === "NextUser"
                       ? "bg-blue-500 text-white"
                       : "bg-white text-gray-800"
                   }`}
                 >
                   {msg.content && <p>{msg.content}</p>}
                   {msg.file && (
-                    <img
+                    <Image
                       src={msg.file}
                       alt="Uploaded"
+                      width={200}
+                      height={200}
                       className="mt-2 w-full rounded"
                     />
                   )}
@@ -158,14 +175,12 @@ const MessagePage = () => {
             ))}
           </div>
           <footer className="p-4 bg-white shadow flex items-center space-x-3">
-            {/* Bouton pour ouvrir le sélecteur de fichiers */}
             <button
-              onClick={() => document.getElementById("fileInput").click()}
+              onClick={() => document.getElementById("fileInput")?.click()}
               className="p-2 bg-gray-200 rounded-full hover:bg-gray-300"
             >
               📎
             </button>
-            {/* Input de type file caché */}
             <input
               type="file"
               id="fileInput"
@@ -193,4 +208,4 @@ const MessagePage = () => {
   );
 };
 
-export default MessagePage;
+export default Chat;

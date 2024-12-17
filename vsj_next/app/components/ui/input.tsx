@@ -1,39 +1,34 @@
-"use client";
-
 import React from "react";
-import clsx from "clsx";
 
 interface InputProps {
+  label: string;
   type: string;
   name: string;
   placeholder: string;
-  className?: string;
-  classNameContainer?: string;
-  value: string; // Ajout de la prop value
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void; // Ajout de la prop onChange
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const Input = ({
+  label,
   type,
   name,
   placeholder,
-  className,
-  classNameContainer,
   value,
   onChange,
 }: InputProps) => {
   return (
-    <div className={clsx("flex flex-col", classNameContainer)}>
+    <div className="flex flex-col">
+      {/* Label avec Mona Sans Semi-bold */}
+
+      {/* Texte des inputs avec Mona Sans Medium */}
       <input
         type={type}
         name={name}
         placeholder={placeholder}
-        value={value} // Utilisation de la valeur contrôlée
-        onChange={onChange} // Déclenchement du callback onChange
-        className={clsx(
-          "bg-white border border-gray-300 rounded-md px-3 py-5 h-8 w-full max-w-md text-black font-mona font-medium text-sm focus:outline-none focus:border-2 focus:border-black appearance-none placeholder:font-normal",
-          className
-        )}
+        className="bg-white border border-gray-300 rounded-md px-3 py-5 h-8 w-80 max-w-md text-black font-mona font-medium text-sm bg-transparent focus:outline-none focus:border-2 focus:border-black appearance-none placeholder:font-normal"
+        value={value}
+        onChange={onChange}
       />
     </div>
   );
