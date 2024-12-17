@@ -94,11 +94,11 @@ const SideBarShow = ({ setWhatShow }: SideBarNewProps) => {
 
         <section className="border-t-2 border-gray-100 py-4 h-20 flex items-center w-full">
           <div className="grid grid-cols-[1fr_auto] items-center w-full">
-            <H4>Coach</H4>
+            <H4>Groupe</H4>
             <div className="flex items-center justify-end gap-4 ml-auto -mr-1 w-full">
               <P className="text-end text-lg+ !font-light text-nowrap">
                 {" "}
-                M. Marega
+                Groupe A
               </P>
 
               <Profil size={55} />
