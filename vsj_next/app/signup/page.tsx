@@ -2,6 +2,10 @@
 
 import React, { useState } from "react";
 import Confetti from "react-confetti";
+import Input from "../components/ui/input";
+import Button from "../components/ui/button";
+import H3 from "../components/ui/texts/h3";
+import H2 from "../components/ui/texts/h2";
 
 const Signup: React.FC = () => {
   const [step, setStep] = useState(1);
@@ -48,7 +52,7 @@ const Signup: React.FC = () => {
               <img
                 src="./assets/img/icon.png"
                 alt="Check"
-                className="w-12 h-12"
+                className="w-9 h-9"
               />
             </div>
             <h1 className="text-3xl font-bold text-black mb-6">
@@ -70,7 +74,7 @@ const Signup: React.FC = () => {
                 alt="Logo"
                 className="w-20 h-20 mb-6"
               />
-              <h1 className="text-2xl font-semibold text-gray-700 text-center leading-tight relative">
+              <H2 className="  leading-tight relative">
                 <span className="text-gray-700">Bienvenue</span>, pour continuer
                 votre inscription, veuillez compléter votre profil
                 {/* Underline sous le texte "Bienvenue" */}
@@ -81,10 +85,8 @@ const Signup: React.FC = () => {
                     borderRadius: "5px", // Arrondir les coins
                   }}
                 ></div>
-              </h1>
-              <h2 className="text-xl font-bold text-gray-600 mt-8">
-                {stepTitles[step - 1]}
-              </h2>
+              </H2>
+              <H3 className="mt-8">{stepTitles[step - 1]}</H3>
             </div>
 
             <div className="flex items-center justify-center gap-3 mb-12">
@@ -222,13 +224,14 @@ const Signup: React.FC = () => {
             )}
 
             <div className="flex flex-col gap-1">
-              <button
+              <Button
+                variant="primary"
+                format="big"
                 type="button"
                 onClick={handleNextStep}
-                className="w-full bg-blue-500 text-white font-medium text-lg py-4 rounded-md hover:bg-blue-600 transition-all"
               >
                 Continuer →
-              </button>
+              </Button>
               <div className="h-16">
                 <button
                   type="button"
