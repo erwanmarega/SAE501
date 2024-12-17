@@ -64,6 +64,7 @@ const DragCard: React.FC<DragCardProps> = ({
               <Profil key={index} size={25} />
             ))}
           </div>
+          {/*BADGE*/}
           <div>
             <div className="bg-primary/15 rounded-full py-1 px-2">
               <p className="text-primary font-mona font-medium text-5xs text-center whitespace-nowrap">
@@ -71,6 +72,7 @@ const DragCard: React.FC<DragCardProps> = ({
               </p>
             </div>
           </div>
+          {/*BADGE*/}
         </header>
         <main className="flex flex-col items-center gap-1">
           <div className="w-full flex justify-between relative">

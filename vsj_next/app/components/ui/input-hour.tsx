@@ -52,9 +52,27 @@ const InputHourWithDuration = ({
     };
   }, []);
 
+  // Générer les durées : 30 minutes, puis toutes les 15 minutes jusqu'à 4 heures
+  // Générer les durées : 30 minutes, 45 minutes, puis des intervalles spécifiques jusqu'à 4 heures
+  const generateDurations = () => {
+    return [
+      "30 minutes",
+      "45 minutes",
+      "1 heure",
+      "1h30",
+      "2 heures",
+      "2h30",
+      "3 heures",
+      "3h30",
+      "4 heures",
+    ];
+  };
+
+  const durations = generateDurations();
+
   return (
     <form
-      className={clsx("max-w-[13rem] mx-auto", classNameContainer)}
+      className={clsx("w-full mx-auto", classNameContainer)}
       ref={dropdownRef}
     >
       <div className="flex relative">
@@ -69,7 +87,7 @@ const InputHourWithDuration = ({
           max={max}
           required={required}
           className={clsx(
-            "rounded-none rounded-s-lg bg-white border text-gray-900 leading-none focus:ring-blue-500 focus:border-blue-500 block flex-1 w-full text-sm border-gray-300 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500",
+            "rounded-none rounded-s-lg bg-white border text-gray-900 leading-none focus:ring-blue-500 focus:border-blue-500 block flex-1 w-full text-sm border-gray-300 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 -ml-4",
             className
           )}
         />
@@ -99,40 +117,24 @@ const InputHourWithDuration = ({
           </svg>
         </button>
 
-        {/* Dropdown Menu */}
+        {/* Dropdown Menu avec Scroll */}
         {dropdownOpen && (
           <div
             id="dropdown-duration"
-            className="absolute right-0 top-full mt-1 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-36 dark:bg-gray-700"
+            className="absolute right-0 top-full mt-1 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-36 max-h-60 overflow-y-auto dark:bg-gray-700"
           >
             <ul className="py-2 text-sm text-gray-700 dark:text-gray-200">
-              <li>
-                <button
-                  type="button"
-                  onClick={() => handleDurationSelect("30 minutes")}
-                  className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                >
-                  30 minutes
-                </button>
-              </li>
-              <li>
-                <button
-                  type="button"
-                  onClick={() => handleDurationSelect("1 hour")}
-                  className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                >
-                  1 hour
-                </button>
-              </li>
-              <li>
-                <button
-                  type="button"
-                  onClick={() => handleDurationSelect("2 hours")}
-                  className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                >
-                  2 hours
-                </button>
-              </li>
+              {durations.map((durationOption) => (
+                <li key={durationOption}>
+                  <button
+                    type="button"
+                    onClick={() => handleDurationSelect(durationOption)}
+                    className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  >
+                    {durationOption}
+                  </button>
+                </li>
+              ))}
             </ul>
           </div>
         )}
