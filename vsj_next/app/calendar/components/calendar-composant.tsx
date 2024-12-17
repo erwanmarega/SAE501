@@ -54,19 +54,22 @@ const CalendarComposant = ({ currentDate }: CalendarComposantProps) => {
         const eventsForDay = dataEvents[formattedDate] || [];
         const firstEvent = eventsForDay[0] || null;
 
-        // Déterminer si la case correspond à "Aucun entraînement"
-        let isAucunEntrainement = false;
-        if (
-          firstEvent &&
-          firstEvent.status === "training" &&
-          (!firstEvent.title || firstEvent.title.trim() === "")
-        ) {
-          isAucunEntrainement = true;
-        }
-
         const { isOver, setNodeRef } = useDroppable({
           id: formattedDate,
         });
+
+        // Vérification si premier évènement est un entraînement vide
+        let isAucunEntrainement = false;
+        if (firstEvent && firstEvent.status === "training") {
+          const titleIsEmpty =
+            !firstEvent.title || firstEvent.title.trim() === "";
+          const detailsAreEmpty =
+            !firstEvent.details || Object.keys(firstEvent.details).length === 0;
+          // "Aucun entraînement" si titre ET détails sont vides
+          if (titleIsEmpty && detailsAreEmpty) {
+            isAucunEntrainement = true;
+          }
+        }
 
         const blinkingClass =
           draggingSessionId && isAucunEntrainement ? "blinking-border" : "";
@@ -104,58 +107,63 @@ const CalendarComposant = ({ currentDate }: CalendarComposantProps) => {
               {day.getDate()}
             </p>
 
-            {firstEvent ? (
-              firstEvent.status === null ? null : firstEvent.status ===
-                "training" ? (
-                (() => {
-                  const titleIsEmpty =
-                    !firstEvent.title || firstEvent.title.trim() === "";
-                  if (titleIsEmpty) {
-                    // "Aucun entraînement"
-                    return (
-                      <div className="flex flex-col justify-center items-center gap-1 w-full h-full">
-                        <Image
-                          src="/assets/icons/emptyCalendar.svg"
-                          width={20}
-                          height={20}
-                          alt="Jour vide"
-                        />
-                        <p className="font-outfit text-2xs font-medium text-[#818181]">
-                          Aucun entraînement
-                        </p>
-                      </div>
-                    );
-                  } else {
-                    // Entraînement avec données
-                    return (
-                      <div className="h-[40%] w-[3px] rounded-full bg-primary">
-                        <div className="flex flex-col items-start ml-2">
-                          <p className="font-outfit text-2xs font-bold text-[#818181] truncate">
-                            Entraînement
-                          </p>
-                          <p className="font-outfit text-2xs font-medium text-[#818181] truncate">
-                            {firstEvent.title || "Séance"}
+            {
+              firstEvent ? (
+                firstEvent.status === null ? null : firstEvent.status ===
+                  "training" ? (
+                  (() => {
+                    const titleIsEmpty =
+                      !firstEvent.title || firstEvent.title.trim() === "";
+                    const detailsAreEmpty =
+                      !firstEvent.details ||
+                      Object.keys(firstEvent.details).length === 0;
+
+                    if (titleIsEmpty && detailsAreEmpty) {
+                      // "Aucun entraînement"
+                      return (
+                        <div className="flex flex-col justify-center items-center gap-1 w-full h-full">
+                          <Image
+                            src="/assets/icons/emptyCalendar.svg"
+                            width={20}
+                            height={20}
+                            alt="Jour vide"
+                          />
+                          <p className="font-outfit text-2xs font-medium text-[#818181]">
+                            Aucun entraînement
                           </p>
                         </div>
-                      </div>
-                    );
-                  }
-                })()
-              ) : firstEvent.status === "competition" ? (
-                // Compétition
-                <div className="h-[40%] w-[3px] rounded-full bg-secondary-map">
-                  <div className="flex flex-col items-start ml-2">
-                    <p className="font-outfit text-2xs font-bold text-[#818181] truncate">
-                      Compétition
-                    </p>
-                    <p className="font-outfit text-2xs font-medium text-[#818181] truncate">
-                      {firstEvent.title || "Compétition"}
-                    </p>
+                      );
+                    } else {
+                      // Entraînement avec données
+                      return (
+                        <div className="h-[40%] w-[3px] rounded-full bg-primary">
+                          <div className="flex flex-col items-start ml-2">
+                            <p className="font-outfit text-2xs font-bold text-[#818181] truncate">
+                              Entraînement
+                            </p>
+                            <p className="font-outfit text-2xs font-medium text-[#818181] truncate">
+                              {firstEvent.title || "Séance"}
+                            </p>
+                          </div>
+                        </div>
+                      );
+                    }
+                  })()
+                ) : firstEvent.status === "competition" ? (
+                  // Compétition
+                  <div className="h-[40%] w-[3px] rounded-full bg-secondary-map">
+                    <div className="flex flex-col items-start ml-2">
+                      <p className="font-outfit text-2xs font-bold text-[#818181] truncate">
+                        Compétition
+                      </p>
+                      <p className="font-outfit text-2xs font-medium text-[#818181] truncate">
+                        {firstEvent.title || "Compétition"}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              ) : null
-            ) : // Aucun évènement du tout
-            null}
+                ) : null
+              ) : null /* Aucun évènement du tout */
+            }
           </div>
         );
       })}

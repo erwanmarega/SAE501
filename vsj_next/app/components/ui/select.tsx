@@ -27,7 +27,7 @@ const Select = ({
       <select
         name={name}
         className={clsx(
-          "border border-gray-300 rounded-md px-3 py-2 w-80 max-w-md text-black font-mona font-medium text-sm bg-transparent focus:outline-none focus:border-2 focus:border-black appearance-none placeholder:font-normal",
+          "border border-gray-300 rounded-md px-3 py-2 w-full text-black font-mona font-medium text-sm bg-transparent focus:outline-none focus:border-2 focus:border-black appearance-none placeholder:font-normal",
           className
         )}
         value={value} // Valeur contrôlée

@@ -70,7 +70,7 @@ const SideBarNew = ({ setWhatShow }: SideBarNewProps) => {
       </header>
 
       <main className="flex flex-col h-3/5 justify-between">
-        <div className="flex justify-between items-center">
+        <div className="grid grid-cols-2">
           <H4>Catégorie</H4>
           <Select
             name="Type"
@@ -81,14 +81,13 @@ const SideBarNew = ({ setWhatShow }: SideBarNewProps) => {
               { value: "back-crawl", label: "Dos crawlé" },
             ]}
             placeholder="Choisir"
-            className="!w-full"
-            classNameContainer="w-44"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
+            classNameContainer="w-max mr-0 ml-auto"
           />
         </div>
 
-        <div className="flex justify-between items-center">
+        <div className="grid grid-cols-2">
           <H4>Horaires</H4>
           <div>
             <InputHourWithDuration
@@ -97,13 +96,12 @@ const SideBarNew = ({ setWhatShow }: SideBarNewProps) => {
               onChange={(e) => setTime(e.target.value)}
               duration={duration}
               onDurationChange={(newDuration) => setDuration(newDuration)}
-              className="!w-full"
-              classNameContainer="w-full"
+              classNameContainer="w-max mr-0 ml-auto"
             />
           </div>
         </div>
 
-        <div className="flex justify-between items-center">
+        <div className="grid grid-cols-2">
           <H4>Intensité</H4>
           <div>
             <SelectWithIcons
@@ -147,23 +145,22 @@ const SideBarNew = ({ setWhatShow }: SideBarNewProps) => {
                 },
               ]}
               placeholder="Choisir le niveau"
-              className="!w-full"
-              classNameContainer="w-44"
               value={intensity}
               onChange={(newValue) => setIntensity(newValue)}
+              classNameContainer="w-max mr-0 ml-auto"
             />
           </div>
         </div>
 
-        <div className="flex justify-between items-start">
+        <div className="grid grid-cols-2">
           <H4>Description</H4>
           <div>
             <Textarea
               name="Adresse"
               placeholder="Entrez une description...."
-              className="!w-full"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
+              classNameContainer="w-max mr-0 ml-auto"
             />
           </div>
         </div>

@@ -41,11 +41,67 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [dataEvents, setDataEvents] = useState<Record<string, Event[]>>({
+    "18/12/2024": [
+      {
+        status: "training",
+        title: "",
+        details: {
+          coach: ["Martin", "Dupont", "Lefèvre"],
+          intensity: "difficile",
+          category: "papillon",
+          duration: "2 heures",
+          description:
+            "Compétition interne pour évaluer les progrès en papillon.",
+        },
+      },
+    ],
+    "19/12/2024": [
+      {
+        status: null,
+        title: "",
+        details: {},
+      },
+    ],
+    "20/12/2024": [
+      {
+        status: "training",
+        title: "",
+        details: {
+          coach: ["Martin", "Dupont", "Lefèvre"],
+          intensity: "difficile",
+          category: "papillon",
+          duration: "2 heures",
+          description:
+            "Compétition interne pour évaluer les progrès en papillon.",
+        },
+      },
+    ],
+    "21/12/2024": [
+      {
+        status: null,
+        title: "",
+        details: {},
+      },
+    ],
+    "22/12/2024": [
+      {
+        status: null,
+        title: "",
+        details: {},
+      },
+    ],
     "23/12/2024": [
       {
         status: "training",
         title: "",
-        details: {},
+        details: {
+          coach: ["Martin", "Dupont", "Lefèvre"],
+          intensity: "difficile",
+          category: "papillon",
+          duration: "2 heures",
+          description:
+            "Compétition interne pour évaluer les progrès en papillon.",
+        },
       },
     ],
     "24/12/2024": [
@@ -171,7 +227,7 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
     });
   };
 
-  const [whatShow, setWhatShow] = useState("type");
+  const [whatShow, setWhatShow] = useState("show");
 
   return (
     <EventsContext.Provider

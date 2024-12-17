@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import Card from "@/app/components/ui/card";
 import SideBarTypes from "./ui/sideBarTypes";
 import SideBarNew from "./ui/sideBarNew";
+import SideBarShow from "./ui/sidebarShow";
 import { useEvents } from "../database/events-context";
 
 const SidebarCard = () => {
@@ -17,6 +18,9 @@ const SidebarCard = () => {
         break;
       case "new":
         return <SideBarNew setWhatShow={setWhatShow} />;
+        break;
+      case "show":
+        return <SideBarShow setWhatShow={setWhatShow} />;
         break;
 
       default:
