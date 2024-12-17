@@ -8,7 +8,7 @@ import BottomBar from "./components/bottombar/bottom-bar";
 import Dashboard from "./dashboard/dashboard";
 import Calendar from "./calendar/calendar";
 import Message from "./message/message";
-import Group from "./group/groupe";
+import Group from "./group/page";
 import Map from "./map/map";
 import Stats from "./stats/stats";
 
