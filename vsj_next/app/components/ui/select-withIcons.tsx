@@ -56,10 +56,7 @@ const SelectWithIcons = ({
   };
 
   return (
-    <div
-      className={clsx("relative w-80", classNameContainer)}
-      ref={dropdownRef}
-    >
+    <div className={clsx("relative", classNameContainer)} ref={dropdownRef}>
       <div
         className={clsx(
           "border border-gray-300 rounded-md px-3 py-2 flex items-center justify-between cursor-pointer",
@@ -90,7 +87,7 @@ const SelectWithIcons = ({
       </div>
 
       {open && (
-        <ul className="absolute left-0 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg z-10 max-h-60 overflow-y-auto">
+        <ul className="absolute left-0 mt-1 bg-white border border-gray-300 rounded-md shadow-lg z-10 max-h-60 overflow-y-auto">
           {options.map((option) => (
             <li
               key={option.value}
