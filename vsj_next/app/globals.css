@@ -102,7 +102,6 @@
   100% {
     border-color: transparent;
   }
-  
 }
 @keyframes fade-in {
   from {
@@ -119,8 +118,6 @@
   animation: fade-in 0.5s ease-in-out forwards;
 }
 
-
-
 .blinking-border {
   border: 2px solid transparent;
   animation: blinkBorder 1s infinite;
@@ -134,8 +131,4 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 
 input[type="time"]::-moz-focus-inner {
   border: 0;
-}
-body {
-  overflow: hidden;
-  user-select: none;
 }

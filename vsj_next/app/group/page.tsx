@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -9,11 +8,10 @@ import "swiper/css/pagination";
 import { Navigation, Pagination } from "swiper/modules";
 
 export default function GroupePage() {
-  const totalNageurs = 25; 
-  const nageursParPage = 6; 
-  const [currentIndex, setCurrentIndex] = useState(0); 
-  const [visibleCount, setVisibleCount] = useState(6); 
-  const [isAnimating, setIsAnimating] = useState(false); 
+  const totalNageurs = 25;
+  const nageursParPage = 4;
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   const handleScrollUp = () => {
     if (currentIndex > 0) {
@@ -37,14 +35,10 @@ export default function GroupePage() {
     }
   };
 
-  const handleVoirPlus = () => {
-    setVisibleCount((prev) => Math.min(prev + 6, totalNageurs)); 
-  };
-
   const nageurs = Array.from({ length: totalNageurs }, (_, index) => ({
     id: index + 1,
     name: `Nageur ${index + 1}`,
-    age: 17 + (index % 5), 
+    age: 17 + (index % 5),
   }));
 
   return (
@@ -66,7 +60,9 @@ export default function GroupePage() {
 
       {/* Historique des performances */}
       <div className="bg-white rounded-2xl shadow-md p-4 mb-6">
-        <h2 className="text-xl font-semibold mb-3">Historique des performances</h2>
+        <h2 className="text-xl font-semibold mb-3">
+          Historique des performances
+        </h2>
         <div className="relative">
           <div className="swiper-button-prev custom-swiper-button-prev"></div>
           <div className="swiper-button-next custom-swiper-button-next"></div>
@@ -80,19 +76,25 @@ export default function GroupePage() {
             }}
             pagination={{ clickable: true }}
             breakpoints={{
-              640: { slidesPerView: 1 },
-              768: { slidesPerView: 2 },
-              1024: { slidesPerView: 4 },
+              320: { slidesPerView: 1 }, // Mobile devices - 1 slide per view
+              640: { slidesPerView: 2 }, // Small tablets - 2 slides per view
+              768: { slidesPerView: 3 }, // Larger tablets - 3 slides per view
+              1024: { slidesPerView: 4 }, // Desktop - 4 slides per view
             }}
           >
             {[...Array(8)].map((_, index) => (
               <SwiperSlide key={index}>
                 <div className="bg-[#F5F5F5] rounded-2xl flex flex-col items-center p-4">
-                  <p className="text-lg font-medium mb-1">Tournoi de Malreaux</p>
+                  <p className="text-lg font-medium mb-1">
+                    Tournoi de Malreaux
+                  </p>
                   <p className="text-xs text-gray-600">12 décembre 2023</p>
-                  <div className="text-base font-semibold mt-1 mb-3">4ème - 30"56'10</div>
+                  <div className="text-base font-semibold mt-1 mb-3">
+                    4ème - 30"56'10
+                  </div>
                   <p className="text-center text-xs text-gray-500 mb-3">
-                    Vous avez réalisé une performance d'équipe digne des plus grands, je vous félicite !
+                    Vous avez réalisé une performance d'équipe digne des plus
+                    grands, je vous félicite !
                   </p>
                   <p className="text-center text-sm text-blue-600 mb-2 font-semibold">
                     Meilleures performances
@@ -118,17 +120,18 @@ export default function GroupePage() {
         </div>
       </div>
 
-      {}
-      <div className="flex space-x-6 mb-6">
-        {}
-        <div className="flex-1 bg-white rounded-3xl shadow-md p-4">
+      {/* Liste des nageurs */}
+      <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 mb-6">
+        <div className="bg-white rounded-3xl shadow-md p-4">
           <h2 className="text-xl font-semibold mb-3 text-center bg-blue-500 text-white px-3 py-1 rounded-lg">
             Liste des nageurs ({totalNageurs})
           </h2>
           <div className="bg-[#F5F5F5] p-4 rounded-3xl relative">
             <ul
-              className={`grid grid-cols-2 gap-4 transition-transform duration-300 ${
-                isAnimating ? "translate-y-4 opacity-50" : "translate-y-0 opacity-100"
+              className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 transition-transform duration-300 ${
+                isAnimating
+                  ? "translate-y-4 opacity-50"
+                  : "translate-y-0 opacity-100"
               }`}
             >
               {nageurs
@@ -147,7 +150,9 @@ export default function GroupePage() {
                       />
                       <div>
                         <p className="font-medium text-sm">{nageur.name}</p>
-                        <p className="text-xs text-gray-500">Nageur 100m | Om me nomme...</p>
+                        <p className="text-xs text-gray-500">
+                          Nageur 100m | Om me nomme...
+                        </p>
                       </div>
                     </div>
                     <p className="text-xs text-gray-600">{nageur.age} ans</p>
@@ -209,9 +214,11 @@ export default function GroupePage() {
           </div>
         </div>
 
-        {}
-        <div className="flex-1 bg-white rounded-2xl shadow-md p-4">
-          <h2 className="text-xl font-semibold mb-4 text-center">Prochaine compétition</h2>
+        {/* Prochaine compétition */}
+        <div className="bg-white rounded-2xl shadow-md p-4">
+          <h2 className="text-xl font-semibold mb-4 text-center">
+            Prochaine compétition
+          </h2>
           <div className="bg-[#F5F5F5] rounded-2xl p-4 flex flex-col space-y-4">
             <div className="flex flex-col space-y-1">
               <p className="font-medium text-sm">Nom de compétition :</p>
@@ -219,11 +226,15 @@ export default function GroupePage() {
             </div>
             <div className="flex flex-col space-y-1">
               <p className="font-medium text-sm">Adresse postale :</p>
-              <p className="text-xs text-gray-500">Adresse de la compétition ici</p>
+              <p className="text-xs text-gray-500">
+                Adresse de la compétition ici
+              </p>
             </div>
             <div className="flex flex-col space-y-1">
               <p className="font-medium text-sm">Nages à effectuer :</p>
-              <p className="text-xs text-gray-500">Liste des nages à effectuer ici</p>
+              <p className="text-xs text-gray-500">
+                Liste des nages à effectuer ici
+              </p>
             </div>
             <div className="flex flex-col space-y-1">
               <p className="font-medium text-sm">Équipements nécessaires :</p>
