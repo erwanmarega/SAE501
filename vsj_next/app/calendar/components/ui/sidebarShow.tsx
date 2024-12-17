@@ -18,7 +18,6 @@ import HighItensityIcon from "@/public/assets/icons/highIntensity.svg";
 import Profil from "@/app/components/profil/profil";
 import Separator from "./separator";
 import IntensitySelect from "./intensity-select";
-import ChartHour from "./chart-hour";
 
 interface SideBarNewProps {
   setWhatShow: React.Dispatch<React.SetStateAction<string>>;
@@ -70,7 +69,13 @@ const SideBarShow = ({ setWhatShow }: SideBarNewProps) => {
             <div className="flex items-center justify-end gap-4 ml-auto mr-0 w-full">
               <P className="text-end text-lg+ !font-light">18:00 - 19:30</P>
 
-              <ChartHour />
+              <Image
+                src={"/assets/icons/charts-hour/30.svg"}
+                alt="Durée de 30min"
+                width={60}
+                height={60}
+                className="-mt-2 -mr-4"
+              />
             </div>
           </div>
         </section>

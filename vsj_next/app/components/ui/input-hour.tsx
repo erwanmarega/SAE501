@@ -71,10 +71,7 @@ const InputHourWithDuration = ({
   const durations = generateDurations();
 
   return (
-    <form
-      className={clsx("w-full mx-auto", classNameContainer)}
-      ref={dropdownRef}
-    >
+    <form className={clsx("  mx-auto", classNameContainer)} ref={dropdownRef}>
       <div className="flex relative">
         {/* Champ Input de type Time */}
         <input
@@ -87,7 +84,7 @@ const InputHourWithDuration = ({
           max={max}
           required={required}
           className={clsx(
-            "rounded-none rounded-s-lg bg-white border text-gray-900 leading-none focus:ring-blue-500 focus:border-blue-500 block flex-1 w-full text-sm border-gray-300 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 -ml-4",
+            "rounded-none rounded-s-lg bg-white border text-gray-900 leading-none focus:ring-blue-500 focus:border-blue-500 block flex-1  text-sm border-gray-300 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 -ml-4",
             className
           )}
         />
@@ -121,7 +118,7 @@ const InputHourWithDuration = ({
         {dropdownOpen && (
           <div
             id="dropdown-duration"
-            className="absolute right-0 top-full mt-1 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-36 max-h-60 overflow-y-auto dark:bg-gray-700"
+            className="absolute right-0 top-full mt-1 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow  max-h-60 overflow-y-auto dark:bg-gray-700"
           >
             <ul className="py-2 text-sm text-gray-700 dark:text-gray-200">
               {durations.map((durationOption) => (
@@ -129,7 +126,7 @@ const InputHourWithDuration = ({
                   <button
                     type="button"
                     onClick={() => handleDurationSelect(durationOption)}
-                    className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                    className="inline-flex  px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                   >
                     {durationOption}
                   </button>
