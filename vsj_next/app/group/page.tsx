@@ -61,10 +61,10 @@ export default function GroupePage() {
             }}
             pagination={{ clickable: true }}
             breakpoints={{
-              320: { slidesPerView: 1 }, // Mobile devices - 1 slide per view
-              640: { slidesPerView: 2 }, // Small tablets - 2 slides per view
-              768: { slidesPerView: 3 }, // Larger tablets - 3 slides per view
-              1024: { slidesPerView: 4 }, // Desktop - 4 slides per view
+              320: { slidesPerView: 1 },
+              640: { slidesPerView: 2 },
+              768: { slidesPerView: 3 },
+              1024: { slidesPerView: 4 },
             }}
           >
             {[...Array(8)].map((_, index) => (
@@ -107,7 +107,7 @@ export default function GroupePage() {
 
       {/* Liste des nageurs */}
       <div className="bg-white rounded-3xl shadow-md p-4 h-full w-full">
-        <h2 className="text-lg font-semibold mb-3 text-left bg-blue-500 text-white px-3 py-1 rounded-lg">
+        <h2 className="text-lg font-semibold mb-3 text-left bg-blue-500 text-white px-3 py-2 rounded-lg inline-block">
           Liste des nageurs ({totalNageurs})
         </h2>
         <div className="bg-[#F7F7F7] p-4 rounded-3xl relative">
@@ -144,11 +144,11 @@ export default function GroupePage() {
               ))}
           </ul>
 
-          <div className="flex justify-between mt-4">
+          <div className="flex justify-center mt-4 space-x-4">
             <button
               onClick={handleScrollUp}
               disabled={currentIndex === 0}
-              className={`p-3 bg-blue-500 text-white rounded-full shadow-md hover:bg-blue-600 transition-transform duration-200 ease-in-out transform ${
+              className={`p-3 bg-transparent text-blue-500 rounded-full shadow-md hover:bg-blue-100 transition-transform duration-200 ease-in-out transform ${
                 currentIndex === 0
                   ? "opacity-50 cursor-not-allowed"
                   : "hover:scale-110"
@@ -173,7 +173,7 @@ export default function GroupePage() {
             <button
               onClick={handleScrollDown}
               disabled={currentIndex + nageursParPage >= totalNageurs}
-              className={`p-3 bg-blue-500 text-white rounded-full shadow-md hover:bg-blue-600 transition-transform duration-200 ease-in-out transform ${
+              className={`p-3 bg-transparent text-blue-500 rounded-full shadow-md hover:bg-blue-100 transition-transform duration-200 ease-in-out transform ${
                 currentIndex + nageursParPage >= totalNageurs
                   ? "opacity-50 cursor-not-allowed"
                   : "hover:scale-110"
