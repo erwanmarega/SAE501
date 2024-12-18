@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import Input from "@/app/components/ui/input";
 
@@ -13,9 +12,11 @@ interface SignupPageProps {
   setSignupPassword: React.Dispatch<React.SetStateAction<string>>;
   signupConfirmPassword: string;
   setSignupConfirmPassword: React.Dispatch<React.SetStateAction<string>>;
+  signupError: string | null;
+  signupSuccess: boolean;
 }
 
-const SignupPage = ({
+const SignupPage: React.FC<SignupPageProps> = ({
   handleToggle,
   signupEmail,
   setSignupEmail,
@@ -23,80 +24,64 @@ const SignupPage = ({
   setSignupPassword,
   signupConfirmPassword,
   setSignupConfirmPassword,
-}: SignupPageProps) => {
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-
+  signupError,
+  signupSuccess,
+}) => {
+  const [loading, setLoading] = useState(false); 
   const router = useRouter();
 
-  const validateEmail = (email: string) => {
-    // Simple regex for email validation
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
-  };
-
-  const handleSignup = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // Validation des champs
-    if (!signupEmail || !signupPassword || !signupConfirmPassword) {
-      setError("Veuillez remplir tous les champs obligatoires.");
-      return;
-    }
-
-    if (!validateEmail(signupEmail)) {
-      setError("Veuillez entrer une adresse email valide.");
-      return;
-    }
-
+  
+  const handleSignup = async () => {
     if (signupPassword !== signupConfirmPassword) {
-      setError("Les mots de passe ne correspondent pas.");
-      return;
+      return "Les mots de passe ne correspondent pas";
     }
 
-    // Optionnel : Vérifiez la force du mot de passe
-    if (signupPassword.length < 6) {
-      setError("Le mot de passe doit contenir au moins 6 caractères.");
-      return;
-    }
+    setLoading(true); 
 
     try {
-      setError(null);
-      setSuccess(false);
-      setIsLoading(true);
-
-      const data = { email: signupEmail, password: signupPassword };
-
-      const response = await axios.post("http://localhost:8000/swimmer", data, {
+      const response = await fetch("http://localhost:8000/swimmer", {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+        body: JSON.stringify({
+          email: signupEmail,
+          password: signupPassword,
+        }),
       });
 
-      if (response.status === 201) {
-        setSuccess(true);
-        // Redirection vers la page de connexion après 2 secondes
-        setTimeout(() => {
-          router.push("/login");
-        }, 2000);
+      if (!response.ok) {
+        const errorData = await response.json();
+        return errorData.message || "Erreur lors de l'inscription";
       }
-    } catch (err: any) {
-      // Gestion des erreurs spécifiques
-      if (err.response && err.response.status === 409) {
-        setError("Il y a déjà un compte avec cette adresse mail.");
-      } else {
-        setError("Vérifiez vos informations ou réessayez.");
+
+      const data = await response.json();
+      if (data.message === "Swimmer created successfully") {
+        return null; 
       }
+      return "Une erreur est survenue lors de la création du nageur.";
+    } catch (error) {
+      console.error("Erreur d'inscription:", error);
+      return "Erreur lors de la connexion au serveur";
     } finally {
-      setIsLoading(false);
+      setLoading(false); 
+    }
+  };
+
+  const handleSignupWithRedirect = async () => {
+    const errorMessage = await handleSignup();
+    if (!errorMessage) {
+      router.push("/page"); 
+    } else {
+      
+      alert(errorMessage); 
     }
   };
 
   return (
     <main className="flex flex-col items-center gap-6 justify-start">
-      {error && <p className="text-red-500">{error}</p>}
-      {success && (
+      {signupError && <p className="text-red-500">{signupError}</p>}
+      {signupSuccess && (
         <p className="text-green-500">Inscription réussie ! Redirection...</p>
       )}
 
@@ -127,6 +112,24 @@ const SignupPage = ({
         onChange={(e) => setSignupConfirmPassword(e.target.value)}
         autoComplete="new-password"
       />
+
+      <button
+        onClick={handleSignupWithRedirect}
+        disabled={loading} 
+        className="btn-primary"
+      >
+        {loading ? "Chargement..." : "S'inscrire"}
+      </button>
+
+      <p className="text-sm text-gray-600">
+        Vous avez déjà un compte ?{" "}
+        <span
+          className="text-primary font-bold cursor-pointer"
+          onClick={() => handleToggle("Connexion")}
+        >
+          Connectez-vous ici
+        </span>
+      </p>
     </main>
   );
 };

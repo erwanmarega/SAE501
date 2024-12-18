@@ -13,8 +13,30 @@ const Signup: React.FC = () => {
   const [barWidthStep1To2, setBarWidthStep1To2] = useState(0);
   const [barWidthStep2To3, setBarWidthStep2To3] = useState(0);
 
+  // State pour chaque champ du formulaire
+  const [formData, setFormData] = useState({
+    nom: "",
+    prenom: "",
+    dateNaissance: "",
+    adresse: "",
+    codePostal: "",
+    ville: "",
+    telephone: "",
+    email: ""
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
   const handleNextStep = () => {
     if (step === 3) {
+      // Soumettre les données via PUT ici
+      handleSubmit();
       setShowConfetti(true);
       setStep(4);
     } else {
@@ -37,6 +59,36 @@ const Signup: React.FC = () => {
     }
     if (step === 3 && barWidthStep2To3 > 0) {
       setBarWidthStep2To3((prev) => Math.max(prev - 100, 0));
+    }
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch(`http://localhost:8000/swimmer/${formData.email}`, {
+        method: "PUT",  
+        headers: {
+          "Content-Type": "application/json",  
+        },
+        body: JSON.stringify(formData),  // Envoi des données du formulaire
+      });
+  
+      const textResponse = await response.text();  // Récupère la réponse sous forme de texte
+      console.log("Réponse du serveur :", textResponse);
+  
+      if (response.ok) {
+        console.log("Profil mis à jour ou créé avec succès !");
+        setShowConfetti(true);  // Montrer les confettis si la mise à jour/création réussie
+        setStep(4);  // Passer à l'étape de confirmation
+      } else {
+        try {
+          const errorData = JSON.parse(textResponse);  // Essaye de parser comme JSON si possible
+          console.error("Erreur lors de la mise à jour du profil:", errorData);
+        } catch (error) {
+          console.error("La réponse n'est pas du JSON valide:", textResponse);
+        }
+      }
+    } catch (error) {
+      console.error("Erreur réseau :", error);
     }
   };
 
@@ -74,150 +126,96 @@ const Signup: React.FC = () => {
                 alt="Logo"
                 className="w-20 h-20 mb-6"
               />
-              <H2 className="  leading-tight relative">
+              <H2 className="leading-tight relative">
                 <span className="text-gray-700">Bienvenue</span>, pour continuer
                 votre inscription, veuillez compléter votre profil
-                {/* Underline sous le texte "Bienvenue" */}
                 <div
                   className="absolute left-0 bottom-[-4px] h-[3px] bg-[#348CFF] mt-1"
                   style={{
                     width: "115px",
-                    borderRadius: "5px", // Arrondir les coins
+                    borderRadius: "5px",
                   }}
                 ></div>
               </H2>
               <H3 className="mt-8">{stepTitles[step - 1]}</H3>
             </div>
 
-            <div className="flex items-center justify-center gap-3 mb-12">
-              <div className="flex items-center gap-3">
-                <div
-                  className={`w-12 h-12 flex items-center justify-center rounded-full text-xl font-medium ${
-                    step > 1
-                      ? "bg-blue-500 text-white"
-                      : "bg-blue-500 text-white"
-                  }`}
-                >
-                  {step > 1 ? (
-                    <img
-                      src="./assets/img/icon.png"
-                      alt="Checked"
-                      className="w-5 h-5"
-                    />
-                  ) : (
-                    "1"
-                  )}
-                </div>
-                <div className="relative w-20 h-[4px] bg-gray-300">
-                  <div
-                    className="absolute left-0 top-0 h-full bg-blue-500"
-                    style={{
-                      width: `${barWidthStep1To2}%`,
-                      transition: "width 0.5s ease",
-                    }}
-                  ></div>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <div
-                  className={`w-12 h-12 flex items-center justify-center rounded-full text-xl font-medium ${
-                    step > 2
-                      ? "bg-blue-500 text-white"
-                      : step === 2
-                      ? "bg-blue-500 text-white"
-                      : "bg-gray-300 text-gray-500"
-                  }`}
-                >
-                  {step > 2 ? (
-                    <img
-                      src="./assets/img/icon.png"
-                      alt="Checked"
-                      className="w-5 h-5"
-                    />
-                  ) : (
-                    "2"
-                  )}
-                </div>
-                <div className="relative w-20 h-[4px] bg-gray-300">
-                  <div
-                    className="absolute left-0 top-0 h-full bg-blue-500"
-                    style={{
-                      width: `${barWidthStep2To3}%`,
-                      transition: "width 0.5s ease",
-                    }}
-                  ></div>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <div
-                  className={`w-12 h-12 flex items-center justify-center rounded-full text-xl font-medium ${
-                    step === 3
-                      ? "bg-blue-500 text-white"
-                      : "bg-gray-300 text-gray-500"
-                  }`}
-                >
-                  {step === 3 ? <p>3</p> : "3"}
-                </div>
-              </div>
-            </div>
-
+            {/* Étape 1 : Informations personnelles */}
             {step === 1 && (
               <form className="grid grid-cols-3 gap-6 mb-10">
                 <input
                   type="text"
                   name="nom"
                   placeholder="Nom"
+                  value={formData.nom}
+                  onChange={handleChange}
                   className="col-span-1 border border-gray-300 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <input
                   type="text"
                   name="prenom"
                   placeholder="Prénom"
+                  value={formData.prenom}
+                  onChange={handleChange}
                   className="col-span-1 border border-gray-300 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <input
                   type="date"
                   name="dateNaissance"
+                  value={formData.dateNaissance}
+                  onChange={handleChange}
                   className="col-span-1 border border-gray-300 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </form>
             )}
 
+            {/* Étape 2 : Résidence */}
             {step === 2 && (
               <form className="grid grid-cols-3 gap-6 mb-10">
                 <input
                   type="text"
                   name="adresse"
                   placeholder="Adresse"
+                  value={formData.adresse}
+                  onChange={handleChange}
                   className="col-span-1 border border-gray-300 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <input
                   type="text"
                   name="codePostal"
                   placeholder="Code Postal"
+                  value={formData.codePostal}
+                  onChange={handleChange}
                   className="col-span-1 border border-gray-300 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <input
                   type="text"
                   name="ville"
                   placeholder="Ville"
+                  value={formData.ville}
+                  onChange={handleChange}
                   className="col-span-1 border border-gray-300 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </form>
             )}
 
+            {/* Étape 3 : Coordonnées */}
             {step === 3 && (
               <form className="grid grid-cols-2 gap-6 mb-10">
                 <input
                   type="text"
                   name="telephone"
                   placeholder="Téléphone"
+                  value={formData.telephone}
+                  onChange={handleChange}
                   className="col-span-1 border border-gray-300 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <input
                   type="email"
                   name="email"
                   placeholder="Adresse mail"
+                  value={formData.email}
+                  onChange={handleChange}
                   className="col-span-1 border border-gray-300 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </form>
