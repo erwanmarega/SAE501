@@ -136,3 +136,113 @@ input[type="time"]::-moz-focus-inner {
 .swiper-initialized {
   height: 100%;
 }
+/* Styles généraux pour les boutons de navigation */
+.swiper-button-prev,
+.swiper-button-next {
+  position: absolute !important;
+  top: 75% !important;
+  transform: translateY(-50%) !important;
+  width: 50px !important; /* Taille ajustée */
+  height: 50px !important; /* Taille ajustée */
+  z-index: 10 !important;
+  cursor: pointer;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #ffffff !important;
+  background-color: #3b82f6 !important; /* Bleu principal */
+  border-radius: 50% !important; /* Forme circulaire */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important; /* Ombre douce */
+  transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out !important; /* Transition fluide */
+}
+
+/* Au survol, juste changement de couleur et ombre sans redimensionner */
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+  background-color: #2563eb !important; /* Couleur plus foncée au survol */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2) !important; /* Ombre plus marquée au survol */
+}
+
+/* Positionnement spécifique des boutons */
+.custom-swiper-button-prev {
+  left: 10px !important; /* Ajuster l'espacement par rapport au bord gauche */
+}
+
+.custom-swiper-button-next {
+  right: 10px !important; /* Ajuster l'espacement par rapport au bord droit */
+}
+
+/* Icônes des flèches */
+.custom-swiper-button-prev svg,
+.custom-swiper-button-next svg {
+  width: 24px;
+  height: 24px;
+  fill: #ffffff !important; /* Couleur blanche pour les flèches */
+  transition: fill 0.3s ease; /* Transition douce pour la couleur de la flèche */
+}
+
+/* Garde les flèches blanches au survol */
+.custom-swiper-button-prev:hover svg,
+.custom-swiper-button-next:hover svg {
+  fill: #ffffff !important;
+}
+
+/* Styles de base pour le texte des flèches dans le cas d'un usage de texte (si nécessaire) */
+.swiper-button-prev:after,
+.swiper-button-next:after {
+  font-family: swiper-icons;
+  font-size: 27px !important;
+  text-transform: none !important;
+  letter-spacing: 0;
+  font-variant: initial;
+  line-height: 1;
+  color: #ffffff !important;
+}
+
+/* Ajout d'une légère animation au survol */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.swiper-button-prev:active,
+.swiper-button-next:active {
+  animation: pulse 0.3s ease-out; /* Animation de pulsation au clic */
+}
+/* Positionner la div contenant les bullets par rapport à la div parente */
+.bg-white {
+  position: relative; /* Nécessaire pour positionner la pagination à l'intérieur */
+}
+
+/* Positionner les points de pagination en bas de la div */
+.swiper-pagination {
+  position: absolute;
+  bottom: 10px; /* Vous pouvez ajuster la distance depuis le bas */
+  left: 50%;
+  transform: translateX(-50%); /* Centrer horizontalement */
+  display: flex;
+  justify-content: center;
+  gap: 10px; /* Espacement entre les bullets */
+  z-index: 20; /* S'assurer qu'il est au-dessus du contenu */
+}
+
+/* Esthétique des bullets */
+.swiper-pagination-bullet {
+  width: 10px; /* Taille de la bullet */
+  height: 10px; /* Taille de la bullet */
+  background-color: #aaa; /* Couleur de la bullet */
+  border-radius: 50%; /* Forme circulaire */
+  transition: background-color 0.3s; /* Animation de couleur */
+}
+
+/* Bullet active */
+.swiper-pagination-bullet-active {
+  background-color: #348cff; /* Couleur de la bullet active */
+}
