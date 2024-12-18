@@ -5,14 +5,14 @@ interface TextareaProps {
   name: string;
   placeholder: string;
   rows?: number;
-  className?: string; // Prop pour les classes personnalisées du textarea
-  classNameContainer?: string; // Prop pour les classes personnalisées du conteneur
+  className?: string;
+  classNameContainer?: string;
 }
 
 const Textarea = ({
   name,
   placeholder,
-  rows = 4, // Valeur par défaut pour le nombre de lignes
+  rows = 4,
   className,
   classNameContainer,
 }: TextareaProps) => {
@@ -24,7 +24,7 @@ const Textarea = ({
         rows={rows}
         className={clsx(
           "border border-gray-300 rounded-md px-3 py-2 text-black font-mona font-medium text-sm bg-transparent focus:outline-none focus:border-2 focus:border-black appearance-none placeholder:font-normal resize-y -ml-6",
-          className // Ajout des classes personnalisées ici
+          className
         )}
       />
     </div>

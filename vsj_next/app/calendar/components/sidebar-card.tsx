@@ -7,6 +7,7 @@ import SideBarTypes from "./ui/sideBarTypes";
 import SideBarNew from "./ui/sideBarNew";
 import SideBarShow from "./ui/sidebarShow";
 import { useEvents } from "../database/events-context";
+import SideBarAdmin from "./ui/sidebarAdmin";
 
 const SidebarCard = () => {
   const { whatShow, setWhatShow } = useEvents();
@@ -21,6 +22,9 @@ const SidebarCard = () => {
         break;
       case "show":
         return <SideBarShow setWhatShow={setWhatShow} />;
+        break;
+      case "admin":
+        return <SideBarAdmin setWhatShow={setWhatShow} />;
         break;
 
       default:

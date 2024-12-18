@@ -165,12 +165,42 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
   const [draggingSessionId, setDraggingSessionId] = useState<string | null>(
     null
   );
-
   const addSessionToDate = (sessionId: string, date: string) => {
+    console.log(
+      `Tentative d'ajout de la session ID "${sessionId}" à la date "${date}".`
+    );
+
     const trainingType = Object.values(TrainingTypes).find(
       (t) => t.id === sessionId
     );
-    if (!trainingType) return;
+    if (!trainingType) {
+      console.error(
+        `Aucun type d'entraînement trouvé avec l'ID "${sessionId}".`
+      );
+      return;
+    }
+
+    console.log(`Type d'entraînement trouvé:`, trainingType);
+
+    // Récupérer les événements existants pour la date
+    const dayEvents = dataEvents[date] || [];
+    console.log(`Événements existants pour la date "${date}":`, dayEvents);
+
+    // Vérifier s'il existe au moins un événement avec un statut "training"
+    const isTrainingDay = dayEvents.some(
+      (event) => event.status === "training"
+    );
+    console.log(
+      `La date "${date}" est-elle un jour d'entraînement ? ${isTrainingDay}`
+    );
+
+    // Si ce n'est pas un "training day", on refuse l'ajout
+    if (!isTrainingDay) {
+      console.warn(
+        `Impossible d'ajouter la session à la date "${date}", car ce n'est pas un jour d'entraînement.`
+      );
+      return;
+    }
 
     const newEvent: Event = {
       status: "training",
@@ -184,13 +214,24 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
       },
     };
 
+    console.log(`Nouvel événement à ajouter:`, newEvent);
+
     setDataEvents((prev) => {
       const existingEvents = prev[date] || [];
+      const updatedEvents = [...existingEvents, newEvent];
+      console.log(
+        `Mise à jour des événements pour la date "${date}":`,
+        updatedEvents
+      );
       return {
         ...prev,
-        [date]: [...existingEvents, newEvent],
+        [date]: updatedEvents,
       };
     });
+
+    console.log(
+      `Session ID "${sessionId}" ajoutée avec succès à la date "${date}".`
+    );
   };
 
   // Nouvelle fonction pour ajouter un training type
@@ -227,7 +268,7 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
     });
   };
 
-  const [whatShow, setWhatShow] = useState("show");
+  const [whatShow, setWhatShow] = useState("admin");
 
   return (
     <EventsContext.Provider

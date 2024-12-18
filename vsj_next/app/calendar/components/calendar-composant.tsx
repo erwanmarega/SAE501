@@ -52,7 +52,7 @@ const CalendarComposant = ({ currentDate }: CalendarComposantProps) => {
       {days.map((day) => {
         const formattedDate = format(day, "dd/MM/yyyy");
         const eventsForDay = dataEvents[formattedDate] || [];
-        const firstEvent = eventsForDay[0] || null;
+        const lastEvent = eventsForDay[eventsForDay.length - 1] || null;
 
         const { isOver, setNodeRef } = useDroppable({
           id: formattedDate,
@@ -60,13 +60,11 @@ const CalendarComposant = ({ currentDate }: CalendarComposantProps) => {
 
         // Vérification si premier évènement est un entraînement vide
         let isAucunEntrainement = false;
-        if (firstEvent && firstEvent.status === "training") {
-          const titleIsEmpty =
-            !firstEvent.title || firstEvent.title.trim() === "";
+        if (lastEvent && lastEvent.status === "training") {
           const detailsAreEmpty =
-            !firstEvent.details || Object.keys(firstEvent.details).length === 0;
+            !lastEvent.details || Object.keys(lastEvent.details).length === 0;
           // "Aucun entraînement" si titre ET détails sont vides
-          if (titleIsEmpty && detailsAreEmpty) {
+          if (detailsAreEmpty) {
             isAucunEntrainement = true;
           }
         }
@@ -77,9 +75,9 @@ const CalendarComposant = ({ currentDate }: CalendarComposantProps) => {
         let backgroundColor = "bg-white";
         if (!isSameMonth(day, currentDate)) {
           backgroundColor = "bg-gray-50";
-        } else if (firstEvent && firstEvent.status === "training") {
+        } else if (lastEvent && lastEvent.status === "training") {
           backgroundColor = "bg-[#EBF3FF] hover:border-primary";
-        } else if (firstEvent && firstEvent.status === "competition") {
+        } else if (lastEvent && lastEvent.status === "competition") {
           backgroundColor = "bg-[#FEFDED] hover:border-secondary-map";
         }
 
@@ -88,19 +86,19 @@ const CalendarComposant = ({ currentDate }: CalendarComposantProps) => {
             key={day.toISOString()}
             ref={setNodeRef}
             className={clsx(
-              "border-[#F5F5F5] border-[1px] px-2 py-1 text-center flex flex-col justify-start items-start gap-1 ",
+              "border-[#F5F5F5] border-[1px] px-2 py-1 text-center flex flex-col justify-start items-start gap-1",
               backgroundColor,
               blinkingClass,
               {
                 "opacity-50": !isSameMonth(currentDate, day),
-                "border-2 border-primary": isOver,
-                "cursor-pointer hover:rounded-md hover:shadow-xl hover:-translate-y-1 hover:border-2 transition-all":
-                  firstEvent?.status === "training" ||
-                  firstEvent?.status === "competition",
+                "cursor-pointer hover:rounded-md hover:shadow-xl hover:-translate-y-1 hover:border-primary border-2 transition-all":
+                  draggingSessionId && isAucunEntrainement,
+                "bg-primary/25":
+                  draggingSessionId && isAucunEntrainement && isOver,
               }
             )}
             onClick={() => {
-              firstEvent?.status === "training" && setWhatShow("new");
+              lastEvent?.status === "training" && setWhatShow("new");
             }}
           >
             <p className="font-outfit font-semibold text-sm text-[#6E6E6E]">
@@ -108,15 +106,15 @@ const CalendarComposant = ({ currentDate }: CalendarComposantProps) => {
             </p>
 
             {
-              firstEvent ? (
-                firstEvent.status === null ? null : firstEvent.status ===
+              lastEvent ? (
+                lastEvent.status === null ? null : lastEvent.status ===
                   "training" ? (
                   (() => {
                     const titleIsEmpty =
-                      !firstEvent.title || firstEvent.title.trim() === "";
+                      !lastEvent.title || lastEvent.title.trim() === "";
                     const detailsAreEmpty =
-                      !firstEvent.details ||
-                      Object.keys(firstEvent.details).length === 0;
+                      !lastEvent.details ||
+                      Object.keys(lastEvent.details).length === 0;
 
                     if (titleIsEmpty && detailsAreEmpty) {
                       // "Aucun entraînement"
@@ -129,7 +127,7 @@ const CalendarComposant = ({ currentDate }: CalendarComposantProps) => {
                             alt="Jour vide"
                           />
                           <p className="font-outfit text-2xs font-medium text-[#818181]">
-                            Aucun entraînement
+                            Entraînement
                           </p>
                         </div>
                       );
@@ -142,14 +140,14 @@ const CalendarComposant = ({ currentDate }: CalendarComposantProps) => {
                               Entraînement
                             </p>
                             <p className="font-outfit text-2xs font-medium text-[#818181] truncate">
-                              {firstEvent.title || "Séance"}
+                              {lastEvent.title || "Séance"}
                             </p>
                           </div>
                         </div>
                       );
                     }
                   })()
-                ) : firstEvent.status === "competition" ? (
+                ) : lastEvent.status === "competition" ? (
                   // Compétition
                   <div className="h-[40%] w-[3px] rounded-full bg-secondary-map">
                     <div className="flex flex-col items-start ml-2">
@@ -157,7 +155,7 @@ const CalendarComposant = ({ currentDate }: CalendarComposantProps) => {
                         Compétition
                       </p>
                       <p className="font-outfit text-2xs font-medium text-[#818181] truncate">
-                        {firstEvent.title || "Compétition"}
+                        {lastEvent.title || "Compétition"}
                       </p>
                     </div>
                   </div>
