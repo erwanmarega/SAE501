@@ -10,12 +10,15 @@ import Button from "../components/ui/button";
 import GoogleIcon from "@/public/assets/icons/google_icon.svg";
 import Message from "./ui/message";
 import { useLanguage } from "../components/header/ui/context/language-provider";
+import { useRouter } from "next/navigation";
+import axios from "axios";
 
 // Images
 import BackgroundIMG_01 from "@/public/assets/img/login/backgroundIMG_01.png";
 
 const AuthentificationPage = () => {
   const { language } = useLanguage();
+  const router = useRouter();
   const [toggleValue, setToggleValue] = useState<"Connexion" | "Inscription">(
     "Connexion"
   );
@@ -32,6 +35,83 @@ const AuthentificationPage = () => {
   const [signupEmail, setSignupEmail] = useState("");
   const [signupPassword, setSignupPassword] = useState("");
   const [signupConfirmPassword, setSignupConfirmPassword] = useState("");
+  const [signupError, setSignupError] = useState<string | null>(null);
+  const [signupSuccess, setSignupSuccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSignup = async (): Promise<boolean> => {
+    if (!signupEmail || !signupPassword || !signupConfirmPassword) {
+      setSignupError("Veuillez remplir tous les champs obligatoires.");
+      return false;
+    }
+
+    if (signupPassword !== signupConfirmPassword) {
+      setSignupError("Les mots de passe ne correspondent pas.");
+      return false;
+    }
+
+    if (signupPassword.length < 6) {
+      setSignupError("Le mot de passe doit contenir au moins 6 caractères.");
+      return false;
+    }
+
+    try {
+      setSignupError(null);
+      setSignupSuccess(false);
+      setIsLoading(true);
+
+      const data = { email: signupEmail, password: signupPassword };
+
+      const response = await axios.post("http://localhost:8000/swimmer", data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.status === 201) {
+        setSignupSuccess(true);
+        setTimeout(() => {
+          router.push("/signup");
+        }, 2000);
+        return true;
+      }
+      return false;
+    } catch (err: any) {
+      if (err.response && err.response.status === 409) {
+        setSignupError("Il y a déjà un compte avec cette adresse mail.");
+      } else {
+        setSignupError("Vérifiez vos informations ou réessayez.");
+      }
+      return false;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleLogin = async () => {
+    try {
+      const response = await fetch("http://localhost:8000/swimmer/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: loginEmail,
+          password: loginPassword,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        router.push("/"); 
+      } else {
+        alert(data.message); 
+      }
+    } catch (error) {
+      alert("Une erreur est survenue");
+    }
+  };
 
   const renderAuthPage = () => {
     return toggleValue === "Connexion" ? (
@@ -41,6 +121,7 @@ const AuthentificationPage = () => {
         setLoginEmail={setLoginEmail}
         loginPassword={loginPassword}
         setLoginPassword={setLoginPassword}
+        handleLogin={handleLogin}  
       />
     ) : (
       <SignupPage
@@ -51,6 +132,10 @@ const AuthentificationPage = () => {
         setSignupPassword={setSignupPassword}
         signupConfirmPassword={signupConfirmPassword}
         setSignupConfirmPassword={setSignupConfirmPassword}
+        handleSignup={handleSignup}
+        signupError={signupError}
+        signupSuccess={signupSuccess}
+        isLoading={isLoading}
       />
     );
   };
@@ -92,7 +177,11 @@ const AuthentificationPage = () => {
         <footer className="flex flex-col items-center gap-4">
           {toggleValue === "Connexion" ? (
             <>
-              <Button variant="primary">
+              <Button 
+                type="submit"
+                variant="primary"
+                onClick={handleLogin} 
+              >
                 {language === "fr" ? "Se connecter" : "Login"}
               </Button>
               <Button variant="outline" icon={GoogleIcon}>
@@ -103,7 +192,11 @@ const AuthentificationPage = () => {
             </>
           ) : (
             <>
-              <Button type="submit" variant="primary">
+              <Button
+                type="submit"
+                variant="primary"
+                onClick={handleSignup}
+              >
                 {language === "fr" ? "S'inscrire" : "Sign Up"}
               </Button>
               <Button variant="outline" icon={GoogleIcon}>

@@ -1,7 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Input from "@/app/components/ui/input";
+import { useRouter } from "next/navigation"; 
 
 interface LoginPageProps {
   handleToggle: (active: "Connexion" | "Inscription") => void;
@@ -18,8 +19,36 @@ const LoginPage = ({
   loginPassword,
   setLoginPassword,
 }: LoginPageProps) => {
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();  
+
+  const handleLogin = async () => {
+    try {
+      const response = await fetch("/swimmer/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: loginEmail,
+          password: loginPassword,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        router.push("/"); 
+      } else {
+        setError(data.message); 
+      }
+    } catch (error) {
+      setError("Une erreur est survenue");
+    }
+  };
+
   return (
-    <main className="flex flex-col items-center gap-6 ">
+    <main className="flex flex-col items-center gap-6">
       <Input
         label="Email"
         name="email"
@@ -36,6 +65,7 @@ const LoginPage = ({
         value={loginPassword}
         onChange={(e) => setLoginPassword(e.target.value)}
       />
+      {error && <p className="text-red-500">{error}</p>}
     </main>
   );
 };
