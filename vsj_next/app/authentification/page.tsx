@@ -15,7 +15,7 @@ import { useLanguage } from "../components/header/ui/context/language-provider";
 import BackgroundIMG_01 from "@/public/assets/img/login/backgroundIMG_01.png";
 
 const AuthentificationPage = () => {
-  const { language } = useLanguage(); 
+  const { language } = useLanguage();
   const [toggleValue, setToggleValue] = useState<"Connexion" | "Inscription">(
     "Connexion"
   );
@@ -24,11 +24,34 @@ const AuthentificationPage = () => {
     setToggleValue(active);
   };
 
+  // LoginData
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+
+  // SignupData
+  const [signupEmail, setSignupEmail] = useState("");
+  const [signupPassword, setSignupPassword] = useState("");
+  const [signupConfirmPassword, setSignupConfirmPassword] = useState("");
+
   const renderAuthPage = () => {
     return toggleValue === "Connexion" ? (
-      <LoginPage handleToggle={handleToggleAuth} />
+      <LoginPage
+        handleToggle={handleToggleAuth}
+        loginEmail={loginEmail}
+        setLoginEmail={setLoginEmail}
+        loginPassword={loginPassword}
+        setLoginPassword={setLoginPassword}
+      />
     ) : (
-      <SignupPage handleToggle={handleToggleAuth} />
+      <SignupPage
+        handleToggle={handleToggleAuth}
+        signupEmail={signupEmail}
+        setSignupEmail={setSignupEmail}
+        signupPassword={signupPassword}
+        setSignupPassword={setSignupPassword}
+        signupConfirmPassword={signupConfirmPassword}
+        setSignupConfirmPassword={setSignupConfirmPassword}
+      />
     );
   };
 
@@ -80,7 +103,7 @@ const AuthentificationPage = () => {
             </>
           ) : (
             <>
-              <Button type="submit" variant="primary" >
+              <Button type="submit" variant="primary">
                 {language === "fr" ? "S'inscrire" : "Sign Up"}
               </Button>
               <Button variant="outline" icon={GoogleIcon}>
