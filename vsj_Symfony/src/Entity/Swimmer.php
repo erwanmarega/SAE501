@@ -45,11 +45,12 @@ class Swimmer implements PasswordAuthenticatedUserInterface
     #[Groups(['swimmer:read', 'swimmer:write'])]
     private ?string $telephone = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     #[Assert\NotBlank(message: "L'email est obligatoire.")]
     #[Assert\Email(message: "L'email doit être valide.")]
     #[Groups(['swimmer:read', 'swimmer:write'])]
     private ?string $email = null;
+    
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Le mot de passe est obligatoire.")]

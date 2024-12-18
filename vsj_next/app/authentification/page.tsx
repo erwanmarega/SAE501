@@ -15,7 +15,7 @@ import { useLanguage } from "../components/header/ui/context/language-provider";
 import BackgroundIMG_01 from "@/public/assets/img/login/backgroundIMG_01.png";
 
 const AuthentificationPage = () => {
-  const { language } = useLanguage(); // Récupération de la langue
+  const { language } = useLanguage(); 
   const [toggleValue, setToggleValue] = useState<"Connexion" | "Inscription">(
     "Connexion"
   );
@@ -80,7 +80,7 @@ const AuthentificationPage = () => {
             </>
           ) : (
             <>
-              <Button variant="primary">
+              <Button type="submit" variant="primary" >
                 {language === "fr" ? "S'inscrire" : "Sign Up"}
               </Button>
               <Button variant="outline" icon={GoogleIcon}>
