@@ -9,6 +9,7 @@ import P from "@/app/components/ui/texts/p";
 import CalendarComposant from "./calendar-composant";
 import { addMonths, format } from "date-fns";
 import { fr } from "date-fns/locale";
+import Button from "@/app/components/ui/button";
 
 const CalendarCard = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -35,7 +36,11 @@ const CalendarCard = () => {
               </h3>
             </div>
           </div>
-          <div>{format(currentDate, "yyyy", { locale: fr })}</div>
+          <div>
+            <Button variant="soft" onClick={() => setCurrentDate(new Date())}>
+              Aujourd'hui
+            </Button>
+          </div>
         </div>
         <div className="grid grid-cols-7 w-full">
           <P className="m-auto">Lundi</P>

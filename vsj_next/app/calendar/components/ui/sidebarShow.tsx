@@ -18,12 +18,13 @@ import HighItensityIcon from "@/public/assets/icons/highIntensity.svg";
 import Profil from "@/app/components/profil/profil";
 import Separator from "./separator";
 import IntensitySelect from "./intensity-select";
+import Group from "@/app/components/ui/group";
 
-interface SideBarNewProps {
+interface SideBarShowProps {
   setWhatShow: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const SideBarShow = ({ setWhatShow }: SideBarNewProps) => {
+const SideBarShow = ({ setWhatShow }: SideBarShowProps) => {
   const { addTrainingType } = useEvents();
 
   const [intensity, setIntensity] = useState<string>("Facile");
@@ -95,18 +96,18 @@ const SideBarShow = ({ setWhatShow }: SideBarNewProps) => {
         <section className="border-t-2 border-gray-100 py-4 h-20 flex items-center w-full">
           <div className="grid grid-cols-[1fr_auto] items-center w-full">
             <H4>Groupe</H4>
-            <div className="flex items-center justify-end gap-4 ml-auto -mr-1 w-full">
+            <div className="flex items-center justify-end gap-4 ml-auto w-full">
               <P className="text-end text-lg+ !font-light text-nowrap">
                 {" "}
                 Groupe A
               </P>
 
-              <Profil size={55} />
+              <Group size={45} />
             </div>
           </div>
         </section>
 
-        <section className="border-t-2 border-b-2 border-gray-100 py-4 h-32">
+        <section className="border-t-2 border-b-2 border-gray-100 py-4 h-max">
           <div className="grid grid-rows-[max-content_1fr]">
             <H4>Description</H4>
             <div className="bg-gray-100 rounded-lg py-2 px-2 mt-2">
