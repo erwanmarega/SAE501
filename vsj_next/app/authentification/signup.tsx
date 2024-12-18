@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import Input from "@/app/components/ui/input";
 
 interface SignupPageProps {
@@ -15,6 +16,8 @@ const SignupPage = ({ handleToggle }: SignupPageProps) => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
+  const router = useRouter();
+
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -23,15 +26,17 @@ const SignupPage = ({ handleToggle }: SignupPageProps) => {
       return;
     }
 
+    if (!email || !password) {
+      setError("Veuillez remplir tous les champs obligatoires.");
+      return;
+    }
+
     try {
       setError(null);
+      setSuccess(false);
 
-      const data = {
-        email,
-        password,
-      };
+      const data = { email, password };
 
-      // Requête vers l'API Symfony
       const response = await axios.post("http://localhost:8000/swimmer", data, {
         headers: {
           "Content-Type": "application/json",
@@ -40,10 +45,17 @@ const SignupPage = ({ handleToggle }: SignupPageProps) => {
 
       if (response.status === 201) {
         setSuccess(true);
+        router.push("/signup"); // Redirection vers la suite
       }
-    } catch (err) {
-      console.error(err);
-      setError("Une erreur est survenue lors de l'inscription.");
+    } catch (err: any) {
+      // Gestion des erreurs spécifiques
+      if (err.response && err.response.status === 409) {
+        setError("Il y a déjà un compte avec cette adresse mail.");
+      } else {
+        setError(
+          "Vérifiez vos informations ou réessayez."
+        );
+      }
     }
   };
 
@@ -73,7 +85,7 @@ const SignupPage = ({ handleToggle }: SignupPageProps) => {
           onChange={(e) => setPassword(e.target.value)}
         />
         <Input
-          label="Confirmer mot de passe"
+          label="Confirmer le mot de passe"
           name="confirmPassword"
           type="password"
           placeholder="Confirmez votre mot de passe"
@@ -81,9 +93,22 @@ const SignupPage = ({ handleToggle }: SignupPageProps) => {
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
 
+        <p className={`text-sm ${password !== confirmPassword ? "text-red-500" : "text-green-500"}`}>
+          {password !== confirmPassword && confirmPassword
+            ? "Les mots de passe ne correspondent pas."
+            : password && confirmPassword
+            ? "Les mots de passe correspondent."
+            : ""}
+        </p>
+
         <button
           type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          disabled={password !== confirmPassword || !password || !confirmPassword}
+          className={`px-4 py-2 rounded text-white ${
+            password === confirmPassword && password
+              ? "bg-blue-500 hover:bg-blue-600"
+              : "bg-gray-400 cursor-not-allowed"
+          }`}
         >
           S'inscrire
         </button>
