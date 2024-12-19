@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import clsx from "clsx";
 
 interface Option {
-  value: string;
+  value: number;
   label: string;
   icon: React.ReactNode;
 }
@@ -15,8 +15,8 @@ interface SelectWithIconsProps {
   placeholder?: string;
   className?: string;
   classNameContainer?: string;
-  value: string; // Valeur contrôlée
-  onChange: (newValue: string) => void; // Callback onChange avec la valeur directement
+  value: number; // Valeur contrôlée
+  onChange: (newValue: number) => void; // Callback onChange avec la valeur directement
 }
 
 const SelectWithIcons = ({
@@ -50,7 +50,7 @@ const SelectWithIcons = ({
     };
   }, []);
 
-  const handleSelect = (selectedValue: string) => {
+  const handleSelect = (selectedValue: number) => {
     onChange(selectedValue); // Appel du callback avec la nouvelle valeur
     setOpen(false);
   };

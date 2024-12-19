@@ -1,44 +1,62 @@
-// Badge.tsx
+// components/ui/badge/Badge.tsx
+"use client";
+
 import React from "react";
-import clsx from "clsx";
-import { hexToRgba } from "@/app/utils/hex-to-rgba"; // Assurez-vous que le chemin est correct
+import Image from "next/image";
 
 interface BadgeProps {
+  edit: boolean;
   text: string;
-  textColor: string;
-  bgColor: string;
-  opacity?: number; // Ajout d'une prop d'opacité
+  onChange?: (newValue: string) => void;
 }
 
-const Badge: React.FC<BadgeProps> = ({
-  text,
-  textColor,
-  bgColor,
-  opacity = 0.5,
-}) => {
-  const isTailwindColor = !bgColor.startsWith("#");
-
-  let bgClass;
-  let bgStyle;
-
-  if (isTailwindColor) {
-    bgClass = opacity ? `${bgColor}/${opacity * 100}` : bgColor;
-  } else {
-    bgStyle = opacity
-      ? { backgroundColor: hexToRgba(bgColor, opacity) }
-      : { backgroundColor: bgColor };
-  }
+const Badge = ({ edit, text, onChange }: BadgeProps) => {
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    if (onChange) {
+      onChange(e.target.value);
+    }
+  };
 
   return (
-    <div className={clsx("rounded-full py-1 px-2", bgClass)} style={bgStyle}>
-      <p
-        className={clsx(
-          "font-mona font-medium text-5xs text-center",
-          textColor
-        )}
-      >
-        {text}
-      </p>
-    </div>
+    <>
+      {edit ? (
+        <div className="relative inline-block">
+          <Image
+            src="/assets/icons/edit.svg"
+            width={15}
+            height={15}
+            alt="Modifier catégorie"
+            className="absolute left-3 top-2"
+          />
+          <select
+            value={text}
+            onChange={handleSelectChange}
+            className="bg-primary/15 text-primary font-mona font-medium text-xs text-center whitespace-nowrap cursor-pointer rounded-full py-2 pl-8 pr-6 appearance-none border-none focus:outline-none"
+          >
+            <option value="Brasses">Brasses</option>
+            <option value="Crawl">Crawl</option>
+            <option value="Dos Crawlé">Dos Crawlé</option>
+            <option value="Papillon">Papillon</option>
+          </select>
+          <svg
+            className="absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none"
+            width="10"
+            height="7"
+            viewBox="0 0 10 7"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M0 0l5 7 5-7H0z" fill="currentColor" />
+          </svg>
+        </div>
+      ) : (
+        <div className="bg-primary/15 rounded-full py-2 px-4">
+          <p className="text-primary font-mona font-medium text-xs text-center whitespace-nowrap flex gap-2 items-center cursor-pointer">
+            {text}
+          </p>
+        </div>
+      )}
+    </>
   );
 };
+
+export default Badge;

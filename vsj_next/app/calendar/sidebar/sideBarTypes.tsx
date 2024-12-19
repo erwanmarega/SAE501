@@ -1,6 +1,6 @@
 import React from "react";
-import DragCard from "./drag-card";
-import { TrainingTypes } from "../../database/training-types";
+import DragCard from "../ui/drag-card";
+import { TrainingTypes } from "../database/training-types";
 import Button from "@/app/components/ui/button";
 
 interface SideBarTypesProps {
