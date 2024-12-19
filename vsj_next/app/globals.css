@@ -136,11 +136,10 @@ input[type="time"]::-moz-focus-inner {
 .swiper-initialized {
   height: 100%;
 }
-/* Styles généraux pour les boutons de navigation */
 .swiper-button-prev,
 .swiper-button-next {
   position: absolute !important;
-  top: 75% !important;
+  top: 62% !important;
   transform: translateY(-50%) !important;
   width: 50px !important; /* Taille ajustée */
   height: 50px !important; /* Taille ajustée */
@@ -188,7 +187,16 @@ input[type="time"]::-moz-focus-inner {
 }
 
 /* Styles de base pour le texte des flèches dans le cas d'un usage de texte (si nécessaire) */
-.swiper-button-prev:after,
+.swiper-button-prev:after{
+  font-family: swiper-icons;
+  font-size: 27px !important;
+  text-transform: none !important;
+  letter-spacing: 0;
+  font-variant: initial;
+  line-height: 1;
+  color: #ffffff !important;
+  margin-right: 4px;
+}
 .swiper-button-next:after {
   font-family: swiper-icons;
   font-size: 27px !important;
@@ -197,6 +205,7 @@ input[type="time"]::-moz-focus-inner {
   font-variant: initial;
   line-height: 1;
   color: #ffffff !important;
+  margin-left: 4px;
 }
 
 /* Ajout d'une légère animation au survol */
@@ -214,35 +223,32 @@ input[type="time"]::-moz-focus-inner {
 
 .swiper-button-prev:active,
 .swiper-button-next:active {
-  animation: pulse 0.3s ease-out; /* Animation de pulsation au clic */
+  animation: pulse 0.3s ease-out; 
 }
-/* Positionner la div contenant les bullets par rapport à la div parente */
 .bg-white {
-  position: relative; /* Nécessaire pour positionner la pagination à l'intérieur */
+  position: relative; 
 }
 
-/* Positionner les points de pagination en bas de la div */
 .swiper-pagination {
   position: absolute;
-  bottom: 10px; /* Vous pouvez ajuster la distance depuis le bas */
+  bottom: 10px; 
   left: 50%;
-  transform: translateX(-50%); /* Centrer horizontalement */
+  transform: translateX(-50%);
   display: flex;
   justify-content: center;
-  gap: 10px; /* Espacement entre les bullets */
-  z-index: 20; /* S'assurer qu'il est au-dessus du contenu */
+  gap: 10px; 
+  z-index: 20; 
 }
 
-/* Esthétique des bullets */
 .swiper-pagination-bullet {
-  width: 10px; /* Taille de la bullet */
-  height: 10px; /* Taille de la bullet */
-  background-color: #aaa; /* Couleur de la bullet */
-  border-radius: 50%; /* Forme circulaire */
-  transition: background-color 0.3s; /* Animation de couleur */
+  width: 10px; 
+  height: 10px; 
+  background-color: #aaa;
+  border-radius: 50%;
+  transition: background-color 0.3s; 
 }
 
-/* Bullet active */
 .swiper-pagination-bullet-active {
-  background-color: #348cff; /* Couleur de la bullet active */
+  background-color: #348cff; 
 }
+
