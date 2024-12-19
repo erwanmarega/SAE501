@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -7,8 +5,8 @@ import Image from "next/image";
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "secondary" | "danger" | "outline";
   format?: "big";
-  icon?: string; // URL ou chemin vers l'image
-  iconAlt?: string; // Texte alternatif pour l'icône
+  icon?: string;
+  iconAlt?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -24,10 +22,10 @@ const Button: React.FC<ButtonProps> = ({
     primary:
       "h-12 bg-primary text-white font-outfit font-bold text-sm w-80 flex items-center justify-center gap-2 rounded-md shadow-inner-1 shadow-inner-2 shadow-drop-1",
     outline:
-      "h-12 bg-white text-black shadow-3d-button font-outfit font-bold text-sm w-80 border border-[#D0D5DD] flex items-center justify-center gap-2",
-    soft: "h-10 bg-gray-100 text-primary shadow-3d-button font-outfit font-bold text-sm w-36 flex items-center justify-center gap-2 hover:bg-primary hover:text-white",
+      "h-12 bg-white text-black shadow-3d-button font-outfit font-bold text-sm w-80 border border-[#D0D5DD] flex items-center justify-center gap-2 shadow-inner-1 shadow-inner-2 shadow-drop-1",
+    soft: "h-10 bg-gray-100 text-primary shadow-3d-button font-outfit font-bold text-sm w-36 flex items-center justify-center gap-2 shadow-inner-1 shadow-inner-2 shadow-drop-1",
     danger:
-      "h-10 bg-red-500 text-white hover:bg-red-600 font-outfit font-bold text-sm flex items-center justify-center gap-2",
+      "h-10 bg-red-500 text-white hover:bg-red-600 font-outfit font-bold text-sm flex items-center justify-center gap-2 shadow-inner-1 shadow-inner-2 shadow-drop-1",
   };
 
   const formatClasses = {
@@ -36,8 +34,12 @@ const Button: React.FC<ButtonProps> = ({
   };
 
   return (
-    <button
-      className={`px-4 py-2 rounded-md ${variantClasses[variant]} ${formatClasses[format]} ${className}`}
+    <motion.button
+      whileHover={{
+        filter: "brightness(1.1)",
+      }}
+      transition={{ duration: 0.3 }}
+      className={`px-4 py-2 rounded-md hover:shadow-none ${variantClasses[variant]} ${formatClasses[format]} ${className}`}
       {...props}
     >
       {icon && (
@@ -50,7 +52,7 @@ const Button: React.FC<ButtonProps> = ({
         />
       )}
       <span>{children}</span>
-    </button>
+    </motion.button>
   );
 };
 

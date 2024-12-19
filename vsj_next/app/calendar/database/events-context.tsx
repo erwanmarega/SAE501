@@ -1,6 +1,11 @@
 // events-context.tsx
-import React, { createContext, useContext, useState } from "react";
-import { TrainingTypes } from "../database/training-types"; // Vérifiez le chemin
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { TrainingTypes } from "../database/training-types";
+
+interface SelectedEvent {
+  date: string;
+  event: Event;
+}
 
 interface EventDetails {
   coach?: string[];
@@ -33,6 +38,14 @@ interface EventsContextValue {
   ) => void;
   whatShow: string;
   setWhatShow: React.Dispatch<React.SetStateAction<string>>;
+  selectedEvent: SelectedEvent | null;
+  setSelectedEvent: React.Dispatch<React.SetStateAction<SelectedEvent | null>>;
+  userStatus: "swimmer" | "coach" | "admin";
+  setUserStatus: React.Dispatch<
+    React.SetStateAction<"swimmer" | "coach" | "admin">
+  >;
+  nextTrain: SelectedEvent | null;
+  nextCompetition: SelectedEvent | null;
 }
 
 const EventsContext = createContext<EventsContextValue | undefined>(undefined);
@@ -44,14 +57,14 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
     "18/12/2024": [
       {
         status: "training",
-        title: "",
+        title: "Entraînement 18",
         details: {
           coach: ["Martin", "Dupont", "Lefèvre"],
-          intensity: "difficile",
+          intensity: "facile",
           category: "papillon",
           duration: "2 heures",
           description:
-            "Compétition interne pour évaluer les progrès en papillon.",
+            "Description de l'entraînement du 18, entrainement sans eau...",
         },
       },
     ],
@@ -65,14 +78,14 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
     "20/12/2024": [
       {
         status: "training",
-        title: "",
+        title: "Entraînement 20",
         details: {
           coach: ["Martin", "Dupont", "Lefèvre"],
-          intensity: "difficile",
+          intensity: "moyen",
           category: "papillon",
           duration: "2 heures",
           description:
-            "Compétition interne pour évaluer les progrès en papillon.",
+            "Entrainement du 20: Réintroduction progressif de l'eau...",
         },
       },
     ],
@@ -93,14 +106,14 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
     "23/12/2024": [
       {
         status: "training",
-        title: "",
+        title: "Entraînement 23",
         details: {
           coach: ["Martin", "Dupont", "Lefèvre"],
           intensity: "difficile",
           category: "papillon",
           duration: "2 heures",
           description:
-            "Compétition interne pour évaluer les progrès en papillon.",
+            "Samedi dernier on a pas été selectionné, c'est votre dernière chance...",
         },
       },
     ],
@@ -134,8 +147,7 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
           intensity: "difficile",
           category: "papillon",
           duration: "2 heures",
-          description:
-            "Compétition interne pour évaluer les progrès en papillon.",
+          description: "Le jour J, allez les mecs...",
         },
       },
     ],
@@ -155,8 +167,7 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
           intensity: "difficile",
           category: "papillon",
           duration: "2 heures",
-          description:
-            "Compétition interne pour évaluer les progrès en papillon.",
+          description: "Salut je suis Micka, le nouveau coach...",
         },
       },
     ],
@@ -165,11 +176,19 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
   const [draggingSessionId, setDraggingSessionId] = useState<string | null>(
     null
   );
-  const addSessionToDate = (sessionId: string, date: string) => {
-    console.log(
-      `Tentative d'ajout de la session ID "${sessionId}" à la date "${date}".`
-    );
+  const [selectedEvent, setSelectedEvent] = useState<SelectedEvent | null>(
+    null
+  );
+  const [whatShow, setWhatShow] = useState("show");
+  const [userStatus, setUserStatus] = useState<"swimmer" | "coach" | "admin">(
+    "coach"
+  );
+  const [nextTrain, setNextTrain] = useState<SelectedEvent | null>(null);
+  const [nextCompetition, setNextCompetition] = useState<SelectedEvent | null>(
+    null
+  );
 
+  const addSessionToDate = (sessionId: string, date: string) => {
     const trainingType = Object.values(TrainingTypes).find(
       (t) => t.id === sessionId
     );
@@ -180,21 +199,11 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
       return;
     }
 
-    console.log(`Type d'entraînement trouvé:`, trainingType);
-
-    // Récupérer les événements existants pour la date
     const dayEvents = dataEvents[date] || [];
-    console.log(`Événements existants pour la date "${date}":`, dayEvents);
-
-    // Vérifier s'il existe au moins un événement avec un statut "training"
     const isTrainingDay = dayEvents.some(
       (event) => event.status === "training"
     );
-    console.log(
-      `La date "${date}" est-elle un jour d'entraînement ? ${isTrainingDay}`
-    );
 
-    // Si ce n'est pas un "training day", on refuse l'ajout
     if (!isTrainingDay) {
       console.warn(
         `Impossible d'ajouter la session à la date "${date}", car ce n'est pas un jour d'entraînement.`
@@ -214,27 +223,15 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
       },
     };
 
-    console.log(`Nouvel événement à ajouter:`, newEvent);
-
     setDataEvents((prev) => {
       const existingEvents = prev[date] || [];
-      const updatedEvents = [...existingEvents, newEvent];
-      console.log(
-        `Mise à jour des événements pour la date "${date}":`,
-        updatedEvents
-      );
       return {
         ...prev,
-        [date]: updatedEvents,
+        [date]: [...existingEvents, newEvent],
       };
     });
-
-    console.log(
-      `Session ID "${sessionId}" ajoutée avec succès à la date "${date}".`
-    );
   };
 
-  // Nouvelle fonction pour ajouter un training type
   const addTrainingType = (
     date: string,
     title: string,
@@ -245,7 +242,6 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
     description: string,
     coach: string[] = []
   ) => {
-    // Crée un nouvel événement de type training
     const newEvent: Event = {
       status: "training",
       title,
@@ -258,7 +254,6 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
       },
     };
 
-    // Ajoute l'événement à la date indiquée
     setDataEvents((prev) => {
       const existingEvents = prev[date] || [];
       return {
@@ -268,7 +263,64 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
     });
   };
 
-  const [whatShow, setWhatShow] = useState("admin");
+  // Chercher le prochain entraînement avec un titre
+  useEffect(() => {
+    const dates = Object.keys(dataEvents);
+    const parsedDates = dates.map((d) => {
+      const [day, month, year] = d.split("/").map(Number);
+      return { dateStr: d, dateObj: new Date(year, month - 1, day) };
+    });
+
+    parsedDates.sort((a, b) => a.dateObj.getTime() - b.dateObj.getTime());
+
+    let foundNextTraining: SelectedEvent | null = null;
+    let foundNextCompetition: SelectedEvent | null = null;
+
+    for (const { dateStr } of parsedDates) {
+      const events = dataEvents[dateStr] || [];
+
+      // Chercher un entraînement avec titre
+      if (!foundNextTraining) {
+        const nextTrainEvent = events.find(
+          (e) => e.status === "training" && e.title && e.title.trim() !== ""
+        );
+        if (nextTrainEvent) {
+          foundNextTraining = { date: dateStr, event: nextTrainEvent };
+        }
+      }
+
+      // Chercher une compétition avec titre
+      if (!foundNextCompetition) {
+        const nextCompetitionEvent = events.find(
+          (e) => e.status === "competition" && e.title && e.title.trim() !== ""
+        );
+        if (nextCompetitionEvent) {
+          foundNextCompetition = { date: dateStr, event: nextCompetitionEvent };
+        }
+      }
+
+      // Si on a trouvé les deux, on peut arrêter
+      if (foundNextTraining && foundNextCompetition) {
+        break;
+      }
+    }
+
+    // On définit le selectedEvent sur le prochain évènement trouvé (training ou compétition)
+    // Priorité par exemple: si on a trouvé un entraînement en premier
+    // mais vous pouvez changer la logique selon vos besoins.
+    if (foundNextTraining || foundNextCompetition) {
+      const next = foundNextTraining || foundNextCompetition;
+      setSelectedEvent(next as SelectedEvent);
+      if (userStatus === "coach" || userStatus === "admin") {
+        setWhatShow("category");
+      } else {
+        setWhatShow("show");
+      }
+    }
+
+    setNextTrain(foundNextTraining);
+    setNextCompetition(foundNextCompetition);
+  }, [dataEvents, userStatus]);
 
   return (
     <EventsContext.Provider
@@ -280,6 +332,12 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
         addTrainingType,
         whatShow,
         setWhatShow,
+        selectedEvent,
+        setSelectedEvent,
+        userStatus,
+        setUserStatus,
+        nextTrain,
+        nextCompetition,
       }}
     >
       {children}
