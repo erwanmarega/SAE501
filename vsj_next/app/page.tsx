@@ -39,7 +39,7 @@ export default function Home() {
   };
 
   return (
-    <div className="bg-[#F7F7F7] dark:bg-[#262629] h-screen overflow-hidden">
+    <div className="bg-[#F7F7F7] dark:bg-[#262629] h-screen overflow-x-hidden">
       {/* Composant d'en-tête */}
       <Header />
 

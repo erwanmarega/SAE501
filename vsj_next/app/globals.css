@@ -135,6 +135,7 @@ input[type="time"]::-moz-focus-inner {
 
 .swiper-initialized {
   height: 100%;
+  overflow: visible !important;
 }
 .swiper-button-prev,
 .swiper-button-next {
@@ -187,7 +188,7 @@ input[type="time"]::-moz-focus-inner {
 }
 
 /* Styles de base pour le texte des flèches dans le cas d'un usage de texte (si nécessaire) */
-.swiper-button-prev:after{
+.swiper-button-prev:after {
   font-family: swiper-icons;
   font-size: 27px !important;
   text-transform: none !important;
@@ -223,32 +224,31 @@ input[type="time"]::-moz-focus-inner {
 
 .swiper-button-prev:active,
 .swiper-button-next:active {
-  animation: pulse 0.3s ease-out; 
+  animation: pulse 0.3s ease-out;
 }
 .bg-white {
-  position: relative; 
+  position: relative;
 }
 
 .swiper-pagination {
   position: absolute;
-  bottom: 10px; 
+  bottom: 5px !important;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   justify-content: center;
-  gap: 10px; 
-  z-index: 20; 
+  gap: 10px;
+  z-index: 20;
 }
 
 .swiper-pagination-bullet {
-  width: 10px; 
-  height: 10px; 
+  width: 10px;
+  height: 10px;
   background-color: #aaa;
   border-radius: 50%;
-  transition: background-color 0.3s; 
+  transition: background-color 0.3s;
 }
 
 .swiper-pagination-bullet-active {
-  background-color: #348cff; 
+  background-color: #348cff;
 }
-
