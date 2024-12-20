@@ -18,7 +18,7 @@ export default function SummaryPage() {
             <p className="text-xl font-semibold text-gray-800">Page Signup</p>
           </div>
         </Link>
-        <Link href="/dashboard">
+        <Link href="/">
           <div className="bg-white shadow-md rounded-lg p-6 text-center transform transition-all hover:scale-105 hover:shadow-xl">
             <p className="text-xl font-semibold text-gray-800">
               Page Dashboard

@@ -10,8 +10,8 @@ const Card = ({ className, children }: CardProps) => {
   return (
     <div
       className={clsx(
-        "rounded-2xl shadow-card-shadow bg-white dark:bg-[#2E2E2E] dark:border-[#545454] dark:border-2",
-        className // Ajouter les classes passées via les props
+        "rounded-3xl shadow-card bg-white dark:bg-[#2E2E2E] px-4 py-2", // Classes par défaut
+        className // Classes passées via les props pour priorité
       )}
     >
       {children}

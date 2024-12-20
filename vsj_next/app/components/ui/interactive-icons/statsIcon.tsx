@@ -4,9 +4,10 @@ import React, { useState } from "react";
 
 interface IconProps {
   isSelected: boolean;
+  color?: string;
 }
 
-const StatsIcon: React.FC<IconProps> = ({ isSelected }) => {
+const StatsIcon: React.FC<IconProps> = ({ isSelected, color }) => {
   const [hoverEffect, setHoverEffect] = useState(false);
 
   return (
@@ -26,9 +27,11 @@ const StatsIcon: React.FC<IconProps> = ({ isSelected }) => {
         height="19"
         rx="4.5"
         className={`transition-colors ${
-          !isSelected && !hoverEffect
-            ? "fill-[#D5D8E5] dark:fill-[#545454]"
-            : "fill-[#348CFF]"
+          color
+            ? "fill-secondary-stats"
+            : !isSelected && !hoverEffect
+            ? "fill-icon-inactive-light dark:fill-icon-inactive-dark"
+            : "fill-primary"
         }`}
       />
       <rect
@@ -38,9 +41,11 @@ const StatsIcon: React.FC<IconProps> = ({ isSelected }) => {
         height="33"
         rx="4.5"
         className={`transition-colors ${
-          !isSelected && !hoverEffect
-            ? "fill-[#D5D8E5] dark:fill-[#545454]"
-            : "fill-[#348CFF]"
+          color
+            ? "fill-primary"
+            : !isSelected && !hoverEffect
+            ? "fill-icon-inactive-light dark:fill-icon-inactive-dark"
+            : "fill-primary"
         }`}
       />
       <rect
@@ -50,9 +55,11 @@ const StatsIcon: React.FC<IconProps> = ({ isSelected }) => {
         height="24"
         rx="4.5"
         className={`transition-colors ${
-          !isSelected && !hoverEffect
-            ? "fill-[#D5D8E5] dark:fill-[#545454]"
-            : "fill-[#348CFF]"
+          color
+            ? "fill-primary"
+            : !isSelected && !hoverEffect
+            ? "fill-icon-inactive-light dark:fill-icon-inactive-dark"
+            : "fill-primary"
         }`}
       />
       <rect
@@ -61,9 +68,11 @@ const StatsIcon: React.FC<IconProps> = ({ isSelected }) => {
         height="41"
         rx="4.5"
         className={`transition-colors ${
-          !isSelected && !hoverEffect
-            ? "fill-[#D5D8E5] dark:fill-[#545454]"
-            : "fill-[#348CFF]"
+          color
+            ? "fill-primary"
+            : !isSelected && !hoverEffect
+            ? "fill-icon-inactive-light dark:fill-icon-inactive-dark"
+            : "fill-primary"
         }`}
       />
     </svg>

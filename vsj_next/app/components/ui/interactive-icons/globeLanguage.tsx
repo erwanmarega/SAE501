@@ -16,7 +16,7 @@ const GlobeLanguageIcon = () => {
       stroke-width="2"
       stroke-linecap="round"
       stroke-linejoin="round"
-      class="lucide lucide-globe"
+      className="lucide lucide-globe"
       onMouseEnter={() => setHoverEffect(true)}
       onMouseLeave={() => setHoverEffect(false)}
     >

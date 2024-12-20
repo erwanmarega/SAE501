@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  /* options de configuration ici */
+  images: {
+    domains: ['via.placeholder.com'],
+  },
 };
 
 export default nextConfig;

@@ -3,11 +3,12 @@
 
 import React from "react";
 import Logo from "../ui/logo";
-import ThemeToggle from "../../authentification/ui/theme-toggle";
+import ThemeToggle from "./ui/theme-toggle";
 import LanguageSwitcher from "./ui/language-switcher";
 import { useLanguage } from "./ui/context/language-provider";
 import H1 from "@/app/components/ui/texts/h1";
 import clsx from "clsx";
+import Profil from "../profil/profil";
 
 const Header = () => {
   const { language } = useLanguage();
@@ -28,9 +29,10 @@ const Header = () => {
       <div>
         <Logo placement="center" />
       </div>
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-6">
         <ThemeToggle />
         <LanguageSwitcher />
+        <Profil size={50} />
       </div>
     </div>
   );

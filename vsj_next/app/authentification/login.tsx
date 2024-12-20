@@ -13,16 +13,18 @@ const LoginPage = ({ handleToggle }: LoginPageProps) => {
     <>
       <main className="flex flex-col items-center gap-6 ">
         <Input
-          label="Email"
           name="email"
           type="email"
           placeholder="Entrez votre adresse mail"
+          className="w-full"
+          classNameContainer="w-full"
         />
         <Input
-          label="Mot de passe"
           name="password"
           type="password"
           placeholder="Entrez votre mot de passe"
+          className="w-full"
+          classNameContainer="w-full"
         />
       </main>
     </>
