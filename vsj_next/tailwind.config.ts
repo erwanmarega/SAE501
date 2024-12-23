@@ -16,6 +16,7 @@ export default {
         "drop-1": "0 6px 12px rgba(0, 0, 0, 0.15)",
         bar: "0 5px 10px 0 rgba(0, 0, 0, 0.1)",
         card: "4px 4px 8px rgba(0, 0, 0, 0.05)",
+        "custom-offset": "5px 5px 15px rgba(0, 0, 0, 0.3)", // Ombre décalée
       },
       fontFamily: {
         outfit: ["Outfit", "sans-serif"],

@@ -1,3 +1,4 @@
+// components/ui/side-bar-new.tsx
 "use client";
 
 import React, { useState } from "react";
@@ -29,7 +30,7 @@ interface SideBarNewProps {
 const SideBarNew = ({ setWhatShow }: SideBarNewProps) => {
   const { addTrainingType } = useEvents();
 
-  const [intensity, setIntensity] = useState<string>(event.details);
+  const [intensity, setIntensity] = useState<string>(""); // Initialisez avec une valeur par défaut appropriée
   const handleIntensitySelect = (level: number) => {
     switch (level) {
       case 1:
@@ -57,9 +58,10 @@ const SideBarNew = ({ setWhatShow }: SideBarNewProps) => {
   const [selectedGroup, setSelectedGroup] = useState<{
     label: string;
     icon: string;
-  }>(
-    { label: "Groupe C", icon: "/assets/icons/groups/groupC.svg" } // Par défaut groupe C
-  );
+  }>({
+    label: "Groupe C",
+    icon: "/assets/icons/groups/groupC.svg",
+  }); // Par défaut groupe C
 
   // Fonction de sauvegarde (exemple)
   const handleSave = () => {
@@ -102,12 +104,20 @@ const SideBarNew = ({ setWhatShow }: SideBarNewProps) => {
       </header>
 
       <main className="flex flex-col px-2 -mt-4">
-        .
         <section className="border-t-2 border-gray-100 py-4 h-20 flex items-center w-full">
           <div className="grid grid-cols-[1fr_auto] items-center w-full">
             <H4>Horaires</H4>
             <div className="flex items-center justify-end gap-4 ml-auto mr-0 w-full">
-              <InputHourWithDuration />
+              <InputHourWithDuration
+                name="time"
+                value={time}
+                onChange={(e) => setTime(e.target.value)}
+                duration={duration}
+                onDurationChange={setDuration}
+                min="00:00"
+                max="23:59"
+                required
+              />
             </div>
           </div>
         </section>
@@ -144,7 +154,7 @@ const SideBarNew = ({ setWhatShow }: SideBarNewProps) => {
                   placeholder="Entrez une description...."
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  classNameContainer="w-[93%] ml-auto mr-0"
+                  className="w-[93%] ml-auto mr-0" // Correction: classNameContainer -> className
                 />
               </div>
             </div>
@@ -154,7 +164,11 @@ const SideBarNew = ({ setWhatShow }: SideBarNewProps) => {
 
       <footer>
         <div className="w-full flex items-center justify-between gap-12">
-          <Button variant="primary" className="w-2/4 max-w-96 m-auto">
+          <Button
+            variant="primary"
+            className="!w-2/4 max-w-96 m-auto"
+            onClick={handleSave} // Ajout de l'appel de la fonction de sauvegarde
+          >
             Enregistrez
           </Button>
         </div>

@@ -5,11 +5,12 @@ import Card from "@/app/components/ui/card";
 import { useEvents } from "./database/events-context";
 
 // Lazy-loaded components
-const SideBarTypes = lazy(() => import("./sidebar/sideBarTypes"));
-const SideBarNew = lazy(() => import("./sidebar/sideBarNew"));
-const SideBarShow = lazy(() => import("./sidebar/sidebarShow"));
-const SidebarCategory = lazy(() => import("./sidebar/sidebarCategory"));
-const SideBarAdminEdit = lazy(() => import("./sidebar/sidebarAdminEdit"));
+const SideBarTypes = lazy(() => import("./sidebar/sideBar-types"));
+const SideBarNew = lazy(() => import("./sidebar/sidebar-new"));
+const SideBarShow = lazy(() => import("./sidebar/sidebar-show"));
+const SidebarShows = lazy(() => import("./sidebar/sidebar-shows"));
+const SidebarCategory = lazy(() => import("./sidebar/sidebar-category"));
+const SideBarAdminEdit = lazy(() => import("./sidebar/sidebar-adminEdit"));
 const SidebarWeek = lazy(() => import("./sidebar/sidebar-week"));
 
 const SidebarCard = () => {
@@ -24,6 +25,8 @@ const SidebarCard = () => {
         return <SideBarNew setWhatShow={setWhatShow} />;
       case "show":
         return <SideBarShow setWhatShow={setWhatShow} />;
+      case "shows":
+        return <SidebarShows setWhatShow={setWhatShow} />;
       case "category":
         return <SidebarCategory setWhatShow={setWhatShow} />;
       case "edit-admin":

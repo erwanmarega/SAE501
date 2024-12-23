@@ -106,12 +106,16 @@ const CalendarComposant = ({ currentDate }: CalendarComposantProps) => {
         const hasNonEmptyEvent =
           lastEvent && lastEvent.status !== null && !noEventDetails;
 
+        const numTrainings = eventsForDay.filter(
+          (event) => event.status === "training"
+        ).length;
+
         return (
           <div
             key={day.toISOString()}
             ref={setNodeRef}
             className={clsx(
-              "border-[#F5F5F5] border-[1px] px-2 py-1 text-center flex flex-col justify-start items-start gap-1",
+              "border-[#F5F5F5] border-[1px] px-2 py-1 text-center flex flex-col justify-start items-start gap-1 relative",
               backgroundColor,
               blinkingClass,
               selectedBorderClass,
@@ -131,13 +135,21 @@ const CalendarComposant = ({ currentDate }: CalendarComposantProps) => {
 
                 if (!titleIsEmpty) {
                   setSelectedEvent({ date: formattedDate, event: lastEvent });
-                  setWhatShow("show");
+                  numTrainings > 1 ? setWhatShow("shows") : setWhatShow("show");
                 } else if (userStatus === "coach") {
                   setWhatShow("new");
                 }
               }
             }}
           >
+            {numTrainings > 1 && (
+              <div className="bg-primary rounded-full h-4 w-4 absolute flex items-center justify-center top-2 right-2">
+                <p className="font-outfit font-black text-white text-3xs">
+                  {numTrainings}
+                </p>
+              </div>
+            )}
+
             <p className="font-outfit font-semibold text-sm text-[#6E6E6E]">
               {day.getDate()}
             </p>

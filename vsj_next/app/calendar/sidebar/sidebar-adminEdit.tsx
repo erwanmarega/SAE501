@@ -12,6 +12,7 @@ import Button from "@/app/components/ui/button";
 import H4 from "@/app/components/ui/texts/h4";
 import P from "@/app/components/ui/texts/p";
 import SelectWithIcons from "@/app/components/ui/select-withIcons";
+import Select from "@/app/components/ui/select";
 import EditBlock from "../ui/edit-block";
 
 interface SideBarAdminEditProps {
@@ -25,7 +26,7 @@ const SideBarAdminEdit = ({ setWhatShow }: SideBarAdminEditProps) => {
   const options = [
     {
       value: "1",
-      label: "Natation",
+      label: "Natation Bébé",
       icon: (
         <Image
           src="/assets/icons/disciplines/natation.svg"
@@ -37,7 +38,7 @@ const SideBarAdminEdit = ({ setWhatShow }: SideBarAdminEditProps) => {
     },
     {
       value: "2",
-      label: "Aquabike",
+      label: "Natation Enfants",
       icon: (
         <Image
           src="/assets/icons/disciplines/aquabike.svg"
@@ -49,7 +50,19 @@ const SideBarAdminEdit = ({ setWhatShow }: SideBarAdminEditProps) => {
     },
     {
       value: "3",
-      label: "Aquagym",
+      label: "Natation Adolescents",
+      icon: (
+        <Image
+          src="/assets/icons/disciplines/aquagym.svg"
+          alt="Aquagym"
+          width={24}
+          height={24}
+        />
+      ),
+    },
+    {
+      value: "4",
+      label: "Natation Adultes",
       icon: (
         <Image
           src="/assets/icons/disciplines/aquagym.svg"
@@ -61,8 +74,8 @@ const SideBarAdminEdit = ({ setWhatShow }: SideBarAdminEditProps) => {
     },
   ];
 
-  const handleSelectChange = (newValue: string) => {
-    setSelectedDiscipline(newValue);
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedDiscipline(e.target.value);
   };
 
   // Définir les groupes pour chaque section
@@ -105,12 +118,13 @@ const SideBarAdminEdit = ({ setWhatShow }: SideBarAdminEditProps) => {
 
   return (
     <div className="w-full h-full flex flex-col overflow-hidden ">
+      <CloseButton onClick={() => setWhatShow("category")} />
+
       <header className="w-full flex flex-col gap-4 items-center p-4">
-        <H4 className="!text-2xl text-center mb-0">Liste des groupes</H4>
-        <SelectWithIcons
+        <H4 className="!text-2xl text-center mb-0">Modifier planning</H4>
+        <Select
           name="select"
           options={options}
-          placeholder="Disciplines"
           value={selectedDiscipline}
           onChange={handleSelectChange}
         />

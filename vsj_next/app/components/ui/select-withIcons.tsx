@@ -1,7 +1,9 @@
+// components/ui/select-withIcons.tsx
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
 import clsx from "clsx";
+import { motion } from "framer-motion"; // Import de Framer Motion
 
 interface Option {
   value: number;
@@ -59,7 +61,7 @@ const SelectWithIcons = ({
     <div className={clsx("relative", classNameContainer)} ref={dropdownRef}>
       <div
         className={clsx(
-          "border border-gray-300 rounded-md px-3 py-2 flex items-center justify-between cursor-pointer",
+          "bg-gray-100 rounded-md px-3 py-2 flex items-center justify-between cursor-pointer group",
           className
         )}
         onClick={() => setOpen(!open)}
@@ -70,20 +72,29 @@ const SelectWithIcons = ({
             {selectedOption ? selectedOption.label : placeholder}
           </span>
         </div>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-4 w-4 text-gray-500"
+        {/* SVG animé avec rotation */}
+        <motion.svg
+          width="17"
+          height="15"
+          viewBox="0 0 17 15"
           fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
+          xmlns="http://www.w3.org/2000/svg"
+          className={clsx(
+            "h-3 w-3 transition-colors ml-2",
+            {
+              "text-[#348CFF]": open, // Couleur bleue quand ouvert
+              "text-gray-400": !open, // Couleur grise par défaut
+            },
+            "group-hover:text-[#348CFF]" // Couleur bleue au survol du parent
+          )}
+          animate={{ rotate: open ? 180 : 0 }} // Rotation conditionnelle
+          transition={{ type: "spring", stiffness: 300, damping: 20 }} // Transition fluide
         >
           <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d={open ? "M19 9l-7 7-7-7" : "M5 15l7-7 7 7"}
+            d="M10.1904 13.3267C9.40538 14.5682 7.59462 14.5682 6.8096 13.3267L0.481283 3.3189C-0.360795 1.98721 0.596086 0.25 2.17168 0.25H14.8283C16.4039 0.25 17.3608 1.98721 16.5187 3.3189L10.1904 13.3267Z"
+            className="fill-current"
           />
-        </svg>
+        </motion.svg>
       </div>
 
       {open && (
