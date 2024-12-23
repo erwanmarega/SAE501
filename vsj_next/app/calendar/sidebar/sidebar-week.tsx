@@ -26,6 +26,7 @@ const SidebarWeek = ({ setWhatShow }: SidebarWeekProps) => {
     <div className="w-full h-full flex flex-col overflow-hidden ">
       <header className="w-full flex flex-col gap-4 items-center p-4">
         <H4 className="!text-2xl text-center mb-0">Semaine type</H4>
+        <CloseButton onClick={() => setWhatShow("category")} />
       </header>
 
       <main className="flex flex-col items-center h-full justify-around">
@@ -63,7 +64,7 @@ const SidebarWeek = ({ setWhatShow }: SidebarWeekProps) => {
       </main>
 
       <footer className="flex items-center">
-        <Button className="w-2/4 max-w-40 m-auto" variant="primary">
+        <Button className="!w-2/4 max-w-40 m-auto" variant="primary">
           Enregistrez
         </Button>
       </footer>

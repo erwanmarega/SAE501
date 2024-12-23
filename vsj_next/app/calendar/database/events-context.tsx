@@ -67,6 +67,18 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
             "Description de l'entraînement du 18, entrainement sans eau...",
         },
       },
+      {
+        status: "training",
+        title: "2ème Entraînement 18",
+        details: {
+          coach: ["Martin", "Dupont", "Lefèvre"],
+          intensity: "facile",
+          category: "papillon",
+          duration: "2 heures",
+          description:
+            "Description de l'entraînement du 18, entrainement sans eau...",
+        },
+      },
     ],
     "19/12/2024": [
       {

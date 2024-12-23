@@ -65,7 +65,7 @@ const LanguageSwitcher: React.FC = () => {
         />
       )}
       {showLanguagePopup && (
-        <div className="bg-white rounded-lg  w-24 flex flex-col items-center justify-center absolute top-14 -right-6 shadow-md border-[#EEEFF3] border-2">
+        <div className="bg-white rounded-lg  w-24 flex flex-col items-center justify-center absolute top-14 -right-6 shadow-md border-[#EEEFF3] border-2 z-10">
           <div
             className={`flex gap-2 cursor-pointer hover:bg-slate-100 w-full justify-center p-1 rounded-t-md ${
               language === "fr" ? "bg-slate-50" : ""

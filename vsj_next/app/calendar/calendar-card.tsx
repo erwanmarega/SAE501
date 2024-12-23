@@ -31,7 +31,7 @@ const CalendarCard = () => {
 
   return (
     <Card className="!px-0 !py-0 h-full grid grid-rows-[1fr_5fr] select-none">
-      <header className=" ">
+      <header className="h-full">
         <div className="flex justify-between items-center px-4 py-4">
           <div className="grid grid-cols-[85px_1fr]">
             <div className="flex gap-2">
@@ -49,19 +49,22 @@ const CalendarCard = () => {
           </div>
           <div className="flex gap-2">
             {userStatus !== "swimmer" && (
-              <Button variant="primary" className="max-w-12 max-h-10">
+              <Button
+                variant="primary"
+                className="max-w-12 max-h-10"
+                onClick={() => {
+                  if (userStatus === "coach") {
+                    setWhatShow("type");
+                  } else if (userStatus === "admin") {
+                    setWhatShow("edit-admin");
+                  }
+                }}
+              >
                 <Image
                   src="assets/icons/editv2.svg"
                   width={30}
                   height={30}
                   alt="Modifier ce mois"
-                  onClick={() => {
-                    if (userStatus === "coach") {
-                      setWhatShow("type");
-                    } else if (userStatus === "admin") {
-                      setWhatShow("edit-admin");
-                    }
-                  }}
                 />
               </Button>
             )}
