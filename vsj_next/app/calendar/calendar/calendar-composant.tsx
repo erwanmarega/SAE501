@@ -17,9 +17,13 @@ import { useDroppable } from "@dnd-kit/core";
 
 interface CalendarComposantProps {
   currentDate: Date;
+  setCurrentDate: React.Dispatch<React.SetStateAction<Date>>;
 }
 
-const CalendarComposant = ({ currentDate }: CalendarComposantProps) => {
+const CalendarComposant = ({
+  currentDate,
+  setCurrentDate,
+}: CalendarComposantProps) => {
   const start = startOfWeek(startOfMonth(currentDate), { locale: fr });
   const end = endOfWeek(endOfMonth(currentDate), { locale: fr });
   let days = eachDayOfInterval({ start, end });
@@ -140,6 +144,7 @@ const CalendarComposant = ({ currentDate }: CalendarComposantProps) => {
                   setWhatShow("new");
                 }
               }
+              setCurrentDate(day);
             }}
           >
             {numTrainings > 1 && (

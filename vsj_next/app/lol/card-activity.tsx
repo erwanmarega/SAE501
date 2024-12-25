@@ -64,12 +64,13 @@ const CardActivity: React.FC<CardActivityProps> = ({
   return (
     <div
       className={clsx(
-        "card sm:h-60 md:h-64 lg:h-72 xl:h-80 2xl:h-96 max-h-96 sm:w-52 md:w-56 lg:w-60 xl:w-72 2xl:w-80 max-w-80 cursor-pointer transition-all duration-75 flex justify-center items-center m-auto",
+        "card sm:h-60 md:h-64 lg:h-72 xl:h-80 2xl:h-96 max-h-96 sm:w-52 md:w-56 lg:w-60 xl:w-72 2xl:w-80 cursor-pointer transition-all duration-75 flex justify-center items-center m-auto",
         {
           "opacity-50": selected !== null && selected !== identity, // Applique opacity-50 si non sélectionné
-          "w-full": chosenButton && permanentSelectedCard === identity,
-          "!-translate-y-[666px]": hideCard,
-          hidden: hideCard && hiddenCard,
+          "col-start-1 col-end-4 !w-full no-flip flipped":
+            chosenButton && permanentSelectedCard === identity,
+          "!-translate-y-[666px] !absolute": hideCard,
+          // hidden: hideCard && hiddenCard,
         }
       )}
       onMouseEnter={onMouseEnter}
@@ -77,7 +78,7 @@ const CardActivity: React.FC<CardActivityProps> = ({
     >
       {/* Recto de la carte */}
       <div
-        className="card__front flex flex-col justify-between h-full py-2 px-4 sm:rounded-lg md:rounded-xl lg:rounded-xl xl:rounded-2xl"
+        className="card__front flex flex-col justify-between h-full py-2 px-4 sm:rounded-lg md:rounded-xl lg:rounded-xl xl:rounded-2xl w-full"
         id={whatIdName(title)}
       >
         <header
@@ -133,8 +134,7 @@ const CardActivity: React.FC<CardActivityProps> = ({
       {/* Verso de la carte */}
       <div
         className={clsx(
-          "card__back  flex flex-col justify-between h-full p-4 sm:rounded-lg md:rounded-xl lg:rounded-xl xl:rounded-2xl relative",
-          { "w-full": chosenButton && permanentSelectedCard === identity }
+          "card__back flex flex-col justify-between h-full p-6 sm:rounded-lg md:rounded-xl lg:rounded-xl xl:rounded-2xl relative w-full"
         )}
       >
         {/*BADGE*/}
@@ -157,7 +157,7 @@ const CardActivity: React.FC<CardActivityProps> = ({
               Facturation annuelle à 300 €
             </p>{" "}
             <Button
-              className="w-2/3 m-auto mt-2 -mb-2"
+              className="!w-5/6 m-auto mt-2 -mb-2 interactive-element"
               onClick={(e) => {
                 e.stopPropagation();
                 setChosenButton(true);

@@ -16,6 +16,7 @@ interface EventDetails {
 }
 
 interface Event {
+  id: number;
   status: "training" | "competition" | null;
   title: string;
   details: EventDetails;
@@ -46,6 +47,9 @@ interface EventsContextValue {
   >;
   nextTrain: SelectedEvent | null;
   nextCompetition: SelectedEvent | null;
+  currentDate: Date;
+  setCurrentDate: React.Dispatch<React.SetStateAction<Date>>;
+  selectEventById: (eventId: number) => void;
 }
 
 const EventsContext = createContext<EventsContextValue | undefined>(undefined);
@@ -56,6 +60,7 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
   const [dataEvents, setDataEvents] = useState<Record<string, Event[]>>({
     "18/12/2024": [
       {
+        id: 1,
         status: "training",
         title: "Entraînement 18",
         details: {
@@ -68,6 +73,7 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
         },
       },
       {
+        id: 2,
         status: "training",
         title: "2ème Entraînement 18",
         details: {
@@ -82,6 +88,7 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
     ],
     "19/12/2024": [
       {
+        id: 3,
         status: null,
         title: "",
         details: {},
@@ -89,6 +96,7 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
     ],
     "20/12/2024": [
       {
+        id: 4,
         status: "training",
         title: "Entraînement 20",
         details: {
@@ -103,6 +111,7 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
     ],
     "21/12/2024": [
       {
+        id: 5,
         status: null,
         title: "",
         details: {},
@@ -110,6 +119,7 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
     ],
     "22/12/2024": [
       {
+        id: 6,
         status: null,
         title: "",
         details: {},
@@ -117,6 +127,7 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
     ],
     "23/12/2024": [
       {
+        id: 7,
         status: "training",
         title: "Entraînement 23",
         details: {
@@ -131,6 +142,7 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
     ],
     "24/12/2024": [
       {
+        id: 8,
         status: null,
         title: "",
         details: {},
@@ -138,6 +150,7 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
     ],
     "25/12/2024": [
       {
+        id: 9,
         status: "training",
         title: "",
         details: {},
@@ -145,6 +158,7 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
     ],
     "26/12/2024": [
       {
+        id: 10,
         status: null,
         title: "",
         details: {},
@@ -152,6 +166,7 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
     ],
     "27/12/2024": [
       {
+        id: 11,
         status: "competition",
         title: "Compétition Papillon Interne",
         details: {
@@ -165,6 +180,7 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
     ],
     "28/12/2024": [
       {
+        id: 12,
         status: null,
         title: "",
         details: {},
@@ -172,6 +188,7 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
     ],
     "29/12/2024": [
       {
+        id: 13,
         status: "competition",
         title: "Compétition Papillon Interne",
         details: {
@@ -191,6 +208,16 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
   const [selectedEvent, setSelectedEvent] = useState<SelectedEvent | null>(
     null
   );
+  const selectEventById = (eventId: number) => {
+    for (const dateStr in dataEvents) {
+      const foundEvent = dataEvents[dateStr].find((evt) => evt.id === eventId);
+      if (foundEvent) {
+        setSelectedEvent({ date: dateStr, event: foundEvent });
+        break;
+      }
+    }
+  };
+
   const [whatShow, setWhatShow] = useState("show");
   const [userStatus, setUserStatus] = useState<"swimmer" | "coach" | "admin">(
     "coach"
@@ -317,9 +344,6 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
       }
     }
 
-    // On définit le selectedEvent sur le prochain évènement trouvé (training ou compétition)
-    // Priorité par exemple: si on a trouvé un entraînement en premier
-    // mais vous pouvez changer la logique selon vos besoins.
     if (foundNextTraining || foundNextCompetition) {
       const next = foundNextTraining || foundNextCompetition;
       setSelectedEvent(next as SelectedEvent);
@@ -333,6 +357,8 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
     setNextTrain(foundNextTraining);
     setNextCompetition(foundNextCompetition);
   }, [dataEvents, userStatus]);
+
+  const [currentDate, setCurrentDate] = useState(new Date());
 
   return (
     <EventsContext.Provider
@@ -350,6 +376,9 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
         setUserStatus,
         nextTrain,
         nextCompetition,
+        currentDate,
+        setCurrentDate,
+        selectEventById,
       }}
     >
       {children}

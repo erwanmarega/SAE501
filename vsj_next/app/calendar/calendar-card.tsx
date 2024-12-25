@@ -17,16 +17,27 @@ import { useEvents } from "./database/events-context";
 import CalendarWeek from "./calendar/calendar-week";
 
 const CalendarCard = () => {
-  const [currentDate, setCurrentDate] = useState(new Date());
-  const { whatShow, setWhatShow, userStatus, setSelectedEvent, nextEvent } =
-    useEvents();
+  const {
+    whatShow,
+    setWhatShow,
+    userStatus,
+    setSelectedEvent,
+    nextEvent,
+    currentDate,
+    setCurrentDate,
+  } = useEvents();
 
   function handleMonth(changeMonth: number) {
     setCurrentDate((prevDate) => addMonths(prevDate, changeMonth));
   }
 
   function whatCalendarShow(whatShow: string) {
-    return <CalendarComposant currentDate={currentDate} />;
+    return (
+      <CalendarComposant
+        currentDate={currentDate}
+        setCurrentDate={setCurrentDate}
+      />
+    );
   }
 
   return (
