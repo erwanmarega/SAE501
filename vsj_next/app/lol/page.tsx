@@ -6,24 +6,34 @@ import CardActivity from "./card-activity";
 import CardRecap from "./card-recap";
 
 const ActivityPage = () => {
-  useEffect(() => {
-    // Initialiser VanillaTilt sur tous les éléments avec la classe "card"
-    VanillaTilt.init(document.querySelectorAll(".card"), {
-      max: 25,
-      speed: 5000,
-      glare: true,
-      "max-glare": 0.5,
-    });
+  const [chosenButton, setChosenButton] = useState(false);
 
+  useEffect(() => {
+    console.log("CHOSENBUTTON:", chosenButton);
+
+    // Initialiser VanillaTilt sur tous les éléments avec la classe "card"
+    if (!chosenButton) {
+      VanillaTilt.init(document.querySelectorAll(".card"), {
+        max: 25,
+        speed: 5000,
+        glare: true,
+        "max-glare": 0.5,
+      });
+    }
     // Gérer le flip sur clic
     const cards = document.querySelectorAll(".card");
     const handleCardClick = (event: Event, card?: Element) => {
-      // On vérifie si la cible du clic est un bouton ou se trouve à l’intérieur d’un bouton
       const target = event.target as HTMLElement;
-      if (target.closest("button")) {
+
+      // Vérifie si le clic a lieu sur un bouton ou un élément enfant qui doit être interactif
+      if (target.closest("button") || target.closest(".interactive-element")) {
         return;
       }
-      // Sinon, on applique le flip
+
+      if (chosenButton) {
+        return;
+      }
+
       card?.classList.toggle("flipped");
     };
 
@@ -31,14 +41,15 @@ const ActivityPage = () => {
       card.addEventListener("click", (event) => handleCardClick(event, card));
     });
 
+    // Nettoyer l'écouteur d'événement
     return () => {
-      cards.forEach((card) => {
-        card.removeEventListener("click", (event) =>
-          handleCardClick(event, card)
-        );
-      });
+      if (chosenButton) {
+        cards.forEach((card) => {
+          card.removeEventListener("click", () => handleCardClick(card));
+        });
+      }
     };
-  }, []);
+  }, [chosenButton]);
 
   const [selectedCard, setSelectedCard] = useState<number | null>(null);
   const [permanentSelectedCard, setPermanentSelectedCard] = useState<
@@ -76,9 +87,7 @@ const ActivityPage = () => {
     },
   ];
 
-  const [chosenButton, setChosenButton] = useState(false);
   const [hiddenCard, setHiddenCard] = useState(false);
-
   const handleRemove = () => {
     setTimeout(() => {
       setHiddenCard(true);
@@ -86,38 +95,30 @@ const ActivityPage = () => {
   };
 
   return (
-    <section className="flex justify-center items-center h-screen m-auto w-2/3 gap-12 bg-[#f7f7f7] overflow-hidden">
-      {/* 
-        Si hiddenCard est false, on affiche la liste des cartes (activities.map).
-        Si hiddenCard est true, on affiche à la place le composant CardRecap.
-      */}
-      {!hiddenCard ? (
-        activities.map((activity, index) => (
-          <CardActivity
-            key={index}
-            identity={index}
-            imageSrc={activity.imageSrc}
-            imageAlt={activity.imageAlt}
-            title={activity.title}
-            description={activity.description}
-            price={activity.price}
-            badge={activity.badge}
-            onMouseEnter={() => {
-              setSelectedCard(index);
-              setPermanentSelectedCard(index);
-            }}
-            onMouseLeave={() => setSelectedCard(null)}
-            selected={selectedCard}
-            chosenButton={chosenButton}
-            setChosenButton={setChosenButton}
-            permanentSelectedCard={permanentSelectedCard}
-            hiddenCard={hiddenCard}
-            handleRemove={handleRemove}
-          />
-        ))
-      ) : (
-        <CardRecap />
-      )}
+    <section className="grid grid-cols-3 h-screen m-auto w-2/3 gap-12 bg-[#f7f7f7] overflow-hidden">
+      {activities.map((activity, index) => (
+        <CardActivity
+          key={index}
+          identity={index}
+          imageSrc={activity.imageSrc}
+          imageAlt={activity.imageAlt}
+          title={activity.title}
+          description={activity.description}
+          price={activity.price}
+          badge={activity.badge}
+          onMouseEnter={() => {
+            setSelectedCard(index);
+            setPermanentSelectedCard(index);
+          }}
+          onMouseLeave={() => setSelectedCard(null)}
+          selected={selectedCard}
+          chosenButton={chosenButton}
+          setChosenButton={setChosenButton}
+          permanentSelectedCard={permanentSelectedCard}
+          hiddenCard={hiddenCard}
+          handleRemove={handleRemove}
+        />
+      ))}
     </section>
   );
 };
