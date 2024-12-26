@@ -8,7 +8,7 @@ import BottomBar from "./components/bottombar/bottom-bar";
 import Dashboard from "./dashboard/dashboard";
 import Calendar from "./calendar/calendar";
 import Message from "./message/message";
-import Group from "./group/group";
+import Group from "./group/page";
 import Map from "./map/map";
 import Stats from "./stats/stats";
 
@@ -39,7 +39,7 @@ export default function Home() {
   };
 
   return (
-    <div className="bg-[#F7F7F7] dark:bg-[#262629] h-screen overflow-x-hidden">
+    <div className="bg-[#F7F7F7] dark:bg-[#262629] h-screen overflow-hidden">
       {/* Composant d'en-tête */}
       <Header />
 
