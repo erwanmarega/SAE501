@@ -3,7 +3,7 @@
 import React from "react";
 import Image from "next/image";
 
-interface ProfilProps {
+interface ProfilProps extends React.HTMLAttributes<HTMLDivElement> {
   size?: number; // Largeur souhaitée
 }
 
@@ -18,15 +18,23 @@ function scalePath(path: string, scale: number): string {
   });
 }
 
-const Profil: React.FC<ProfilProps> = ({ size = 77 }) => {
+const Profil: React.FC<ProfilProps> = ({
+  size = 77,
+  className,
+  style,
+  ...props
+}) => {
   const scaleFactor = size / 77;
   const finalHeight = 72 * scaleFactor;
   const scaledPath = scalePath(originalPath, scaleFactor);
 
   return (
     <div
-      className="relative"
+      {...props}
+      className={`relative ${className ?? ""}`}
       style={{
+        // Fusionnez les styles existants avec ceux qui définissent la taille :
+        ...style,
         width: `${size}px`,
         height: `${finalHeight}px`,
         clipPath: `path("${scaledPath}")`,

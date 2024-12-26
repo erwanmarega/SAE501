@@ -54,6 +54,10 @@
   }
 }
 
+body {
+  background-color: #f7f7f7;
+}
+
 .progress-bar {
   height: 4px;
   width: 100%;
@@ -251,4 +255,122 @@ input[type="time"]::-moz-focus-inner {
 
 .swiper-pagination-bullet-active {
   background-color: #348cff;
+}
+
+.card {
+  transform-style: preserve-3d;
+  perspective: 1000px; /* Optionnel, ajoutez cette ligne sur un parent si nécessaire */
+  position: relative; /* Pour superposer le recto et le verso */
+  transition: transform 0.6s; /* Pour une transition fluide */
+}
+.card__front,
+.card__back {
+  position: absolute;
+
+  backface-visibility: hidden; /* Empêche la face cachée d’être visible à travers */
+  top: 0;
+  left: 0;
+}
+.card__front {
+  /* Styles de la face avant */
+  z-index: 2;
+  transform: rotateY(0deg);
+}
+
+#aquabike-card {
+  background: linear-gradient(135deg, #c1dcff 0%, #ffffff 43%, #ffffff 100%);
+}
+
+#natation-card {
+  background: linear-gradient(180deg, #c1dcff 0%, #ffffff 43%, #ffffff 100%);
+}
+
+#aquagym-card {
+  background: linear-gradient(225deg, #c1dcff 0%, #ffffff 43%, #ffffff 100%);
+}
+
+.card__back {
+  /* Styles de la face arrière */
+  background-color: white;
+  transform: rotateY(180deg);
+}
+
+.card.blue {
+  background: linear-gradient(135deg, #09afff, #125575);
+}
+.card.purple {
+  background: linear-gradient(135deg, #5911f2, #290987);
+}
+
+.card .product {
+  height: 85%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  position: relative;
+}
+.product .number {
+  font-size: 80px;
+  line-height: 80px;
+  font-style: italic;
+  opacity: 0.25;
+}
+.product .sneakers {
+  font-size: 35px;
+  line-height: 35px;
+  font-style: italic;
+  opacity: 0.7;
+}
+.product img {
+  height: 280px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-35%, -45%, 0);
+  pointer-events: none;
+}
+.product .price {
+  background: rgba(255, 255, 255, 0.15);
+  margin-top: auto;
+  margin-left: auto;
+  margin-right: -20px;
+  padding: 5px 20px;
+  border-radius: 99px 0 0 99px;
+}
+
+.card .title {
+  height: 15%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0 0 12px 12px;
+}
+.card.blue .title {
+  background: #039be5;
+}
+.card.purple .title {
+  background: #5b1ae3;
+}
+
+.card:hover .product img {
+  transform: translate3d(-50%, -40%, 80px);
+}
+.card:hover .product .number {
+  transform: translateZ(20px);
+  opacity: 1;
+}
+.card:hover .product .sneakers {
+  transform: translateZ(20px);
+  opacity: 0.85;
+}
+.card:hover .product .price {
+  transform: translateZ(10px);
+}
+.card:hover .title h2 {
+  transform: translateZ(10px);
+}
+/* État cliqué : on applique une rotation Y de 180° */
+.card.flipped {
+  transform: rotateY(180deg) !important;
 }

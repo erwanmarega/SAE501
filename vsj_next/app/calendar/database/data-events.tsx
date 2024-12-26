@@ -1,6 +1,6 @@
 interface CalendarEventDetails {
   coach?: string[];
-  intensity?: "facile" | "moyen" | "difficile"; // cohérent avec TrainingTypesProps
+  intensity?: "facile" | "moyen" | "difficile";
   category?: "crawl" | "dos crawlé" | "papillon" | "brasse";
   duration?: string;
   description?: string;

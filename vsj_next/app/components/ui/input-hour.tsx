@@ -56,15 +56,15 @@ const InputHourWithDuration = ({
   // Générer les durées : 30 minutes, 45 minutes, puis des intervalles spécifiques jusqu'à 4 heures
   const generateDurations = () => {
     return [
-      "30 minutes",
-      "45 minutes",
-      "1 heure",
-      "1h30",
-      "2 heures",
-      "2h30",
-      "3 heures",
-      "3h30",
-      "4 heures",
+      "00:30",
+      "00:45",
+      "01:00",
+      "01:30",
+      "02:00",
+      "02:30",
+      "03:00",
+      "03:30",
+      "04:00",
     ];
   };
 
