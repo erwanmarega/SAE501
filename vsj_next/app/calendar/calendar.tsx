@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import CalendarCard from "./components/calendar-card";
-import SidebarCard from "./components/sidebar-card";
+import CalendarCard from "./calendar-card";
+import SidebarCard from "./sidebar-card";
 import { EventsProvider, useEvents } from "./database/events-context";
 import { DndContext, DragEndEvent, DragStartEvent } from "@dnd-kit/core";
 

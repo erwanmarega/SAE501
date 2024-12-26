@@ -11,7 +11,7 @@ const P = ({ children, className, variant = "default" }: PProps) => {
 
   return (
     <p
-      className={`font-mona font-normal text-[#636363] ${variantClasses} ${className}`}
+      className={`font-mona font-light text-[#636363] ${variantClasses} ${className}`}
     >
       {children}
     </p>

@@ -34,12 +34,12 @@ const Group: React.FC<GroupProps> = ({ size = 77, imagePath }) => {
       }}
     >
       <div className="w-full h-full flex justify-center items-center">
-        <Image
+        {/*  <Image
           src={imagePath}
           alt="Mon profil"
           width={Math.floor(50 * scaleFactor)}
           height={Math.floor(50 * scaleFactor)}
-        />
+        />*/}
       </div>
     </div>
   );

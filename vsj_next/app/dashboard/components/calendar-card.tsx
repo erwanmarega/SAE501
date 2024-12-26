@@ -62,34 +62,39 @@ const CalendarCard = () => {
   const itemRefs = useRef<HTMLDivElement[]>([]);
 
   useEffect(() => {
-    const handleResize = () => {
-      if (!containerRef.current) return;
-      const containerWidth = containerRef.current.getBoundingClientRect().width;
+    if (allMeasured) {
+      const handleResize = () => {
+        if (!containerRef.current) return;
+        const containerWidth =
+          containerRef.current.getBoundingClientRect().width;
 
-      let cumulativeWidth = 0;
-      let count = 0;
-      for (let i = 0; i < calendarData.length; i++) {
-        const el = itemRefs.current[i];
-        if (el) {
-          const itemWidth = el.getBoundingClientRect().width;
-          if (cumulativeWidth + itemWidth <= containerWidth) {
-            cumulativeWidth += itemWidth;
-            count++;
-          } else {
-            break;
+        let cumulativeWidth = 0;
+        let count = 0;
+        for (let i = 0; i < calendarData.length; i++) {
+          const el = itemRefs.current[i];
+          if (el) {
+            const itemWidth = el.getBoundingClientRect().width;
+            if (cumulativeWidth + itemWidth <= containerWidth) {
+              cumulativeWidth += itemWidth;
+              count++;
+            } else {
+              break;
+            }
           }
         }
-      }
-      setVisibleItemsCount(count);
-    };
 
-    // On ne calcule que si les items sont rendus
-    if (allMeasured) {
+        // Only update state if it actually changes
+        if (count !== visibleItemsCount) {
+          setVisibleItemsCount(count);
+        }
+      };
+
+      // Run once on mount (after measurement) and then on resize
       handleResize();
       window.addEventListener("resize", handleResize);
       return () => window.removeEventListener("resize", handleResize);
     }
-  }, [calendarData, allMeasured]);
+  }, [calendarData, allMeasured, visibleItemsCount]);
 
   useEffect(() => {
     // Une fois que le composant est monté, on set allMeasured à true
