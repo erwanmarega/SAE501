@@ -17,31 +17,31 @@ class Swimmer implements PasswordAuthenticatedUserInterface
     #[Groups(['swimmer:read'])]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255, nullable: true)] // Rendu facultatif
+    #[ORM\Column(length: 255, nullable: true)] 
     #[Groups(['swimmer:read', 'swimmer:write'])]
     private ?string $nom = null;
 
-    #[ORM\Column(length: 255, nullable: true)] // Rendu facultatif
+    #[ORM\Column(length: 255, nullable: true)] 
     #[Groups(['swimmer:read', 'swimmer:write'])]
     private ?string $prenom = null;
 
-    #[ORM\Column(type: 'date', nullable: true)] // Rendu facultatif
+    #[ORM\Column(type: 'date', nullable: true)] 
     #[Groups(['swimmer:read', 'swimmer:write'])]
     private ?\DateTimeInterface $dateNaissance = null;
 
-    #[ORM\Column(length: 255, nullable: true)] // Rendu facultatif
+    #[ORM\Column(length: 255, nullable: true)] 
     #[Groups(['swimmer:read', 'swimmer:write'])]
     private ?string $adresse = null;
 
-    #[ORM\Column(length: 10, nullable: true)] // Rendu facultatif
+    #[ORM\Column(length: 10, nullable: true)] 
     #[Groups(['swimmer:read', 'swimmer:write'])]
     private ?string $codePostal = null;
 
-    #[ORM\Column(length: 255, nullable: true)] // Rendu facultatif
+    #[ORM\Column(length: 255, nullable: true)] 
     #[Groups(['swimmer:read', 'swimmer:write'])]
     private ?string $ville = null;
 
-    #[ORM\Column(length: 20, nullable: true)] // Rendu facultatif
+    #[ORM\Column(length: 20, nullable: true)] 
     #[Groups(['swimmer:read', 'swimmer:write'])]
     private ?string $telephone = null;
 

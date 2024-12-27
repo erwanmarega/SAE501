@@ -113,13 +113,7 @@ const SignupPage: React.FC<SignupPageProps> = ({
         autoComplete="new-password"
       />
 
-      <button
-        onClick={handleSignupWithRedirect}
-        disabled={loading} 
-        className="btn-primary"
-      >
-        {loading ? "Chargement..." : "S'inscrire"}
-      </button>
+     
 
       <p className="text-sm text-gray-600">
         Vous avez déjà un compte ?{" "}

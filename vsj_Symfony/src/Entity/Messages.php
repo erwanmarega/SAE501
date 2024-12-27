@@ -2,33 +2,35 @@
 
 namespace App\Entity;
 
+use App\Repository\MessagesRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-#[ORM\Entity(repositoryClass: 'App\Repository\MessageRepository')]
-class Message
+#[ORM\Entity(repositoryClass: MessagesRepository::class)]
+class Messages
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column]
     #[Groups(['message:read'])]
-    private $id;
+    private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Groups(['message:read'])]
-    private $content;
+    private ?string $content = null;
 
-    #[ORM\Column(type: 'string', length: 100)]
+    #[ORM\ManyToOne(targetEntity: Swimmer::class)]
+    #[ORM\JoinColumn(nullable: false)]
     #[Groups(['message:read'])]
-    private $sender;
+    private ?Swimmer $sender = null;
 
     #[ORM\Column(type: 'datetime')]
     #[Groups(['message:read'])]
-    private $createdAt;
+    private ?\DateTimeInterface $createdAt = null;
 
     public function __construct()
     {
-        $this->createdAt = new \DateTime(); 
+        $this->createdAt = new \DateTime();
     }
 
     public function getId(): ?int
@@ -44,18 +46,25 @@ class Message
     public function setContent(string $content): self
     {
         $this->content = $content;
+
         return $this;
     }
 
-    public function getSender(): ?string
+    public function getSender(): ?Swimmer
     {
         return $this->sender;
     }
 
-    public function setSender(string $sender): self
+    public function setSender(?Swimmer $sender): self
     {
         $this->sender = $sender;
+
         return $this;
+    }
+
+    public function getSenderEmail(): ?string
+    {
+        return $this->sender ? $this->sender->getEmail() : null;
     }
 
     public function getCreatedAt(): ?\DateTimeInterface
@@ -66,6 +75,7 @@ class Message
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
         return $this;
     }
 }

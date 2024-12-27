@@ -3,27 +3,21 @@ security:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
 
     providers:
-        # Vous pouvez définir un fournisseur d'utilisateurs en base de données
         database_users:
             entity:
                 class: App\Entity\Swimmer
-                property: email  # L'email est utilisé pour l'identification de l'utilisateur
+                property: email  
 
     firewalls:
-        # Ce firewall permet d'activer l'authentification via un formulaire classique.
         main:
-            # Par défaut, Symfony gère l'authentification par formulaire
-            # Vous pouvez définir un login_path et un target_path
+           
             form_login:
-                login_path: app_swimmer_login  # La route vers votre formulaire de connexion
-                check_path: app_swimmer_login_check  # Symfony va automatiquement gérer la vérification des identifiants
-                default_target_path: /  # Rediriger vers la page d'accueil après connexion
+                login_path: login  
+                check_path: login  
+                default_target_path: /  
             logout:
-                path: app_swimmer_logout  # La route de déconnexion
-                target: /login  # Redirection après déconnexion
+                path: logout 
+                target: /login  
 
     access_control:
-        # Ce paramètre définit les règles d'accès. Ici on autorise l'accès à la page de connexion pour tout le monde
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        # On protège la route /api avec le rôle ROLE_USER
-        - { path: ^/api, roles: ROLE_USER }
