@@ -2,8 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\Message;
-use App\Repository\MessageRepository;
+use App\Entity\Messages;
+use App\Entity\Swimmer;
+use App\Repository\MessagesRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,54 +13,60 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class MessageController extends AbstractController
 {
-    // Récupérer tous les messages
-    #[Route('/api/messages', name: 'get_messages', methods: ['GET'])]
-    public function getMessages(MessageRepository $messageRepository): JsonResponse
+    #[Route('/api/messages', name: 'get_contacts', methods: ['GET'])]
+    public function getContacts(EntityManagerInterface $entityManager): JsonResponse
     {
-        // Récupérer tous les messages triés par date de création (croissant)
-        $messages = $messageRepository->findBy([], ['createdAt' => 'ASC']);
+        $query = $entityManager->createQuery(
+            'SELECT m
+             FROM App\Entity\Messages m
+             WHERE m.createdAt IN (
+                 SELECT MAX(m2.createdAt)
+                 FROM App\Entity\Messages m2
+                 WHERE m2.sender = m.sender
+                 GROUP BY m2.sender
+             )
+             ORDER BY m.createdAt DESC'
+        );
 
-        // Formater les données pour le JSON
-        $formattedMessages = array_map(function (Message $message) {
+        $lastMessages = $query->getResult();
+
+        $contacts = array_map(function ($message) {
+            $swimmer = $message->getSender();
             return [
-                'id' => $message->getId(),
-                'content' => $message->getContent(),
-                'sender' => $message->getSender(),
-                'createdAt' => $message->getCreatedAt()->format('Y-m-d H:i:s'),
+                'id' => $swimmer->getId(),
+                'name' => $swimmer->getPrenom() . ' ' . $swimmer->getNom(), 
+                'lastMessage' => $message->getContent(),
+                'date' => $message->getCreatedAt()->format(\DateTime::ISO8601), // Utilisation de ISO 8601
+                'avatar' => '/assets/icons/Avatar03.png', 
             ];
-        }, $messages);
+        }, $lastMessages);
 
-        return $this->json($formattedMessages);
+        return $this->json($contacts);
     }
 
-    // Créer un nouveau message
     #[Route('/api/messages', name: 'create_message', methods: ['POST'])]
-    public function createMessage(Request $request, EntityManagerInterface $entityManager): JsonResponse
+    public function create(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
-        // Décoder le contenu JSON envoyé dans la requête
         $data = json_decode($request->getContent(), true);
 
-        // Vérifier que les données nécessaires sont présentes
-        if (!isset($data['content'], $data['sender'])) {
-            return $this->json(['error' => 'Invalid data'], 400);
+        $swimmer = $entityManager->getRepository(Swimmer::class)->findOneBy(['email' => $data['senderEmail']]);
+        if (!$swimmer) {
+            return $this->json(['message' => 'Sender not found'], JsonResponse::HTTP_NOT_FOUND);
         }
 
-        // Créer une nouvelle entité Message
-        $message = new Message();
+        $message = new Messages();
         $message->setContent($data['content']);
-        $message->setSender($data['sender']);
-        $message->setCreatedAt(new \DateTime());
+        $message->setSender($swimmer);
 
-        // Sauvegarder le message dans la base de données
         $entityManager->persist($message);
         $entityManager->flush();
 
-        // Retourner le message créé au format JSON
         return $this->json([
-            'id' => $message->getId(),
+            'message' => 'Message created successfully',
+            'messageId' => $message->getId(),
             'content' => $message->getContent(),
-            'sender' => $message->getSender(),
-            'createdAt' => $message->getCreatedAt()->format('Y-m-d H:i:s'),
-        ], 201);
+            'sender' => $message->getSenderEmail(), 
+            'createdAt' => $message->getCreatedAt()->format(\DateTime::ISO8601) // Format ISO 8601
+        ], JsonResponse::HTTP_CREATED);
     }
 }
