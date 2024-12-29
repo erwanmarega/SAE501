@@ -13,6 +13,7 @@ import Map from "./map/map";
 import Stats from "./stats/stats";
 
 import Header from "./components/header/header";
+import { EventsProvider } from "./calendar/database/events-context";
 
 export default function Home() {
   // État pour suivre la page actuelle, par défaut "Dashboard"
@@ -44,7 +45,7 @@ export default function Home() {
       <Header />
 
       {/* Composant actuellement affiché */}
-      {renderPage()}
+      <EventsProvider>{renderPage()}</EventsProvider>
 
       {/* Barre de navigation inférieure */}
       <BottomBar

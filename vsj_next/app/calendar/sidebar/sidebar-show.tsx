@@ -102,7 +102,7 @@ const SideBarShow = ({ setWhatShow }: SideBarShowProps) => {
         </div>
       </div>
       {/*BADGE*/}
-      <header className="w-full flex flex-col gap-4 items-center p-4">
+      <header className="w-full flex flex-col gap-4 items-center p-4 mt-4">
         <div>
           <H4 className="!text-2xl text-center mb-0">{event.title}</H4>
           <P className="text-center mt-0 !text-xs">{date}</P>
