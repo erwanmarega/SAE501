@@ -5,6 +5,7 @@ import Image from "next/image";
 
 interface ProfilProps extends React.HTMLAttributes<HTMLDivElement> {
   size?: number; // Largeur souhaitée
+  onClick?: React.MouseEventHandler<HTMLDivElement>; // Gestionnaire d'événement click facultatif
 }
 
 const originalPath =
@@ -22,6 +23,7 @@ const Profil: React.FC<ProfilProps> = ({
   size = 77,
   className,
   style,
+  onClick,
   ...props
 }) => {
   const scaleFactor = size / 77;
@@ -41,6 +43,7 @@ const Profil: React.FC<ProfilProps> = ({
         backgroundColor: "#E0E6F7",
         overflow: "hidden",
       }}
+      onClick={onClick} // Ajout du gestionnaire d'événements click
     >
       <div className="w-full h-full flex justify-center items-center">
         <Image

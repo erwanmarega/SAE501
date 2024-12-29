@@ -37,8 +37,8 @@ const MainComponent = () => {
   };
 
   return (
-    <section className="row-start-6 row-end-10 flex flex-col gap-4 lg:col-start-2 lg:col-end-4 lg:row-start-2 lg:row-end-6 h-full">
-      <Card className="flex justify-around w-max gap-4 rounded-lg">
+    <section className="row-start-6 row-end-10 flex flex-col gap-4 lg:col-start-2 lg:col-end-4 lg:row-start-2 lg:row-end-6 h-full w-full">
+      <Card className="flex justify-between w-max gap-4 rounded-xl">
         {options.map((option) => (
           <div
             key={option.id}

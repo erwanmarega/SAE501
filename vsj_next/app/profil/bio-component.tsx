@@ -30,7 +30,7 @@ const BioComponent = () => {
       <div className="font-light font-mona text-sm text-[#3B3B3B]">
         {isEditing ? (
           <textarea
-            className="border rounded-md w-full h-20 px-2 py-1 focus:outline-none focus:ring-2 focus:ring-primary"
+            className="border rounded-md w-full h-full px-2 py-1 focus:outline-none focus:ring-2 focus:ring-primary"
             value={bio}
             onChange={(e) => setBio(e.target.value)}
           />

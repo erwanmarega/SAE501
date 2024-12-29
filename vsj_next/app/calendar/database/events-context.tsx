@@ -58,6 +58,14 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [dataEvents, setDataEvents] = useState<Record<string, Event[]>>({
+    "17/12/2024": [
+      {
+        id: 0,
+        status: "training",
+        title: "",
+        details: {},
+      },
+    ],
     "18/12/2024": [
       {
         id: 1,

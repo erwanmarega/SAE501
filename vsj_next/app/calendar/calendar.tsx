@@ -35,11 +35,7 @@ const CalendarContent = () => {
 };
 
 const Calendar = () => {
-  return (
-    <EventsProvider>
-      <CalendarContent />
-    </EventsProvider>
-  );
+  return <CalendarContent />;
 };
 
 export default Calendar;

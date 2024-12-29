@@ -39,13 +39,14 @@ const InfosPersoComponent = () => {
         <HForm className="row-start-1 col-start-1 self-center ">
           Nom complet
         </HForm>
-        <div className="row-start-1 col-start-2">
+        <div className="row-start-1 col-start-2 flex items-center">
           {isEditing ? (
             <Input
               type="text"
               placeholder="Entrez votre nom"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              className="!w-full"
             />
           ) : (
             <HFormData>{name}</HFormData>
@@ -56,22 +57,23 @@ const InfosPersoComponent = () => {
         <HForm className="row-start-2 col-start-1 self-center ">
           Date de naissance
         </HForm>
-        <div className="row-start-2 col-start-2">
+        <div className="row-start-2 col-start-2 flex items-center">
           {isEditing ? (
             <Input
               type="date"
               placeholder="JJ/MM/AAAA"
               value={birthdate}
               onChange={(e) => setBirthdate(e.target.value)}
+              className="!w-full"
             />
           ) : (
-            <HFormData>{birthdate}</HFormData>
+            <HFormData className="">{birthdate}</HFormData>
           )}
         </div>
 
         {/* Sexe */}
         <HForm className="row-start-3 col-start-1 self-center">Sexe</HForm>
-        <div className="row-start-3 col-start-2">
+        <div className="row-start-3 col-start-2 flex items-center">
           {isEditing ? (
             <select
               className="border rounded px-3 py-2 w-full"
@@ -90,13 +92,14 @@ const InfosPersoComponent = () => {
 
         {/* Email */}
         <HForm className="row-start-4 col-start-1 self-center">Email</HForm>
-        <div className="row-start-4 col-start-2">
+        <div className="row-start-4 col-start-2 flex items-center">
           {isEditing ? (
             <Input
               type="email"
               placeholder="Entrez votre email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              className="!w-full"
             />
           ) : (
             <HFormData>{email}</HFormData>
@@ -107,13 +110,14 @@ const InfosPersoComponent = () => {
         <HForm className="row-start-5 col-start-1 self-center ">
           Téléphone
         </HForm>
-        <div className="row-start-5 col-start-2">
+        <div className="row-start-5 col-start-2 flex items-center">
           {isEditing ? (
             <Input
               type="tel"
               placeholder="Entrez votre numéro de téléphone"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
+              className="!w-full"
             />
           ) : (
             <HFormData>{phone}</HFormData>
