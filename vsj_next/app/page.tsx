@@ -14,6 +14,7 @@ import Stats from "./stats/stats";
 
 import Header from "./components/header/header";
 import { EventsProvider } from "./calendar/database/events-context";
+import Group02 from "./groupe02/group02";
 
 export default function Home() {
   // État pour suivre la page actuelle, par défaut "Dashboard"
@@ -29,18 +30,18 @@ export default function Home() {
       case "Message":
         return <Message />;
       case "Group":
-        return <Group />;
+        return <Group02 />;
       case "Map":
         return <Map />;
       case "Stats":
         return <Stats />;
       default:
-        return <Calendar />;
+        return <Group02 />;
     }
   };
 
   return (
-    <div className="bg-[#F7F7F7] dark:bg-[#262629] h-screen overflow-hidden">
+    <div className=" lg:h-[100vh] flex items-center justify-center lg:overflow-y-hidden bg-[#F7F7F7] dark:bg-[#262629]">
       {/* Composant d'en-tête */}
       <Header />
 
