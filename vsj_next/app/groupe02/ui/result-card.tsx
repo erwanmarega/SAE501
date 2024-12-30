@@ -16,7 +16,7 @@ const ResultCard: React.FC<ResultCardProps> = ({
   location,
 }) => {
   return (
-    <Card className="flex flex-col w-56 h-36 justify-between">
+    <Card className="flex flex-col w-56 h-40 justify-between">
       <header className="-mb-5">
         <p className="font-outfit font-semibold text-3xl text-[#3B3B3B]">
           {position}

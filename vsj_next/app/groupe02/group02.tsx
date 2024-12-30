@@ -6,16 +6,6 @@ import SwimmerCard from "./ui/swimmer-card";
 import H3 from "../components/ui/texts/h3";
 import Profil from "../components/profil/profil";
 import ResultCard from "./ui/result-card";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
-import { motion } from "framer-motion";
 
 const Group02 = () => {
   const [selected, setSelected] = useState<string>("License");
@@ -41,8 +31,6 @@ const Group02 = () => {
     { name: "Emma Leroy", dob: "22/09/2005", note: "Graph", size: 50 },
     { name: "Yves Martin", dob: "01/01/2000", note: "Graph", size: 50 },
     { name: "Marie Smith", dob: "17/07/2004", note: "Graph", size: 50 },
-    { name: "Marie Smith", dob: "17/07/2004", note: "Graph", size: 50 },
-    { name: "Marie Smith", dob: "17/07/2004", note: "Graph", size: 50 },
   ];
 
   const results = [
@@ -66,21 +54,6 @@ const Group02 = () => {
     },
   ];
 
-  const salesData = [
-    { name: "Jul", position: 10 },
-    { name: "Aug", position: 8 },
-    { name: "Sep", position: 4 },
-    { name: "Oct", position: 6 },
-    { name: "Nov", position: 5 },
-    { name: "Dec", position: 6 },
-    { name: "Jan", position: 3 },
-    { name: "Feb", position: 5 },
-    { name: "Mar", position: 8 },
-    { name: "Apr", position: 2 },
-    { name: "May", position: 5 },
-    { name: "Jun", position: 7 },
-  ];
-
   return (
     <div className="grid grid-rows-[50px_1fr] h-[82.5vh] max-h-[700px] w-full max-w-[1500px] gap-5 mt-20">
       {/* Barre d'onglets */}
@@ -102,8 +75,8 @@ const Group02 = () => {
 
       {/* Contenu principal */}
       <section className="grid grid-cols-2 w-full">
-        <section className="grid grid-cols-2 mt-4 relative mr-20 h-full">
-          <div className="w-36 h-[400px] absolute border-8 border-primary/25 left-[260px]  mt-10"></div>
+        <section className="grid grid-cols-2 gap-8 mt-4 relative mr-20">
+          <div className="w-20 h-[370px] absolute border-8 border-primary/25 left-[290px]  mt-12"></div>
           {swimmers.map((swimmer, index) => (
             <SwimmerCard
               key={index}
@@ -137,35 +110,7 @@ const Group02 = () => {
               <div className="flex justify-center">
                 <H3 className="m-auto">Mes performances</H3>
               </div>
-              <ResponsiveContainer width={"100%"} height={"100%"}>
-                <LineChart data={salesData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#D5D8E5" />
-                  <XAxis dataKey={"name"} stroke="#D5D8E5" />
-                  <YAxis
-                    stroke="#D5D8E5"
-                    reversed
-                    domain={[10, 1]}
-                    ticks={[1, 3, 5, 7, 9]}
-                  />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: "white",
-                      borderRadius: "10px",
-                      boxShadow: "4px 4px 8px rgba(0, 0, 0, 0.05)",
-                      borderColor: "#D5D8E5",
-                    }}
-                    itemStyle={{ color: "#374151" }}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="position"
-                    stroke="#6366F1"
-                    strokeWidth={3}
-                    dot={{ fill: "#6366F1", strokeWidth: 2, r: 6 }}
-                    activeDot={{ r: 8, strokeWidth: 2 }}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
+              <p>kjbqx</p>
             </Card>
           </div>
         </section>
