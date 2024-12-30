@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Training;
 use App\Entity\Group;
+use App\Entity\Competition;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -21,7 +22,6 @@ class AdminController extends AbstractController
         ]);
     }
 
-    // 🟢 CREATE TRAINING
     #[Route('/admin/training', name: 'create_training', methods: ['POST'])]
     public function createTraining(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
@@ -62,7 +62,6 @@ class AdminController extends AbstractController
         }
     }
 
-    // 🟡 UPDATE TRAINING
     #[Route('/admin/training/{id}', name: 'update_training', methods: ['PUT'])]
     public function updateTraining(int $id, Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
@@ -111,7 +110,6 @@ class AdminController extends AbstractController
         }
     }
 
-    // 🔴 DELETE TRAINING
     #[Route('/admin/training/{id}', name: 'delete_training', methods: ['DELETE'])]
     public function deleteTraining(int $id, EntityManagerInterface $entityManager): JsonResponse
     {
@@ -133,7 +131,6 @@ class AdminController extends AbstractController
         }
     }
 
-    // 🟢 GET TRAININGS BY DATE INTERVAL
     #[Route('/admin/group/{groupId}/trainings', name: 'get_group_trainings_by_date', methods: ['GET'])]
     public function getTrainingsByDate(int $groupId, Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
@@ -164,5 +161,50 @@ class AdminController extends AbstractController
             ],
             'trainings' => $trainings,
         ]);
+    }
+
+
+    #[Route('/admin/competition', name: 'create_competition', methods: ['POST'])]
+    public function createCompetition(Request $request, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        $group = $entityManager->getRepository(Group::class)->find($data['groupId']);
+        if (!$group) {
+            return $this->json(['message' => 'Groupe non trouvé'], JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        $competition = new Competition();
+        $competition->setTitle($data['title']);
+        $competition->setDayDate(new \DateTime($data['dayDate']));
+        $competition->setHourDate(new \DateTime($data['hourDate']));
+        $competition->setDuration(new \DateTime($data['duration']));
+        $competition->setAddress($data['address']);
+        $competition->setCategory($data['category']);
+        $competition->setDescription($data['description']);
+        $competition->setIsDefined($data['isDefined']);
+        $competition->setGroup($group);
+
+        $entityManager->persist($competition);
+        $entityManager->flush();
+
+        return $this->json([
+            'message' => 'Compétition a été créée',
+            'competitionId' => $competition->getId(),
+        ], JsonResponse::HTTP_CREATED);
+    }
+
+    #[Route('/admin/competition/{id}', name: 'delete_competition', methods: ['DELETE'])]
+    public function deleteCompetition(int $id, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $competition = $entityManager->getRepository(Competition::class)->find($id);
+        if (!$competition) {
+            return $this->json(['message' => 'Aucune compétition a été trouvée'], JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        $entityManager->remove($competition);
+        $entityManager->flush();
+
+        return $this->json(['message' => 'Compétition supprimée'], JsonResponse::HTTP_OK);
     }
 }
