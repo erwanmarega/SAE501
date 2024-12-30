@@ -15,7 +15,7 @@ export default function RootLayout({
         <LanguageProviderClient>
           {children}
           <Link href="/summary">
-            <button className="shadow-xl rounded-full bg-gray-700 fixed left-4 bottom-4 w-12 h-12 flex items-center justify-center hover:shadow-2xl">
+            <button className="z-20 shadow-xl rounded-full bg-gray-700 fixed left-4 bottom-4 w-12 h-12 flex items-center justify-center hover:shadow-2xl">
               <BookOpenIcon className="text-white w-7 m-auto" />
             </button>
           </Link>
