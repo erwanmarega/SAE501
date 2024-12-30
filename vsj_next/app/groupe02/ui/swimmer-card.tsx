@@ -23,12 +23,12 @@ const SwimmerCard: React.FC<SwimmerCardProps> = ({
   return (
     <Card
       className={clsx(
-        "flex flex-row h-16 w-72 justify-between p-2 z-10 items-center",
+        "flex flex-row h-20 w-80 justify-between p-2 z-10 items-center",
         number % 2 === 0 ? "ml-0 mr-auto" : "mr-0 ml-auto"
       )}
     >
       <section className="flex gap-2">
-        <Profil size={50} />
+        <Profil size={56} />
         <div className="flex-col justify-center items-center h-max">
           <h3 className="text-[#6E6E6E] font-outfit font-semibold text-nowrap">
             {name}
