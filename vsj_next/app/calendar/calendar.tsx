@@ -26,7 +26,7 @@ const CalendarContent = () => {
 
   return (
     <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
-      <div className="gap-6 grid grid-cols-[1fr_minmax(250px,25%)] h-[85vh] m-5">
+      <div className="gap-6 grid grid-cols-[1fr_minmax(250px,25%)] h-[85vh] w-[98%] max-w-[1500px] max-h-[700px] mt-7">
         <CalendarCard />
         <SidebarCard />
       </div>
@@ -35,11 +35,7 @@ const CalendarContent = () => {
 };
 
 const Calendar = () => {
-  return (
-    <EventsProvider>
-      <CalendarContent />
-    </EventsProvider>
-  );
+  return <CalendarContent />;
 };
 
 export default Calendar;

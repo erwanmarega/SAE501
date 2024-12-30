@@ -41,7 +41,7 @@ const Adhesion = () => {
   return (
     <section className="flex flex-col gap-8">
       <H4>Adhésion</H4>
-      <main className="flex flex-col items-center gap-6">
+      <main className="flex flex-col lg:flex-row items-center gap-6">
         {adhesions.map((adh, index) => (
           <AdhesionCard
             key={index}

@@ -23,7 +23,7 @@ const Textarea = ({
         placeholder={placeholder}
         rows={rows}
         className={clsx(
-          "border border-gray-300 rounded-md px-3 py-2 text-black font-mona font-medium text-sm bg-transparent focus:outline-none focus:border-2 focus:border-black appearance-none placeholder:font-normal resize-y -ml-6",
+          "border border-gray-300 rounded-md px-3 py-2 text-black font-mona font-medium text-sm bg-transparent focus:outline-none focus:border-black focus:ring-0 placeholder:font-normal resize-none",
           className
         )}
       />

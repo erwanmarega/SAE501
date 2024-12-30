@@ -10,7 +10,7 @@ import HFormData from "@/app/components/ui/texts/h-form-data";
 
 const License = () => {
   return (
-    <section className="flex flex-col gap-8 h-full lg:gap-2">
+    <section className="flex flex-col gap-8 h-full lg:gap-2 w-full">
       <header className="flex flex-col">
         <H4>License de Natation</H4>
         <P>
@@ -18,18 +18,18 @@ const License = () => {
           sans cela, toutes compétition est formellement interdit !{" "}
         </P>
       </header>
-      <main className="flex flex-col gap-8  h-full lg:flex-row">
+      <main className="flex flex-col gap-8  h-full w-full lg:flex-row">
         <section className="flex items-center justify-center lg:justify-start w-full lg:w-max">
           <Image
             src="/assets/img/license.png"
             width={450}
             height={450}
             alt="Ma License"
-            className="lg:w-[750px]"
+            className="w-full max-w-96  lg:max-w-[750px]"
           />
         </section>
         <section className="flex items-center justify-center lg:w-5/6">
-          <div className="grid grid-rows-4 grid-cols-2 w-3/4 lg:w-full">
+          <div className="grid grid-rows-4 grid-cols-2 w-3/4 lg:w-3/4">
             <HForm>Nom complet</HForm>
             <HFormData className="text-end">Victor Ducrès</HFormData>
             <HForm>Ligue</HForm>
