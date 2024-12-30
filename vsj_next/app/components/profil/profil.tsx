@@ -2,6 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
+import BottomBar from "../bottombar/bottom-bar";
 
 interface ProfilProps extends React.HTMLAttributes<HTMLDivElement> {
   size?: number; // Largeur souhaitée
@@ -31,30 +32,32 @@ const Profil: React.FC<ProfilProps> = ({
   const scaledPath = scalePath(originalPath, scaleFactor);
 
   return (
-    <div
-      {...props}
-      className={`relative ${className ?? ""}`}
-      style={{
-        // Fusionnez les styles existants avec ceux qui définissent la taille :
-        ...style,
-        width: `${size}px`,
-        height: `${finalHeight}px`,
-        clipPath: `path("${scaledPath}")`,
-        backgroundColor: "#E0E6F7",
-        overflow: "hidden",
-      }}
-      onClick={onClick} // Ajout du gestionnaire d'événements click
-    >
-      <div className="w-full h-full flex justify-center items-center">
-        <Image
-          src="/assets/img/profils/Avatar_01.png"
-          alt="Mon profil"
-          width={Math.floor(60 * scaleFactor)}
-          height={Math.floor(60 * scaleFactor)}
-          className="absolute bottom-0"
-        />
+    <>
+      <div
+        {...props}
+        className={`relative ${className ?? ""}`}
+        style={{
+          // Fusionnez les styles existants avec ceux qui définissent la taille :
+          ...style,
+          width: `${size}px`,
+          height: `${finalHeight}px`,
+          clipPath: `path("${scaledPath}")`,
+          backgroundColor: "#E0E6F7",
+          overflow: "hidden",
+        }}
+        onClick={onClick} // Ajout du gestionnaire d'événements click
+      >
+        <div className="w-full h-full flex justify-center items-center">
+          <Image
+            src="/assets/img/profils/Avatar_01.png"
+            alt="Mon profil"
+            width={Math.floor(60 * scaleFactor)}
+            height={Math.floor(60 * scaleFactor)}
+            className="absolute bottom-0"
+          />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

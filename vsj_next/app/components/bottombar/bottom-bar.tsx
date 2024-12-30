@@ -53,7 +53,7 @@ const BottomBar: React.FC<BottomBarProps> = ({
   const isSelected = (page: string) => currentPage === page;
 
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center w-full fixed z-50">
       <motion.div
         initial={{ y: isPage ? 100 : 0 }}
         animate={{ y: showBar ? 0 : 125 }}
