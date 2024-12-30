@@ -9,12 +9,13 @@ import { useLanguage } from "./ui/context/language-provider";
 import H1 from "@/app/components/ui/texts/h1";
 import clsx from "clsx";
 import Profil from "../profil/profil";
+import Link from "next/link";
 
 const Header = () => {
   const { language } = useLanguage();
 
   return (
-    <div className="flex flex-row w-full h-16 items-center justify-between px-8">
+    <div className="flex flex-row w-full h-16 items-center justify-between px-8 absolute top-0">
       <div>
         <H1 className="dark:text-white">
           {language === "en" ? "Welcome, Erwan" : "Bienvenue, Erwan"}
@@ -32,7 +33,9 @@ const Header = () => {
       <div className="flex items-center gap-6">
         <ThemeToggle />
         <LanguageSwitcher />
-        <Profil size={50} />
+        <Link href={"/profil"}>
+          <Profil size={50} />
+        </Link>
       </div>
     </div>
   );

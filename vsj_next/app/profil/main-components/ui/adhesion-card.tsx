@@ -15,11 +15,15 @@ const AdhesionCard = ({
   // Si la variante est "add", on affiche un design (ou contenu) différent
   if (variant === "add") {
     return (
-      <div className="bg-[#f7f7f7] py-4 px-6 relative flex flex-col gap-2 rounded-xl w-96 text-center">
+      <div className="bg-[#f7f7f7] py-4 px-6 relative flex flex-col gap-2 rounded-xl w-96 h-48 text-center cursor-pointer hover:bg-gray-200 group">
         <div className="flex items-center justify-center h-full">
-          <p className="font-outfit font-bold text-md text-gray-600">
-            Ajouter une adhésion
-          </p>
+          <Image
+            src="/assets/icons/more.svg"
+            alt="Ajouter une catégorie"
+            width={35}
+            height={35}
+            className="transition-transform group-hover:scale-125"
+          />
         </div>
       </div>
     );
@@ -27,7 +31,7 @@ const AdhesionCard = ({
 
   // Sinon, on affiche la carte d’adhésion "classique"
   return (
-    <div className="bg-[#f7f7f7] py-4 px-6 relative flex flex-col gap-2 rounded-xl w-96">
+    <div className="bg-[#f7f7f7] py-4 px-6 relative flex flex-col gap-2 rounded-xl w-96 h-48">
       <div
         id="group"
         className="absolute top-3 right-3 h-12 w-12 rounded-full bg-white flex items-center justify-center"
@@ -45,15 +49,21 @@ const AdhesionCard = ({
         {startDate} - {endDate}
       </p>
 
-      <section className="grid grid-rows-3 grid-cols-2 w-3/4 gap-2 mt-2">
-        <HForm>Sport</HForm>
-        <HFormData className="text-end text-nowrap">{sport}</HFormData>
+      <section className="flex flex-col w-full gap-2 mt-2">
+        <div className="w-full flex justify-between">
+          <HForm>Sport</HForm>
+          <HFormData className="text-end text-nowrap">{sport}</HFormData>
+        </div>
 
-        <HForm>Catégorie</HForm>
-        <HFormData className="text-end text-nowrap">{category}</HFormData>
+        <div className="w-full flex justify-between">
+          <HForm>Catégorie</HForm>
+          <HFormData className="text-end text-nowrap">{category}</HFormData>
+        </div>
 
-        <HForm>Adhésion</HForm>
-        <HFormData className="text-end text-nowrap">{membership}</HFormData>
+        <div className="w-full flex justify-between">
+          <HForm>Adhésion</HForm>
+          <HFormData className="text-end text-nowrap">{membership}</HFormData>
+        </div>
       </section>
     </div>
   );

@@ -65,7 +65,7 @@ const SidebarWeek = ({ setWhatShow }: SidebarWeekProps) => {
 
       <footer className="flex items-center">
         <Button className="!w-2/4 max-w-40 m-auto" variant="primary">
-          Enregistrez
+          Enregistrer
         </Button>
       </footer>
     </div>
