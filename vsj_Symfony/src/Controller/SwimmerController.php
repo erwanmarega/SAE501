@@ -10,49 +10,65 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class SwimmerController extends AbstractController
 {
-    /**
-     * Créer un nouveau nageur
-     */
     #[Route('/swimmer', name: 'create_swimmer', methods: ['POST'])]
-    public function createSwimmer(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
+    public function createSwimmer(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher, JWTTokenManagerInterface $JWTManager): Response
     {
         $data = json_decode($request->getContent(), true);
 
-        if (!isset($data['email'], $data['password'])) {
-            return $this->json(['message' => 'Email and password are required'], Response::HTTP_BAD_REQUEST);
+        // ✅ Vérification des champs requis
+        $requiredFields = ['email', 'password', 'nom', 'prenom', 'dateNaissance', 'adresse', 'codePostal', 'ville', 'telephone'];
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                return $this->json(['message' => "The field '$field' is required"], Response::HTTP_BAD_REQUEST);
+            }
         }
 
+        // ✅ Validation de l'email
+        if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+            return $this->json(['message' => 'Invalid email format'], Response::HTTP_BAD_REQUEST);
+        }
+
+        // ✅ Vérification de l'unicité de l'email
         $existingSwimmer = $entityManager->getRepository(Swimmer::class)->findOneBy(['email' => $data['email']]);
         if ($existingSwimmer) {
             return $this->json(['message' => 'Email already in use'], Response::HTTP_CONFLICT);
         }
 
+        // ✅ Création et configuration de l'entité Swimmer
         $swimmer = new Swimmer();
         $swimmer->setEmail($data['email']);
-
         $hashedPassword = $passwordHasher->hashPassword($swimmer, $data['password']);
         $swimmer->setPassword($hashedPassword);
+        $swimmer->setNom($data['nom']);
+        $swimmer->setPrenom($data['prenom']);
+        try {
+            $swimmer->setDateNaissance(new \DateTime($data['dateNaissance']));
+        } catch (\Exception $e) {
+            return $this->json(['message' => 'Invalid date format for dateNaissance'], Response::HTTP_BAD_REQUEST);
+        }
+        $swimmer->setAdresse($data['adresse']);
+        $swimmer->setCodePostal($data['codePostal']);
+        $swimmer->setVille($data['ville']);
+        $swimmer->setTelephone($data['telephone']);
 
-        $swimmer->setNom($data['nom'] ?? null);
-        $swimmer->setPrenom($data['prenom'] ?? null);
-        $swimmer->setDateNaissance(isset($data['dateNaissance']) ? new \DateTime($data['dateNaissance']) : null);
-        $swimmer->setAdresse($data['adresse'] ?? null);
-        $swimmer->setCodePostal($data['codePostal'] ?? null);
-        $swimmer->setVille($data['ville'] ?? null);
-        $swimmer->setTelephone($data['telephone'] ?? null);
-
+        // ✅ Sauvegarde dans la base de données
         $entityManager->persist($swimmer);
         $entityManager->flush();
 
-        return $this->json(['message' => 'Swimmer created successfully', 'swimmerId' => $swimmer->getId()], Response::HTTP_CREATED);
+        // ✅ Génération du token JWT
+        $token = $JWTManager->create($swimmer);
+
+        return $this->json([
+            'message' => 'Swimmer created successfully',
+            'token' => $token
+        ], Response::HTTP_CREATED);
     }
 
-    /**
-     * Récupérer les informations du nageur actuellement connecté
-     */
     #[Route('/swimmer', name: 'get_swimmer', methods: ['GET'])]
     public function getSwimmer(): Response
     {
@@ -65,16 +81,13 @@ class SwimmerController extends AbstractController
         return $this->json($swimmer, Response::HTTP_OK, [], ['groups' => 'swimmer:read']);
     }
 
-    /**
-     * Mettre à jour un nageur par email
-     */
-    #[Route('/swimmer/{email}', name: 'swimmer_update', methods: ['PUT'])]
-    public function updateSwimmer(Request $request, EntityManagerInterface $entityManager, $email): Response
+    #[Route('/swimmer/update', name: 'update_swimmer', methods: ['PUT'])]
+    public function updateSwimmer(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $swimmer = $entityManager->getRepository(Swimmer::class)->findOneBy(['email' => $email]);
+        $swimmer = $this->getUser();
 
-        if (!$swimmer) {
-            return $this->json(['message' => 'Swimmer not found'], Response::HTTP_NOT_FOUND);
+        if (!$swimmer instanceof Swimmer) {
+            return $this->json(['message' => 'Swimmer not logged in'], Response::HTTP_UNAUTHORIZED);
         }
 
         $data = json_decode($request->getContent(), true);
@@ -111,9 +124,6 @@ class SwimmerController extends AbstractController
         return $this->json(['message' => 'Swimmer updated successfully'], Response::HTTP_OK);
     }
 
-    /**
-     * Supprimer le nageur actuellement connecté
-     */
     #[Route('/swimmer', name: 'delete_swimmer', methods: ['DELETE'])]
     public function deleteSwimmer(EntityManagerInterface $entityManager): Response
     {
@@ -129,9 +139,6 @@ class SwimmerController extends AbstractController
         return $this->json(['message' => 'Swimmer deleted successfully'], Response::HTTP_OK);
     }
 
-    /**
-     * Authentification du nageur
-     */
     #[Route('/swimmer/login', name: 'login', methods: ['POST'])]
     public function login(Request $request, UserPasswordHasherInterface $passwordHasher, SessionInterface $session, EntityManagerInterface $entityManager): Response
     {
@@ -146,38 +153,7 @@ class SwimmerController extends AbstractController
         $session->set('user_id', $swimmer->getId());
         $session->set('user_email', $swimmer->getEmail());
 
-        return $this->json(['message' => 'Inscription réussie'], Response::HTTP_OK);
-    }
-
-    /**
-     * Récupérer les événements d'un groupe autour d'une date
-     */
-    #[Route('/swimmer/group/{groupId}/events', name: 'group_events', methods: ['GET'])]
-    public function getGroupEvents(
-        int $groupId,
-        Request $request,
-        EntityManagerInterface $entityManager
-    ): Response {
-        $currentDate = $request->query->get('currentDate');
-
-        if (!$currentDate) {
-            return $this->json(['message' => 'La date actuelle est incorrect '], Response::HTTP_BAD_REQUEST);
-        }
-
-        $date = new \DateTime($currentDate);
-        $startDate = (clone $date)->modify('-45 days');
-        $endDate = (clone $date)->modify('+45 days');
-
-        $query = $entityManager->createQuery(
-            'SELECT t 
-             FROM App\Entity\Training t 
-             WHERE t.group = :groupId 
-             AND t.date BETWEEN :startDate AND :endDate'
-        )
-        ->setParameter('groupId', $groupId)
-        ->setParameter('startDate', $startDate)
-        ->setParameter('endDate', $endDate);
-
-        return $this->json($query->getResult());
+        return $this->json(['message' => 'Login successful'], Response::HTTP_OK);
     }
 }
+    
