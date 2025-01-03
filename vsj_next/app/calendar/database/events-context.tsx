@@ -228,7 +228,7 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const [whatShow, setWhatShow] = useState("show");
   const [userStatus, setUserStatus] = useState<"swimmer" | "coach" | "admin">(
-    "coach"
+    "swimmer"
   );
   const [nextTrain, setNextTrain] = useState<SelectedEvent | null>(null);
   const [nextCompetition, setNextCompetition] = useState<SelectedEvent | null>(
@@ -311,22 +311,35 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   // Chercher le prochain entraînement avec un titre
+  // ...
+  // Chercher le prochain entraînement et la prochaine compétition FUTURS avec un titre
   useEffect(() => {
+    // Récupérer la date d'aujourd'hui (on peut remettre l'heure, minute, seconde à 0 pour éviter les effets de bord)
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    // On récupère toutes les clés de dataEvents (ex: "17/12/2024", "18/12/2024", etc.)
     const dates = Object.keys(dataEvents);
+    // On convertit chaque clé en objet date pour pouvoir comparer
     const parsedDates = dates.map((d) => {
       const [day, month, year] = d.split("/").map(Number);
       return { dateStr: d, dateObj: new Date(year, month - 1, day) };
     });
 
-    parsedDates.sort((a, b) => a.dateObj.getTime() - b.dateObj.getTime());
+    // On ne garde que les dates dans le futur ou égales à aujourd'hui
+    const futureDates = parsedDates.filter((d) => d.dateObj >= today);
+
+    // Ensuite, on trie ces dates du plus proche au plus lointain
+    futureDates.sort((a, b) => a.dateObj.getTime() - b.dateObj.getTime());
 
     let foundNextTraining: SelectedEvent | null = null;
     let foundNextCompetition: SelectedEvent | null = null;
 
-    for (const { dateStr } of parsedDates) {
+    // On parcourt les dates futures pour trouver la prochaine date d'entraînement et de compétition
+    for (const { dateStr } of futureDates) {
       const events = dataEvents[dateStr] || [];
 
-      // Chercher un entraînement avec titre
+      // Chercher un entraînement FUTUR avec un titre non vide
       if (!foundNextTraining) {
         const nextTrainEvent = events.find(
           (e) => e.status === "training" && e.title && e.title.trim() !== ""
@@ -336,7 +349,7 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
         }
       }
 
-      // Chercher une compétition avec titre
+      // Chercher une compétition FUTURE avec un titre non vide
       if (!foundNextCompetition) {
         const nextCompetitionEvent = events.find(
           (e) => e.status === "competition" && e.title && e.title.trim() !== ""
@@ -346,22 +359,29 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
         }
       }
 
-      // Si on a trouvé les deux, on peut arrêter
+      // Si on a trouvé les deux, on peut arrêter la boucle
       if (foundNextTraining && foundNextCompetition) {
         break;
       }
     }
 
+    // Si on trouve un entraînement ou une compétition, on le met dans selectedEvent
     if (foundNextTraining || foundNextCompetition) {
       const next = foundNextTraining || foundNextCompetition;
       setSelectedEvent(next as SelectedEvent);
+
+      // Déterminer ce qu'on affiche en fonction du userStatus
       if (userStatus === "coach" || userStatus === "admin") {
         setWhatShow("category");
       } else {
         setWhatShow("show");
       }
+    } else {
+      // Si pas de prochain entraînement futur, on change l'affichage
+      setWhatShow("no-train");
     }
 
+    // Mettre à jour les states nextTrain et nextCompetition
     setNextTrain(foundNextTraining);
     setNextCompetition(foundNextCompetition);
   }, [dataEvents, userStatus]);

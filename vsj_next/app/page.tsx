@@ -9,7 +9,7 @@ import Dashboard from "./dashboard/dashboard";
 import Calendar from "./calendar/calendar";
 import Message from "./message/message";
 import Group from "./group/page";
-import Map from "./map/map";
+import Map from "./map/page";
 import Stats from "./stats/stats";
 
 import Header from "./components/header/header";
@@ -36,7 +36,7 @@ export default function Home() {
       case "Stats":
         return <Stats />;
       default:
-        return <Group02 />;
+        return <Calendar />;
     }
   };
 

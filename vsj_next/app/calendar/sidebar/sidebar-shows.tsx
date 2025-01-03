@@ -12,13 +12,15 @@ interface SidebarShowsProps {
 }
 
 const SidebarShows = ({ setWhatShow }: SidebarShowsProps) => {
-  const { dataEvents, currentDate } = useEvents();
+  const { dataEvents, currentDate, userStatus } = useEvents();
   const dateStr = currentDate.toLocaleDateString("fr-FR");
   const dayEvents = dataEvents[dateStr] || [];
 
   return (
     <div className="w-full h-full grid grid-rows-[130px_1fr] ">
-      <CloseButton onClick={() => setWhatShow("category")} />
+      {userStatus !== "swimmer" && (
+        <CloseButton onClick={() => setWhatShow("category")} />
+      )}
       <header className="w-full h-full flex flex-col gap-4 items-center p-4">
         <H4 className="!text-2xl text-center mb-0">Entraînements</H4>
         {/* Badge date */}
