@@ -24,7 +24,7 @@ const BioComponent = () => {
       <EditIcon
         className="absolute top-2 right-2 cursor-pointer"
         onClick={toggleEditing}
-        isActive={isEditing} // Passe l'état actif pour rendre l'icône bleue
+        isActive={isEditing} 
       />
       <H4>Bio</H4>
       <div className="font-light font-mona text-sm text-[#3B3B3B]">

@@ -25,6 +25,9 @@ const Signup: React.FC = () => {
     email: ""
   });
 
+  // Récupérer le token depuis le localStorage (ou autre mécanisme de stockage)
+  const token = localStorage.getItem("authToken");
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -64,12 +67,13 @@ const Signup: React.FC = () => {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/swimmer/${formData.email}`, {
+      const response = await fetch(`http://localhost:8000/user/update`, {
         method: "PUT",  
         headers: {
           "Content-Type": "application/json",  
+          "Authorization": `Bearer ${token}`  // Ajout du token pour l'authentification
         },
-        body: JSON.stringify(formData),  // Envoi des données du formulaire
+        body: JSON.stringify(formData),  
       });
   
       const textResponse = await response.text();  // Récupère la réponse sous forme de texte

@@ -24,7 +24,6 @@ const Chat: React.FC = () => {
   const [activeContact, setActiveContact] = useState<Contact | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Charger la liste des contacts
   useEffect(() => {
     fetch("http://localhost:8000/api/messages")
       .then((response) => response.json())
@@ -41,7 +40,6 @@ const Chat: React.FC = () => {
     }
   }, [activeContact]);
 
-  // Gérer le téléchargement de fichiers
   const handleFileUpload = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -49,7 +47,6 @@ const Chat: React.FC = () => {
     }
   };
 
-  // Envoyer un message
   const sendMessage = () => {
     if (newMessage.trim() === "" && !uploadedFile) return;
 
@@ -69,13 +66,12 @@ const Chat: React.FC = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         content: newMessage,
-        senderEmail: "NextUser", // Remplacez par l'email réel de l'utilisateur connecté
+        senderEmail: "NextUser", 
         contactId: activeContact?.id,
       }),
     }).catch((error) => console.error("Erreur lors de l'envoi du message:", error));
   };
 
-  // Gérer l'appui sur la touche "Entrée"
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       event.preventDefault();
@@ -83,20 +79,18 @@ const Chat: React.FC = () => {
     }
   };
 
-  // Formater la date pour l'affichage
   const formatDate = (dateString: string | undefined) => {
     if (!dateString) {
-      return ""; // Si la date est undefined, retourner une chaîne vide
+      return ""; 
     }
 
-    const date = new Date(dateString); // Crée un objet Date à partir de la chaîne ISO 8601
+    const date = new Date(dateString); 
     if (isNaN(date.getTime())) {
-      return "Heure invalide"; // Si la date est invalide
+      return "Heure invalide"; 
     }
 
-    // Retourner une date formatée dans un format lisible
     return date.toLocaleString("fr-FR", {
-      weekday: "short", // Jour de la semaine abrégé
+      weekday: "short", 
       year: "numeric",
       month: "short",
       day: "numeric",
@@ -109,7 +103,7 @@ const Chat: React.FC = () => {
   return (
     <div className="h-screen w-screen bg-[#F7F7F7] flex justify-center items-start pt-12">
       <div className="w-[85%] h-[85%] bg-transparent flex gap-6">
-        {/* Liste des contacts */}
+        {}
         <div className="w-[30%] flex flex-col bg-white border-r border-gray-200 rounded-lg shadow-lg">
           <header className="p-4 border-b border-gray-200">
             <h1 className="text-2xl font-bold">Mes contacts</h1>
@@ -155,7 +149,6 @@ const Chat: React.FC = () => {
           </button>
         </div>
 
-        {/* Section principale */}
         <div className="w-[70%] flex flex-col bg-white rounded-lg shadow-lg">
           {activeContact ? (
             <>
@@ -200,7 +193,7 @@ const Chat: React.FC = () => {
                         />
                       )}
                       <small className="block mt-2 text-xs text-gray-400">
-                        {formatDate(msg.createdAt)} {/* Affichage de la date formatée */}
+                        {formatDate(msg.createdAt)} {}
                       </small>
                     </div>
                   </div>
