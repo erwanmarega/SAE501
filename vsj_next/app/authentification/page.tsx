@@ -1,4 +1,4 @@
-"use client";
+"use client"; 
 
 import React, { useState } from "react";
 import Logo from "../components/ui/logo";
@@ -132,7 +132,7 @@ const AuthentificationPage = () => {
         setSignupPassword={setSignupPassword}
         signupConfirmPassword={signupConfirmPassword}
         setSignupConfirmPassword={setSignupConfirmPassword}
-        handleSignup={handleSignup}
+        handleSignup={handleSignup} 
         signupError={signupError}
         signupSuccess={signupSuccess}
         isLoading={isLoading}
@@ -195,10 +195,12 @@ const AuthentificationPage = () => {
               <Button
                 type="submit"
                 variant="primary"
-                onClick={handleSignup}
+                onClick={handleSignup} 
+                disabled={isLoading}
               >
                 {language === "fr" ? "S'inscrire" : "Sign Up"}
               </Button>
+
               <Button variant="outline" icon={GoogleIcon}>
                 {language === "fr"
                   ? "S'inscrire avec Google"

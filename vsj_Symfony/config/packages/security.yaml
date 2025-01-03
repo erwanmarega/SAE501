@@ -6,18 +6,26 @@ security:
         database_users:
             entity:
                 class: App\Entity\Swimmer
-                property: email  
+                property: email
 
     firewalls:
         main:
-           
+            # Authentification par formulaire classique
             form_login:
-                login_path: login  
-                check_path: login  
-                default_target_path: /  
-            logout:
-                path: logout 
-                target: /login  
+                login_path: login
+                check_path: login
+                default_target_path: /
+                
+            # Authentification par JWT pour l'API
+            pattern: ^/swimmer/update
+            stateless: true
+            jwt: ~
+
+            # Définir le point d'entrée (entry_point) pour les utilisateurs anonymes
+            entry_point: jwt  # Ou form_login si tu veux que le formulaire soit utilisé pour les utilisateurs anonymes
+            # Pour l'authentification via formulaire, utiliser "form_login" à la place de "jwt"
+            # entry_point: form_login
 
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/swimmer/update, roles: ROLE_USER }
