@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "../components/ui/card";
 import Input from "../components/ui/input";
 import EditIcon from "../components/ui/interactive-icons/edit";
@@ -11,14 +11,66 @@ import H4 from "../components/ui/texts/h4";
 const InfosPersoComponent = () => {
   const [isEditing, setIsEditing] = useState(false);
 
-  const [name, setName] = useState("John Doe");
-  const [birthdate, setBirthdate] = useState("1990-01-01");
-  const [sex, setSex] = useState("male");
-  const [email, setEmail] = useState("johndoe@example.com");
-  const [phone, setPhone] = useState("06.24.28.35.35");
+  const [name, setName] = useState("");
+  const [prenom, setPrenom] = useState("");
+  const [dateNaissance, setDateNaissance] = useState("");
+  const [adresse, setAdresse] = useState("");
+  const [codePostal, setCodePostal] = useState("");
+  const [ville, setVille] = useState("");
+  const [telephone, setTelephone] = useState("");
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await fetch("/api/user");
+        const data = await response.json();
+        setName(data.name);
+        setPrenom(data.prenom);
+        setDateNaissance(data.dateNaissance);
+        setAdresse(data.adresse);
+        setCodePostal(data.codePostal);
+        setVille(data.ville);
+        setTelephone(data.telephone);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUser();
+  }, []);
 
   const toggleEditing = () => {
-    setIsEditing(!isEditing); // Bascule entre mode édition et affichage normal
+    setIsEditing(!isEditing);
+  };
+
+  const handleSave = async () => {
+    try {
+      const response = await fetch("/swimmer/update", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          nom: name,
+          prenom: prenom,
+          dateNaissance: dateNaissance,
+          adresse: adresse,
+          codePostal: codePostal,
+          ville: ville,
+          telephone: telephone,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("User updated successfully:", data);
+        setIsEditing(false);
+      } else {
+        console.error("Failed to update user");
+      }
+    } catch (error) {
+      console.error("Error updating user:", error);
+    }
   };
 
   return (
@@ -29,16 +81,13 @@ const InfosPersoComponent = () => {
       <EditIcon
         className="absolute top-2 right-2 cursor-pointer"
         onClick={toggleEditing}
-        isActive={isEditing} // Passe l'état actif à l'icône
+        isActive={isEditing}
       />
 
-      <H4 className="mb-4"> Informations personnelles</H4>
+      <H4 className="mb-4">Informations personnelles</H4>
 
       <main className="h-full w-full grid grid-cols-2 grid-rows-5 gap-y-4">
-        {/* Nom complet */}
-        <HForm className="row-start-1 col-start-1 self-center ">
-          Nom complet
-        </HForm>
+        <HForm className="row-start-1 col-start-1 self-center">Nom complet</HForm>
         <div className="row-start-1 col-start-2 flex items-center">
           {isEditing ? (
             <Input
@@ -53,77 +102,89 @@ const InfosPersoComponent = () => {
           )}
         </div>
 
-        {/* Date de naissance */}
-        <HForm className="row-start-2 col-start-1 self-center ">
-          Date de naissance
-        </HForm>
+        <HForm className="row-start-2 col-start-1 self-center">Prénom</HForm>
         <div className="row-start-2 col-start-2 flex items-center">
           {isEditing ? (
             <Input
-              type="date"
-              placeholder="JJ/MM/AAAA"
-              value={birthdate}
-              onChange={(e) => setBirthdate(e.target.value)}
+              type="text"
+              placeholder="Entrez votre prénom"
+              value={prenom}
+              onChange={(e) => setPrenom(e.target.value)}
               className="!w-full"
             />
           ) : (
-            <HFormData className="">{birthdate}</HFormData>
+            <HFormData>{prenom}</HFormData>
           )}
         </div>
 
-        {/* Sexe */}
-        <HForm className="row-start-3 col-start-1 self-center">Sexe</HForm>
+        <HForm className="row-start-3 col-start-1 self-center">Date de naissance</HForm>
         <div className="row-start-3 col-start-2 flex items-center">
           {isEditing ? (
-            <select
-              className="border rounded px-3 py-2 w-full"
-              value={sex}
-              onChange={(e) => setSex(e.target.value)}
-            >
-              <option value="male">Homme</option>
-              <option value="female">Femme</option>
-            </select>
+            <Input
+              type="date"
+              placeholder="Entrez votre date de naissance"
+              value={dateNaissance}
+              onChange={(e) => setDateNaissance(e.target.value)}
+              className="!w-full"
+            />
           ) : (
-            <HFormData>
-              {sex === "male" ? "Homme" : sex === "female" ? "Femme" : "Autre"}
-            </HFormData>
+            <HFormData>{dateNaissance}</HFormData>
           )}
         </div>
 
-        {/* Email */}
-        <HForm className="row-start-4 col-start-1 self-center">Email</HForm>
+        <HForm className="row-start-4 col-start-1 self-center">Adresse</HForm>
         <div className="row-start-4 col-start-2 flex items-center">
           {isEditing ? (
             <Input
-              type="email"
-              placeholder="Entrez votre email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type="text"
+              placeholder="Entrez votre adresse"
+              value={adresse}
+              onChange={(e) => setAdresse(e.target.value)}
               className="!w-full"
             />
           ) : (
-            <HFormData>{email}</HFormData>
+            <HFormData>{adresse}</HFormData>
           )}
         </div>
 
-        {/* Téléphone */}
-        <HForm className="row-start-5 col-start-1 self-center ">
-          Téléphone
-        </HForm>
+        <HForm className="row-start-5 col-start-1 self-center">Code Postal</HForm>
         <div className="row-start-5 col-start-2 flex items-center">
           {isEditing ? (
             <Input
-              type="tel"
-              placeholder="Entrez votre numéro de téléphone"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              type="text"
+              placeholder="Entrez votre code postal"
+              value={codePostal}
+              onChange={(e) => setCodePostal(e.target.value)}
               className="!w-full"
             />
           ) : (
-            <HFormData>{phone}</HFormData>
+            <HFormData>{codePostal}</HFormData>
+          )}
+        </div>
+
+     
+
+        <HForm className="row-start-7 col-start-1 self-center">Téléphone</HForm>
+        <div className="row-start-7 col-start-2 flex items-center">
+          {isEditing ? (
+            <Input
+              type="text"
+              placeholder="Entrez votre téléphone"
+              value={telephone}
+              onChange={(e) => setTelephone(e.target.value)}
+              className="!w-full"
+            />
+          ) : (
+            <HFormData>{telephone}</HFormData>
           )}
         </div>
       </main>
+
+      {isEditing && (
+        <button onClick={handleSave} className="mt-4 self-end">
+          Save
+        </button>
+      )}
     </Card>
   );
 };

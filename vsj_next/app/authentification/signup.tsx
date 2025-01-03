@@ -1,97 +1,79 @@
 "use client";
 
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
 import Input from "@/app/components/ui/input";
+import Button from "@/app/components/ui/button";
 
 interface SignupPageProps {
   handleToggle: (active: "Connexion" | "Inscription") => void;
-  signupEmail: string;
-  setSignupEmail: React.Dispatch<React.SetStateAction<string>>;
-  signupPassword: string;
-  setSignupPassword: React.Dispatch<React.SetStateAction<string>>;
-  signupConfirmPassword: string;
-  setSignupConfirmPassword: React.Dispatch<React.SetStateAction<string>>;
+  handleSignup: (email: string, password: string, confirmPassword: string) => Promise<void>;
   signupError: string | null;
   signupSuccess: boolean;
+  isLoading: boolean;
 }
 
 const SignupPage: React.FC<SignupPageProps> = ({
   handleToggle,
-  signupEmail,
-  setSignupEmail,
-  signupPassword,
-  setSignupPassword,
-  signupConfirmPassword,
-  setSignupConfirmPassword,
+  handleSignup,
   signupError,
   signupSuccess,
+  isLoading,
 }) => {
-  const [loading, setLoading] = useState(false); 
-  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [localError, setLocalError] = useState<string | null>(null);
 
-  
-  const handleSignup = async () => {
-    if (signupPassword !== signupConfirmPassword) {
-      return "Les mots de passe ne correspondent pas";
+  const onSignup = async () => {
+    setLocalError(null);
+
+    // ✅ **Ajoutez des logs pour déboguer**
+    console.log("Email:", email);
+    console.log("Password:", password);
+    console.log("Confirm Password:", confirmPassword);
+
+    // ✅ **Validation locale des champs**
+    if (!email.trim() || !password.trim() || !confirmPassword.trim()) {
+      setLocalError("Veuillez remplir tous les champs obligatoires.");
+      return;
     }
 
-    setLoading(true); 
+    if (password !== confirmPassword) {
+      setLocalError("Les mots de passe ne correspondent pas.");
+      return;
+    }
+
+    if (password.length < 6) {
+      setLocalError("Le mot de passe doit contenir au moins 6 caractères.");
+      return;
+    }
 
     try {
-      const response = await fetch("http://localhost:8000/swimmer", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: signupEmail,
-          password: signupPassword,
-        }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        return errorData.message || "Erreur lors de l'inscription";
-      }
-
-      const data = await response.json();
-      if (data.message === "Swimmer created successfully") {
-        return null; 
-      }
-      return "Une erreur est survenue lors de la création du nageur.";
-    } catch (error) {
-      console.error("Erreur d'inscription:", error);
-      return "Erreur lors de la connexion au serveur";
-    } finally {
-      setLoading(false); 
-    }
-  };
-
-  const handleSignupWithRedirect = async () => {
-    const errorMessage = await handleSignup();
-    if (!errorMessage) {
-      router.push("/page"); 
-    } else {
-      
-      alert(errorMessage); 
+      await handleSignup(email.trim(), password.trim(), confirmPassword.trim());
+    } catch (error: any) {
+      setLocalError(error.message || "Une erreur est survenue.");
     }
   };
 
   return (
-    <main className="flex flex-col items-center gap-6 justify-start">
+    <main className="flex flex-col items-center gap-6 justify-center p-4 max-w-md mx-auto">
+      <h1 className="text-2xl font-bold">Inscription</h1>
+
+      {/* ✅ **Gestion des erreurs** */}
+      {localError && <p className="text-red-500">{localError}</p>}
       {signupError && <p className="text-red-500">{signupError}</p>}
       {signupSuccess && (
         <p className="text-green-500">Inscription réussie ! Redirection...</p>
       )}
 
+      {/* ✅ **Champs d'entrée** */}
       <Input
         label="Email"
         name="email"
         type="email"
         placeholder="Entrez votre adresse mail"
-        value={signupEmail}
-        onChange={(e) => setSignupEmail(e.target.value)}
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
         autoComplete="email"
       />
       <Input
@@ -99,8 +81,8 @@ const SignupPage: React.FC<SignupPageProps> = ({
         name="password"
         type="password"
         placeholder="Entrez votre mot de passe"
-        value={signupPassword}
-        onChange={(e) => setSignupPassword(e.target.value)}
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
         autoComplete="new-password"
       />
       <Input
@@ -108,13 +90,23 @@ const SignupPage: React.FC<SignupPageProps> = ({
         name="confirmPassword"
         type="password"
         placeholder="Confirmez votre mot de passe"
-        value={signupConfirmPassword}
-        onChange={(e) => setSignupConfirmPassword(e.target.value)}
+        value={confirmPassword}
+        onChange={(e) => setConfirmPassword(e.target.value)}
         autoComplete="new-password"
       />
 
-     
+      {/* ✅ **Bouton d'inscription** */}
+      <Button
+        variant="primary"
+        format="big"
+        type="button"
+        onClick={onSignup}
+        disabled={isLoading}
+      >
+        {isLoading ? "Chargement..." : "S'inscrire"}
+      </Button>
 
+      {/* ✅ **Lien vers la connexion** */}
       <p className="text-sm text-gray-600">
         Vous avez déjà un compte ?{" "}
         <span
