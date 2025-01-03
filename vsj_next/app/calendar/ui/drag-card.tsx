@@ -1,7 +1,7 @@
 // drag-card.tsx
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useDraggable } from "@dnd-kit/core";
 import Profil from "@/app/components/profil/profil";
 
@@ -27,6 +27,20 @@ const DragCard: React.FC<DragCardProps> = ({
       id: sessionId,
     });
 
+  // Nouvel état pour gérer un drop valide
+  const [isDroppedValid, setIsDroppedValid] = useState(false);
+
+  // Lorsqu'on arrête de dragguer (isDragging repasse à false),
+  // on vérifie si la zone finale (transform.x, transform.y) est valide.
+  useEffect(() => {
+    if (!isDragging && transform) {
+      // EXEMPLE : Si le point final est au-delà de x=200, on considère le drop "valide"
+      if (transform.x > 200) {
+        setIsDroppedValid(true);
+      }
+    }
+  }, [isDragging, transform]);
+
   // Styles pour le drag avec un effet smooth et opacité réduite
   const style: React.CSSProperties = {
     transform: transform
@@ -39,7 +53,7 @@ const DragCard: React.FC<DragCardProps> = ({
       : "transform 0.2s ease-out",
     opacity: isDragging ? 0.9 : 1,
     cursor: isDragging ? "grabbing" : "grab",
-    touchAction: "none", // Empêche le défilement pendant le drag sur mobile
+    touchAction: "none",
   };
 
   const whatIntensity = () => {
@@ -57,7 +71,28 @@ const DragCard: React.FC<DragCardProps> = ({
 
   return (
     <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      <div className="bg-gray-50 hover:bg-gray-100 rounded-lg p-2 w-36 h-28 flex flex-col justify-between select-none">
+      <div
+        className={`
+          bg-gray-50 
+          hover:bg-gray-100 
+          rounded-lg 
+          p-2 
+          w-36 
+          h-28 
+          flex 
+          flex-col 
+          justify-between 
+          select-none 
+          ${isDragging ? "shadow-md" : ""} 
+          ${
+            isDroppedValid
+              ? // Animation plus voyante : rotation, scale plus grand, disparition lente
+                // Durée un peu plus longue pour qu'on voie bien l'effet (700 ms)
+                "transition-all duration-700 ease-in-out transform scale-150 rotate-12 opacity-0"
+              : ""
+          }
+        `}
+      >
         <header className="flex justify-between items-center">
           <div className="flex gap-2">
             {coaches.map((coach, index) => (

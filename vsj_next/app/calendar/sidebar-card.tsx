@@ -12,6 +12,7 @@ const SidebarShows = lazy(() => import("./sidebar/sidebar-shows"));
 const SidebarCategory = lazy(() => import("./sidebar/sidebar-category"));
 const SideBarAdminEdit = lazy(() => import("./sidebar/sidebar-adminEdit"));
 const SidebarWeek = lazy(() => import("./sidebar/sidebar-week"));
+const SidebarNoTrain = lazy(() => import("./sidebar/sidebar-noTrain"));
 
 const SidebarCard = () => {
   const { whatShow, setWhatShow } = useEvents();
@@ -33,8 +34,10 @@ const SidebarCard = () => {
         return <SideBarAdminEdit setWhatShow={setWhatShow} />;
       case "edit-week":
         return <SidebarWeek setWhatShow={setWhatShow} />;
+      case "no-train":
+        return <SidebarNoTrain setWhatShow={setWhatShow} />;
       default:
-        return null;
+        return <p>NOT WORKING</p>;
     }
   };
 
