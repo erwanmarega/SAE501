@@ -20,7 +20,7 @@ const Input = ({
   className = "", // Valeur par défaut
 }: InputProps) => {
   return (
-    <div className={`flex flex-col ${className}`}>
+    <div className={`flex flex-col w-full ${className}`}>
       {/* Label avec Mona Sans Semi-bold */}
       {/* Si tu utilises réellement le label, pense à l'afficher ici */}
 
