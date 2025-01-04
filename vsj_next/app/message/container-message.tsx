@@ -31,7 +31,7 @@ const ContainerMessage: React.FC<ContainerMessageProps> = ({
 }) => {
   return (
     <Card className="col-start-2 col-end-5 w-full h-full grid-rows-[50px_1fr_50px]">
-      {/* En-tête de la conversation */}
+      
       <header className="flex justify-between p-2 border-b-2 border-[#EBEBEB]">
         <div className="flex gap-2">
           <Profil size={65} />
@@ -74,7 +74,7 @@ const ContainerMessage: React.FC<ContainerMessageProps> = ({
         ))}
       </main>
 
-      {/* Footer d’envoi de message */}
+
       <footer className="h-max w-[98%] relative">
         <textarea
           ref={textareaRef}
