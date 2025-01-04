@@ -4,7 +4,6 @@ import React, { useState, useRef } from "react";
 import SidebarMessage from "./sidebar-message";
 import ContainerMessage from "./container-message";
 
-// Type pour la liste de personnes
 type Person = {
   id: number;
   name: string;
@@ -13,22 +12,20 @@ type Person = {
   icon?: string;
 };
 
-// Type pour la liste de messages
 type Message = {
   id: number;
   sender: string;
   time: string;
   text: string;
-  fromMe?: boolean; // booléen pour savoir si c'est "moi"
+  fromMe?: boolean; 
 };
 
 const MessageUpdate = () => {
   const [searchValue, setSearchValue] = useState("");
-  const [text, setText] = useState(""); // État pour le contenu du textarea
-  const [textareaHeight, setTextareaHeight] = useState("auto"); // Hauteur dynamique
+  const [text, setText] = useState(""); 
+  const [textareaHeight, setTextareaHeight] = useState("auto"); 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  // Ton tableau de personnes (exemple)
   const persons: Person[] = [
     {
       id: 1,
@@ -53,7 +50,6 @@ const MessageUpdate = () => {
     },
   ];
 
-  // On gère désormais les messages via un state plutôt qu’une simple constante
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
@@ -120,7 +116,6 @@ const MessageUpdate = () => {
     ],
   });
 
-  // Filtre les personnes en fonction de la recherche
   const filteredPersons = persons.filter((person) => {
     const lowerSearch = searchValue.toLowerCase();
     return (
@@ -140,18 +135,17 @@ const MessageUpdate = () => {
 
   const adjustTextareaHeight = () => {
     if (textareaRef.current) {
-      textareaRef.current.style.height = "auto"; // Réinitialise pour recalculer
+      textareaRef.current.style.height = "auto"; 
       const scrollHeight = textareaRef.current.scrollHeight;
       textareaRef.current.style.height = `${scrollHeight}px`;
     }
   };
 
-  // Fonction pour envoyer le message
   const handleSendMessage = () => {
-    if (!text.trim()) return; // si le message est vide, on ne fait rien
+    if (!text.trim()) return; 
 
     const newMessage: Message = {
-      id: Date.now(), // simple ID unique
+      id: Date.now(), 
       sender: "Moi",
       time: new Date().toLocaleTimeString("fr-FR", {
         hour: "2-digit",
@@ -161,52 +155,39 @@ const MessageUpdate = () => {
       fromMe: true,
     };
 
-    // Met à jour le state "messages"
     setMessages((prevMessages) => [...prevMessages, newMessage]);
 
-    // Vide le champ de texte
     setText("");
-    // Réinitialise la hauteur du textarea
     if (textareaRef.current) {
       textareaRef.current.style.height = "auto";
     }
   };
-  // API Voice
   const [isRecording, setIsRecording] = useState(false);
   const [transcription, setTranscription] = useState("");
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
 
-  // Fonction pour démarrer l'enregistrement
   const startRecording = async () => {
     setTranscription("");
     setIsRecording(true);
     audioChunksRef.current = [];
 
-    // Demander l'autorisation d'utiliser le micro
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
 
-    // Créer une instance de MediaRecorder
     const mediaRecorder = new MediaRecorder(stream);
 
-    // Dès qu’on reçoit des données audio, on les empile dans audioChunksRef
     mediaRecorder.ondataavailable = (event) => {
       if (event.data.size > 0) {
         audioChunksRef.current.push(event.data);
       }
     };
-
-    // Lorsqu’on arrête l’enregistrement
     mediaRecorder.onstop = async () => {
-      // Construire un blob à partir des chunks
       const audioBlob = new Blob(audioChunksRef.current, {
         type: "audio/ogg; codecs=opus",
       });
 
-      // Option 1 : Convertir en Base64 (pour l’envoyer dans req.body)
       const base64Audio = await blobToBase64(audioBlob);
 
-      // Appel à l'API Next.js
       try {
         const response = await fetch("../api/transcribe", {
           method: "POST",
@@ -218,7 +199,7 @@ const MessageUpdate = () => {
         const data = await response.json();
         if (data.transcription) {
           setTranscription(data.transcription);
-          setText(data.transcription); // Ajout de cette ligne pour mettre à jour le textarea
+          setText(data.transcription); 
         } else {
           console.error("Erreur lors de la transcription", data);
         }
@@ -227,12 +208,10 @@ const MessageUpdate = () => {
       }
     };
 
-    // Lancer l’enregistrement
     mediaRecorder.start();
     mediaRecorderRef.current = mediaRecorder;
   };
 
-  // Fonction pour arrêter l'enregistrement
   const stopRecording = () => {
     setIsRecording(false);
     if (mediaRecorderRef.current) {
@@ -240,7 +219,6 @@ const MessageUpdate = () => {
     }
   };
 
-  // Convertir Blob en Base64
   const blobToBase64 = (blob) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();

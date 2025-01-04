@@ -118,6 +118,10 @@ class SwimmerController extends AbstractController
             'prenom' => $user->getPrenom(),  
             'nom' => $user->getNom(),
             'dateNaissance' => $user->getDateNaissance() ? $user->getDateNaissance()->format('Y-m-d') : null,
+            'adresse' => $user->getAdresse(),
+            'codePostal' => $user->getCodePostal(),
+            'ville' => $user->getVille(),
+            'telephone' => $user->getTelephone(),
         ]);
     }
 
@@ -148,5 +152,53 @@ class SwimmerController extends AbstractController
             'message' => 'Connexion réussie',
             'token' => $token,
         ]);
+    }
+
+    /**
+     * @Route("/api/user-profile", name="update_user_profile", methods={"PUT"})
+     */
+    public function updateUserProfile(Request $request): Response
+    {
+        $user = $this->getUser();
+    
+        if (!$user) {
+            return $this->json(['message' => 'Utilisateur non authentifié'], Response::HTTP_UNAUTHORIZED);
+        }
+    
+        if (!$user instanceof Swimmer) {
+            return $this->json(['message' => 'Aucun compte avec ces informations'], Response::HTTP_UNAUTHORIZED);
+        }
+    
+        $data = json_decode($request->getContent(), true);
+    
+        if (isset($data['nom'])) {
+            $user->setNom($data['nom']);
+        }
+        if (isset($data['prenom'])) {
+            $user->setPrenom($data['prenom']);
+        }
+        if (isset($data['dateNaissance'])) {
+            try {
+                $user->setDateNaissance(new \DateTime($data['dateNaissance']));
+            } catch (\Exception $e) {
+                return $this->json(['message' => 'Format de date invalide'], Response::HTTP_BAD_REQUEST);
+            }
+        }
+        if (isset($data['adresse'])) {
+            $user->setAdresse($data['adresse']);
+        }
+        if (isset($data['codePostal'])) {
+            $user->setCodePostal($data['codePostal']);
+        }
+        if (isset($data['ville'])) {
+            $user->setVille($data['ville']);
+        }
+        if (isset($data['telephone'])) {
+            $user->setTelephone($data['telephone']);
+        }
+    
+        $this->entityManager->flush();
+    
+        return $this->json(['message' => 'Profil mis à jour avec succès']);
     }
 }

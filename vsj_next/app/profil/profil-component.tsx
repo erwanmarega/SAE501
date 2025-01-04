@@ -8,7 +8,7 @@ import api from "../utils/axiosInstance";
 interface UserProfile {
   prenom: string;
   nom: string;
-  dateNaissance: string; // Date au format ISO (ex: "1990-05-15")
+  dateNaissance: string; 
 }
 
 const ProfilComponent = () => {
