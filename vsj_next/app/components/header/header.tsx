@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation"; 
 import Logo from "../ui/logo";
 import ThemeToggle from "./ui/theme-toggle";
 import LanguageSwitcher from "./ui/language-switcher";
@@ -12,35 +13,42 @@ import Link from "next/link";
 
 const Header = () => {
   const { language } = useLanguage();
-  const [prenom, setPrenom] = useState<string | null>(null);  // État pour stocker le prénom
-
+  const [prenom, setPrenom] = useState<string | null>(null);  
+  const router = useRouter(); 
   useEffect(() => {
-    const token = localStorage.getItem("jwt_Token");  // Récupérer le token JWT depuis le stockage local
+    const token = localStorage.getItem("authToken");  
+
     if (token) {
       const fetchUserData = async () => {
         try {
           const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user-profile`, {
             method: "GET",
             headers: {
-              "Authorization": `Bearer ${token}`,  // Envoi correct du token
+              "Authorization": `Bearer ${token}`, 
             },
           });
-    
+
           if (response.ok) {
             const data = await response.json();
             setPrenom(data.prenom);  
+          } else if (response.status === 401) {
+            console.warn("Token expiré ou non valide. Redirection vers la page de connexion.");
+            localStorage.removeItem("authToken"); 
+            router.push("/authentification"); 
           } else {
             console.error("Erreur lors de la récupération des données utilisateur");
           }
         } catch (error) {
           console.error("Erreur réseau lors de la récupération des données utilisateur", error);
+          router.push("/login"); 
         }
       };
-    
+
       fetchUserData();
+    } else {
+      router.push("/login"); 
     }
-    
-  }, []);
+  }, [router]);
 
   return (
     <div className="flex flex-row w-full h-16 items-center justify-between px-8 absolute top-0">

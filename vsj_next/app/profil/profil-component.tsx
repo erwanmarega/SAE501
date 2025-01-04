@@ -3,12 +3,12 @@ import Profil from "../components/profil/profil";
 import EditIcon from "../components/ui/interactive-icons/edit";
 import HProfilName from "../components/ui/texts/h-profil-name";
 import HProfilAge from "../components/ui/texts/h-profil-age";
-import axios from "axios";
+import api from "../utils/axiosInstance";
 
 interface UserProfile {
   prenom: string;
   nom: string;
-  dateNaissance: string; 
+  dateNaissance: string; // Date au format ISO (ex: "1990-05-15")
 }
 
 const ProfilComponent = () => {
@@ -16,46 +16,71 @@ const ProfilComponent = () => {
   const [age, setAge] = useState<number | null>(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("jwt_token");
+    const token = localStorage.getItem("authToken"); 
 
     if (!token) {
-      console.error("Token JWT non trouvé");
+      console.error("Token JWT non trouvé dans authToken");
       return;
     }
 
-    axios
-      .get<UserProfile>("/api/user-profile", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((response) => {
-        const data = response.data;
-        setPrenom(data.prenom);
+    const fetchUserProfile = async () => {
+      try {
+        const response = await api.get<UserProfile>("/api/user-profile", {
+          headers: {
+            Authorization: `Bearer ${token}`, 
+          },
+        });
 
-        const birthDate = new Date(data.dateNaissance);
-        const currentDate = new Date();
-        const calculatedAge = currentDate.getFullYear() - birthDate.getFullYear();
-        setAge(calculatedAge);
-      })
-      .catch((error) => {
-        console.error("Erreur lors de la récupération des données:", error);
-      });
+        if (response.status === 200) {
+          const data = response.data;
+          setPrenom(data.prenom);
+
+          // ✅ Calcul précis de l'âge
+          if (data.dateNaissance) {
+            const birthDate = new Date(data.dateNaissance);
+            const currentDate = new Date();
+
+            let calculatedAge = currentDate.getFullYear() - birthDate.getFullYear();
+            const isBirthdayPassed =
+              currentDate.getMonth() > birthDate.getMonth() ||
+              (currentDate.getMonth() === birthDate.getMonth() &&
+                currentDate.getDate() >= birthDate.getDate());
+
+            if (!isBirthdayPassed) {
+              calculatedAge -= 1;
+            }
+
+            setAge(calculatedAge);
+          } else {
+            console.warn("Date de naissance non définie");
+          }
+        }
+      } catch (error) {
+        console.error(
+          "Erreur lors de la récupération des données utilisateur :",
+          error
+        );
+      }
+    };
+
+    fetchUserProfile();
   }, []);
 
   return (
     <section
       id="Profil"
-      className=" h-24 w-full flex  row-start-1 row-end-2 grid-cols-2 gap-2 lg:row-start-1 lg:row-end-1 lg:col-start-1 lg:col-end-2"
+      className="h-24 w-full flex row-start-1 row-end-2 grid-cols-2 gap-2 lg:row-start-1 lg:row-end-1 lg:col-start-1 lg:col-end-2"
     >
-      <div className="flex items-end ">
+      <div className="flex items-end">
         <Profil size={100} />
       </div>
       <div className="flex flex-col justify-between">
         <EditIcon />
-        <div className="flex flex-col ">
+        <div className="flex flex-col">
           <HProfilAge>{age ? `${age} ans` : "Âge inconnu"}</HProfilAge>
-          <HProfilName className="-mt-1">{prenom || "Prénom inconnu"}</HProfilName>
+          <HProfilName className="-mt-1">
+            {prenom || "Prénom inconnu"}
+          </HProfilName>
         </div>
       </div>
     </section>
