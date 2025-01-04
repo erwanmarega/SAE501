@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Header from "../components/header/header";
 import BassinOlympique from "./bassin-olympique";
+import Pateaugoire from "@heroicons/react";
 
 const MapPage = () => {
   const [selectedPage, setSelectedPage] = useState("bassin olympique");
@@ -12,7 +13,6 @@ const MapPage = () => {
       case "bassin olympique":
         return <BassinOlympique />;
         break;
-
       default:
         break;
     }

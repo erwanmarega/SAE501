@@ -26,14 +26,8 @@ const MessageCard: React.FC<MessageCardProps> = ({
       }`}
     >
       {/* En-tête du message */}
-      <section className="flex justify-between w-[370px] items-center">
-        <div className="flex items-center gap-2">
-          {!fromMe && (
-            <>
-              <Profil size={50} /> <H4 className="!text-xl">{sender}</H4>
-            </>
-          )}
-        </div>
+      <section className="flex justify-between w-[444px] items-center">
+        <div className="bg-gray-200 rounded-full h-4 w-4"></div>
         <P className="!text-xs">{time}</P>
       </section>
 
