@@ -3,7 +3,7 @@ import Card from "../components/ui/card";
 import Profil from "../components/profil/profil";
 import H4 from "../components/ui/texts/h4";
 import Image from "next/image";
-import MessageCard from "./ui/message-card";
+import MessageCard from "./message-card";
 
 interface ContainerMessageProps {
   messages: Message[];
