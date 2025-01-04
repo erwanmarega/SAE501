@@ -58,7 +58,7 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [dataEvents, setDataEvents] = useState<Record<string, Event[]>>({
-    "17/12/2024": [
+    "17/01/2025": [
       {
         id: 0,
         status: "training",
@@ -66,7 +66,7 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
         details: {},
       },
     ],
-    "18/12/2024": [
+    "18/01/2025": [
       {
         id: 1,
         status: "training",
@@ -94,7 +94,7 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
         },
       },
     ],
-    "19/12/2024": [
+    "19/01/2025": [
       {
         id: 3,
         status: null,
@@ -102,7 +102,7 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
         details: {},
       },
     ],
-    "20/12/2024": [
+    "20/01/2025": [
       {
         id: 4,
         status: "training",
@@ -117,7 +117,7 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
         },
       },
     ],
-    "21/12/2024": [
+    "21/01/2025": [
       {
         id: 5,
         status: null,
@@ -125,7 +125,7 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
         details: {},
       },
     ],
-    "22/12/2024": [
+    "22/01/2025": [
       {
         id: 6,
         status: null,
@@ -133,7 +133,7 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
         details: {},
       },
     ],
-    "23/12/2024": [
+    "23/01/2025": [
       {
         id: 7,
         status: "training",
@@ -148,7 +148,7 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
         },
       },
     ],
-    "24/12/2024": [
+    "24/01/2025": [
       {
         id: 8,
         status: null,
@@ -156,7 +156,7 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
         details: {},
       },
     ],
-    "25/12/2024": [
+    "25/01/2025": [
       {
         id: 9,
         status: "training",
@@ -164,7 +164,7 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
         details: {},
       },
     ],
-    "26/12/2024": [
+    "26/01/2025": [
       {
         id: 10,
         status: null,
@@ -172,7 +172,7 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
         details: {},
       },
     ],
-    "27/12/2024": [
+    "27/01/2025": [
       {
         id: 11,
         status: "competition",
@@ -186,7 +186,7 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
         },
       },
     ],
-    "28/12/2024": [
+    "28/01/2025": [
       {
         id: 12,
         status: null,
@@ -194,7 +194,7 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
         details: {},
       },
     ],
-    "29/12/2024": [
+    "29/01/2025": [
       {
         id: 13,
         status: "competition",
@@ -228,7 +228,7 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const [whatShow, setWhatShow] = useState("show");
   const [userStatus, setUserStatus] = useState<"swimmer" | "coach" | "admin">(
-    "swimmer"
+    "coach"
   );
   const [nextTrain, setNextTrain] = useState<SelectedEvent | null>(null);
   const [nextCompetition, setNextCompetition] = useState<SelectedEvent | null>(
@@ -318,7 +318,7 @@ export const EventsProvider: React.FC<{ children: React.ReactNode }> = ({
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    // On récupère toutes les clés de dataEvents (ex: "17/12/2024", "18/12/2024", etc.)
+    // On récupère toutes les clés de dataEvents (ex: "17/12/2025", "18/12/2025", etc.)
     const dates = Object.keys(dataEvents);
     // On convertit chaque clé en objet date pour pouvoir comparer
     const parsedDates = dates.map((d) => {

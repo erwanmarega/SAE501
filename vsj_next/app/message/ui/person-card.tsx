@@ -14,7 +14,7 @@ interface PersonCardProps {
 
 const PersonCard: React.FC<PersonCardProps> = ({ name, text, date, icon }) => {
   return (
-    <div className="relative border-[#f7f7f7] border-y-2 w-full overflow-hidden">
+    <div className="relative border-[#f7f7f7] border-t-2 w-full overflow-hidden hover:bg-gray-100 cursor-pointer">
       <section className="grid grid-cols-[50px_1fr] py-3 px-4 gap-4 w-full">
         <Profil size={52.5} />
         <main className="h-full w-5/6 flex flex-col justify-between">
@@ -24,7 +24,7 @@ const PersonCard: React.FC<PersonCardProps> = ({ name, text, date, icon }) => {
         <footer className="absolute right-4 top-1 flex gap-2 items-center">
           <p>{date}</p>
           {icon && (
-            <p className="bg-primary text-white rounded-full h-6 w-6 flex items-center justify-center">
+            <p className="bg-primary text-white rounded-full h-5 w-5 flex items-center justify-center font-outfit text-xs font-bold">
               {icon}
             </p>
           )}
