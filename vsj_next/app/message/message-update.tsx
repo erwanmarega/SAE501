@@ -4,6 +4,7 @@ import React, { useState, useRef } from "react";
 import SidebarMessage from "./sidebar-message";
 import ContainerMessage from "./container-message";
 
+// Type pour la liste de personnes
 type Person = {
   id: number;
   name: string;
@@ -12,20 +13,22 @@ type Person = {
   icon?: string;
 };
 
+// Type pour la liste de messages
 type Message = {
   id: number;
   sender: string;
   time: string;
   text: string;
-  fromMe?: boolean; 
+  fromMe?: boolean; // booléen pour savoir si c'est "moi"
 };
 
 const MessageUpdate = () => {
   const [searchValue, setSearchValue] = useState("");
-  const [text, setText] = useState(""); 
-  const [textareaHeight, setTextareaHeight] = useState("auto"); 
+  const [text, setText] = useState(""); // État pour le contenu du textarea
+  const [textareaHeight, setTextareaHeight] = useState("auto"); // Hauteur dynamique
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
+  // Ton tableau de personnes (exemple)
   const persons: Person[] = [
     {
       id: 1,
@@ -50,34 +53,6 @@ const MessageUpdate = () => {
     },
   ];
 
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: 1,
-      sender: "Erwan",
-      time: "03:16",
-      text: `Je suis anglais les jours off, j’essaye un peu de show off 
-             pour montrer ma supériorité c’est comme ça, je suis 
-             meilleur et je le dis. Malheureusement y’a encore des pauvres 
-             mais c’est comme ça, on va créer une île pour rester 
-             entre personnes dignes.`,
-      fromMe: false,
-    },
-    {
-      id: 2,
-      sender: "Moi",
-      time: "03:18",
-      text: "Et voilà comment on fait pour répondre…",
-      fromMe: true,
-    },
-    {
-      id: 3,
-      sender: "Erwan",
-      time: "03:20",
-      text: "T’as vu ça ? La classe hein !",
-      fromMe: false,
-    },
-  ]);
-
   const [selectedDiscussion, setSelectedDiscussion] = useState("Erwan");
   const [discussions, setDiscussions] = useState<Record<string, Message[]>>({
     Erwan: [
@@ -93,6 +68,13 @@ const MessageUpdate = () => {
         sender: "Moi",
         time: "03:18",
         text: "Réponse à Erwan",
+        fromMe: true,
+      },
+      {
+        id: 3,
+        sender: "Moi",
+        time: "03:18",
+        text: "Ceci est un nouveau message",
         fromMe: true,
       },
     ],
@@ -116,6 +98,7 @@ const MessageUpdate = () => {
     ],
   });
 
+  // Filtre les personnes en fonction de la recherche
   const filteredPersons = persons.filter((person) => {
     const lowerSearch = searchValue.toLowerCase();
     return (
@@ -135,17 +118,18 @@ const MessageUpdate = () => {
 
   const adjustTextareaHeight = () => {
     if (textareaRef.current) {
-      textareaRef.current.style.height = "auto"; 
+      textareaRef.current.style.height = "auto"; // Réinitialise pour recalculer
       const scrollHeight = textareaRef.current.scrollHeight;
       textareaRef.current.style.height = `${scrollHeight}px`;
     }
   };
 
+  // Fonction pour envoyer le message
   const handleSendMessage = () => {
-    if (!text.trim()) return; 
+    if (!text.trim()) return; // Si le message est vide, on ne fait rien
 
     const newMessage: Message = {
-      id: Date.now(), 
+      id: Date.now(), // ID unique basé sur le timestamp
       sender: "Moi",
       time: new Date().toLocaleTimeString("fr-FR", {
         hour: "2-digit",
@@ -155,41 +139,62 @@ const MessageUpdate = () => {
       fromMe: true,
     };
 
-    setMessages((prevMessages) => [...prevMessages, newMessage]);
+    // Met à jour l'état "discussions" pour la discussion sélectionnée
+    setDiscussions((prevDiscussions) => ({
+      ...prevDiscussions,
+      [selectedDiscussion]: [
+        ...prevDiscussions[selectedDiscussion],
+        newMessage,
+      ],
+    }));
 
+    // Vide le champ de texte
     setText("");
+
+    // Réinitialise la hauteur du textarea
     if (textareaRef.current) {
       textareaRef.current.style.height = "auto";
     }
   };
+
+  // API Voice
   const [isRecording, setIsRecording] = useState(false);
   const [transcription, setTranscription] = useState("");
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
 
+  // Fonction pour démarrer l'enregistrement
   const startRecording = async () => {
     setTranscription("");
     setIsRecording(true);
     audioChunksRef.current = [];
 
+    // Demander l'autorisation d'utiliser le micro
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
 
+    // Créer une instance de MediaRecorder
     const mediaRecorder = new MediaRecorder(stream);
 
+    // Dès qu’on reçoit des données audio, on les empile dans audioChunksRef
     mediaRecorder.ondataavailable = (event) => {
       if (event.data.size > 0) {
         audioChunksRef.current.push(event.data);
       }
     };
+
+    // Lorsqu’on arrête l’enregistrement
     mediaRecorder.onstop = async () => {
+      // Construire un blob à partir des chunks
       const audioBlob = new Blob(audioChunksRef.current, {
         type: "audio/ogg; codecs=opus",
       });
 
+      // Option 1 : Convertir en Base64 (pour l’envoyer dans req.body)
       const base64Audio = await blobToBase64(audioBlob);
 
+      // Appel à l'API Next.js
       try {
-        const response = await fetch("../api/transcribe", {
+        const response = await fetch("../../public/assets/api/transcribe", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -199,7 +204,7 @@ const MessageUpdate = () => {
         const data = await response.json();
         if (data.transcription) {
           setTranscription(data.transcription);
-          setText(data.transcription); 
+          setText(data.transcription); // Ajout de cette ligne pour mettre à jour le textarea
         } else {
           console.error("Erreur lors de la transcription", data);
         }
@@ -208,10 +213,12 @@ const MessageUpdate = () => {
       }
     };
 
+    // Lancer l’enregistrement
     mediaRecorder.start();
     mediaRecorderRef.current = mediaRecorder;
   };
 
+  // Fonction pour arrêter l'enregistrement
   const stopRecording = () => {
     setIsRecording(false);
     if (mediaRecorderRef.current) {
@@ -219,6 +226,7 @@ const MessageUpdate = () => {
     }
   };
 
+  // Convertir Blob en Base64
   const blobToBase64 = (blob) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -236,10 +244,11 @@ const MessageUpdate = () => {
         searchValue={searchValue}
         handleSearchChange={handleSearchChange}
         filteredPersons={filteredPersons}
+        selectedDiscussion={selectedDiscussion}
+        setSelectedDiscussion={setSelectedDiscussion}
       />
 
       <ContainerMessage
-        messages={messages}
         textareaRef={textareaRef}
         text={text}
         handleTextChange={handleTextChange}
