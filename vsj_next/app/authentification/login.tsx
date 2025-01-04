@@ -24,7 +24,7 @@ const LoginPage = ({
 
   const handleLogin = async () => {
     try {
-      const response = await fetch("/swimmer/login", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/swimmer/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -38,9 +38,10 @@ const LoginPage = ({
       const data = await response.json();
 
       if (response.ok) {
-        router.push("/"); 
+        localStorage.setItem("jwt_token", data.token);
+        router.push("/");  
       } else {
-        setError(data.message); 
+        setError(data.message);  
       }
     } catch (error) {
       setError("Une erreur est survenue");
@@ -66,6 +67,7 @@ const LoginPage = ({
         onChange={(e) => setLoginPassword(e.target.value)}
       />
       {error && <p className="text-red-500">{error}</p>}
+      <button onClick={handleLogin} className="btn">Se connecter</button>
     </main>
   );
 };

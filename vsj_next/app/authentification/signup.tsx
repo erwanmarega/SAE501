@@ -3,55 +3,57 @@
 import React, { useState } from "react";
 import Input from "@/app/components/ui/input";
 import Button from "@/app/components/ui/button";
+import { useRouter } from "next/navigation";
 
-interface SignupPageProps {
-  handleToggle: (active: "Connexion" | "Inscription") => void;
-  handleSignup: (email: string, password: string, confirmPassword: string) => Promise<void>;
-  signupError: string | null;
-  signupSuccess: boolean;
-  isLoading: boolean;
-}
-
-const SignupPage: React.FC<SignupPageProps> = ({
-  handleToggle,
-  handleSignup,
-  signupError,
-  signupSuccess,
-  isLoading,
-}) => {
+const SignupPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [localError, setLocalError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const onSignup = async () => {
-    setLocalError(null);
+    setError(null);
 
-    // ✅ **Ajoutez des logs pour déboguer**
-    console.log("Email:", email);
-    console.log("Password:", password);
-    console.log("Confirm Password:", confirmPassword);
-
-    // ✅ **Validation locale des champs**
-    if (!email.trim() || !password.trim() || !confirmPassword.trim()) {
-      setLocalError("Veuillez remplir tous les champs obligatoires.");
+    if (!email || !password || !confirmPassword) {
+      setError("Veuillez remplir tous les champs obligatoires.");
       return;
     }
 
     if (password !== confirmPassword) {
-      setLocalError("Les mots de passe ne correspondent pas.");
+      setError("Les mots de passe ne correspondent pas.");
       return;
     }
 
     if (password.length < 6) {
-      setLocalError("Le mot de passe doit contenir au moins 6 caractères.");
+      setError("Le mot de passe doit contenir au moins 6 caractères.");
       return;
     }
 
+    setIsLoading(true);
+
     try {
-      await handleSignup(email.trim(), password.trim(), confirmPassword.trim());
-    } catch (error: any) {
-      setLocalError(error.message || "Une erreur est survenue.");
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.message || "Une erreur est survenue.");
+      } else {
+        if (data.token) {
+          localStorage.setItem("authToken", data.token);
+        }
+        router.push("/signup"); 
+      }
+    } catch (err) {
+      setError("Une erreur réseau est survenue.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -59,14 +61,8 @@ const SignupPage: React.FC<SignupPageProps> = ({
     <main className="flex flex-col items-center gap-6 justify-center p-4 max-w-md mx-auto">
       <h1 className="text-2xl font-bold">Inscription</h1>
 
-      {/* ✅ **Gestion des erreurs** */}
-      {localError && <p className="text-red-500">{localError}</p>}
-      {signupError && <p className="text-red-500">{signupError}</p>}
-      {signupSuccess && (
-        <p className="text-green-500">Inscription réussie ! Redirection...</p>
-      )}
+      {error && <p className="text-red-500">{error}</p>}
 
-      {/* ✅ **Champs d'entrée** */}
       <Input
         label="Email"
         name="email"
@@ -95,7 +91,6 @@ const SignupPage: React.FC<SignupPageProps> = ({
         autoComplete="new-password"
       />
 
-      {/* ✅ **Bouton d'inscription** */}
       <Button
         variant="primary"
         format="big"
@@ -105,17 +100,6 @@ const SignupPage: React.FC<SignupPageProps> = ({
       >
         {isLoading ? "Chargement..." : "S'inscrire"}
       </Button>
-
-      {/* ✅ **Lien vers la connexion** */}
-      <p className="text-sm text-gray-600">
-        Vous avez déjà un compte ?{" "}
-        <span
-          className="text-primary font-bold cursor-pointer"
-          onClick={() => handleToggle("Connexion")}
-        >
-          Connectez-vous ici
-        </span>
-      </p>
     </main>
   );
 };
