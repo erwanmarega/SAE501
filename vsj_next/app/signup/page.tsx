@@ -25,7 +25,6 @@ const Signup: React.FC = () => {
     email: ""
   });
 
-  // Récupérer le token depuis le localStorage (ou autre mécanisme de stockage)
   const token = localStorage.getItem("authToken");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,7 +37,6 @@ const Signup: React.FC = () => {
 
   const handleNextStep = () => {
     if (step === 3) {
-      // Soumettre les données via PUT ici
       handleSubmit();
       setShowConfetti(true);
       setStep(4);
@@ -67,25 +65,25 @@ const Signup: React.FC = () => {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/user/update`, {
-        method: "PUT",  
+      const response = await fetch(`http://localhost:8000/api/complete-registration`, {
+        method: "POST",  // Changer de PUT à POST
         headers: {
-          "Content-Type": "application/json",  
-          "Authorization": `Bearer ${token}`  // Ajout du token pour l'authentification
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
         },
-        body: JSON.stringify(formData),  
+        body: JSON.stringify(formData),
       });
   
-      const textResponse = await response.text();  // Récupère la réponse sous forme de texte
+      const textResponse = await response.text();
       console.log("Réponse du serveur :", textResponse);
   
       if (response.ok) {
         console.log("Profil mis à jour ou créé avec succès !");
-        setShowConfetti(true);  // Montrer les confettis si la mise à jour/création réussie
-        setStep(4);  // Passer à l'étape de confirmation
+        setShowConfetti(true);
+        setStep(4);
       } else {
         try {
-          const errorData = JSON.parse(textResponse);  // Essaye de parser comme JSON si possible
+          const errorData = JSON.parse(textResponse);
           console.error("Erreur lors de la mise à jour du profil:", errorData);
         } catch (error) {
           console.error("La réponse n'est pas du JSON valide:", textResponse);
@@ -214,14 +212,7 @@ const Signup: React.FC = () => {
                   onChange={handleChange}
                   className="col-span-1 border border-gray-300 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Adresse mail"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="col-span-1 border border-gray-300 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
+                
               </form>
             )}
 
