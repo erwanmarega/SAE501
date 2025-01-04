@@ -43,7 +43,6 @@ const Profil: React.FC<ProfilProps> = ({
           height: `${finalHeight}px`,
           clipPath: `path("${scaledPath}")`,
           backgroundColor: "#E0E6F7",
-          overflow: "hidden",
         }}
         onClick={onClick} // Ajout du gestionnaire d'événements click
       >

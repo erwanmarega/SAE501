@@ -11,6 +11,12 @@ export default function RootLayout({
 }>) {
   return (
     <html>
+      <head>
+        <link
+          rel="stylesheet"
+          href="./node_modules/apexcharts/dist/apexcharts.css"
+        />
+      </head>
       <body>
         <LanguageProviderClient>
           {children}
@@ -20,6 +26,9 @@ export default function RootLayout({
             </button>
           </Link>
         </LanguageProviderClient>
+        <script src="./node_modules/lodash/lodash.min.js"></script>
+        <script src="./node_modules/apexcharts/dist/apexcharts.min.js"></script>
+        <script src="./node_modules/preline/dist/helper-apexcharts.js"></script>
       </body>
     </html>
   );

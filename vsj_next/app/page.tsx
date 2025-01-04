@@ -16,6 +16,9 @@ import Header from "./components/header/header";
 import { EventsProvider } from "./calendar/database/events-context";
 import Group02 from "./groupe02/group02";
 
+import { redirect } from "next/navigation";
+import MessageUpdate from "./message/message-update";
+
 export default function Home() {
   // État pour suivre la page actuelle, par défaut "Dashboard"
   const [currentPage, setCurrentPage] = useState("");
@@ -28,7 +31,7 @@ export default function Home() {
       case "Calendar":
         return <Calendar />;
       case "Message":
-        return <Message />;
+        return <MessageUpdate />;
       case "Group":
         return <Group02 />;
       case "Map":
