@@ -53,35 +53,6 @@ const MessageUpdate = () => {
     },
   ];
 
-  // On gère désormais les messages via un state plutôt qu’une simple constante
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: 1,
-      sender: "Erwan",
-      time: "03:16",
-      text: `Je suis anglais les jours off, j’essaye un peu de show off 
-             pour montrer ma supériorité c’est comme ça, je suis 
-             meilleur et je le dis. Malheureusement y’a encore des pauvres 
-             mais c’est comme ça, on va créer une île pour rester 
-             entre personnes dignes.`,
-      fromMe: false,
-    },
-    {
-      id: 2,
-      sender: "Moi",
-      time: "03:18",
-      text: "Et voilà comment on fait pour répondre…",
-      fromMe: true,
-    },
-    {
-      id: 3,
-      sender: "Erwan",
-      time: "03:20",
-      text: "T’as vu ça ? La classe hein !",
-      fromMe: false,
-    },
-  ]);
-
   const [selectedDiscussion, setSelectedDiscussion] = useState("Erwan");
   const [discussions, setDiscussions] = useState<Record<string, Message[]>>({
     Erwan: [
@@ -97,6 +68,13 @@ const MessageUpdate = () => {
         sender: "Moi",
         time: "03:18",
         text: "Réponse à Erwan",
+        fromMe: true,
+      },
+      {
+        id: 3,
+        sender: "Moi",
+        time: "03:18",
+        text: "Ceci est un nouveau message",
         fromMe: true,
       },
     ],
@@ -148,10 +126,10 @@ const MessageUpdate = () => {
 
   // Fonction pour envoyer le message
   const handleSendMessage = () => {
-    if (!text.trim()) return; // si le message est vide, on ne fait rien
+    if (!text.trim()) return; // Si le message est vide, on ne fait rien
 
     const newMessage: Message = {
-      id: Date.now(), // simple ID unique
+      id: Date.now(), // ID unique basé sur le timestamp
       sender: "Moi",
       time: new Date().toLocaleTimeString("fr-FR", {
         hour: "2-digit",
@@ -161,16 +139,24 @@ const MessageUpdate = () => {
       fromMe: true,
     };
 
-    // Met à jour le state "messages"
-    setMessages((prevMessages) => [...prevMessages, newMessage]);
+    // Met à jour l'état "discussions" pour la discussion sélectionnée
+    setDiscussions((prevDiscussions) => ({
+      ...prevDiscussions,
+      [selectedDiscussion]: [
+        ...prevDiscussions[selectedDiscussion],
+        newMessage,
+      ],
+    }));
 
     // Vide le champ de texte
     setText("");
+
     // Réinitialise la hauteur du textarea
     if (textareaRef.current) {
       textareaRef.current.style.height = "auto";
     }
   };
+
   // API Voice
   const [isRecording, setIsRecording] = useState(false);
   const [transcription, setTranscription] = useState("");
@@ -208,7 +194,7 @@ const MessageUpdate = () => {
 
       // Appel à l'API Next.js
       try {
-        const response = await fetch("../api/transcribe", {
+        const response = await fetch("../../public/assets/api/transcribe", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -258,10 +244,11 @@ const MessageUpdate = () => {
         searchValue={searchValue}
         handleSearchChange={handleSearchChange}
         filteredPersons={filteredPersons}
+        selectedDiscussion={selectedDiscussion}
+        setSelectedDiscussion={setSelectedDiscussion}
       />
 
       <ContainerMessage
-        messages={messages}
         textareaRef={textareaRef}
         text={text}
         handleTextChange={handleTextChange}
