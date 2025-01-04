@@ -17,22 +17,26 @@ interface SidebarMessageProps {
   searchValue: string;
   handleSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   filteredPersons: Person[];
+  selectedDiscussion: string;
+  setSelectedDiscussion: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const SidebarMessage = ({
   searchValue,
   handleSearchChange,
   filteredPersons,
+  selectedDiscussion,
+  setSelectedDiscussion,
 }: SidebarMessageProps) => {
   return (
     <Card className="col-start-1 w-full h-full !px-0">
       <header className="flex flex-col gap-4 relative">
         <Image
-          src="/assets/icons/newmessage.svg"
-          width={20}
-          height={20}
+          src="/assets/icons/add_friend_message.svg"
+          width={35}
+          height={35}
           alt="Ajouter un contact"
-          className="absolute top-2 right-2 z-10 bg-primary rounded-lg flex items-center justify-center m-auto p-4"
+          className="absolute top-2 right-2 z-10 bg-primary rounded-lg flex items-center justify-center m-auto p-2"
         />
         <H3 className="px-4">Mes contacts</H3>
         <InputSearch
@@ -52,6 +56,8 @@ const SidebarMessage = ({
             text={person.text}
             date={person.date}
             icon={person.icon}
+            selectedDiscussion={selectedDiscussion}
+            setSelectedDiscussion={setSelectedDiscussion}
           />
         ))}
       </main>

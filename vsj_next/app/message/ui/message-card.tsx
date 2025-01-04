@@ -10,7 +10,7 @@ type MessageCardProps = {
   sender: string;
   time: string;
   text: string;
-  fromMe?: boolean; 
+  fromMe?: boolean; // si c'est "moi" ou "l'autre"
 };
 
 const MessageCard: React.FC<MessageCardProps> = ({
@@ -25,19 +25,13 @@ const MessageCard: React.FC<MessageCardProps> = ({
         fromMe ? "items-end" : "items-start"
       }`}
     >
-     
-      <section className="flex justify-between w-[370px] items-center">
-        <div className="flex items-center gap-2">
-          {!fromMe && (
-            <>
-              <Profil size={50} /> <H4 className="!text-xl">{sender}</H4>
-            </>
-          )}
-        </div>
+      {/* En-tête du message */}
+      <section className="flex justify-between w-[444px] items-center">
+        <div className="bg-gray-200 rounded-full h-4 w-4"></div>
         <P className="!text-xs">{time}</P>
       </section>
 
-     
+      {/* Corps du message */}
       <section>
         <div
           className={`${
