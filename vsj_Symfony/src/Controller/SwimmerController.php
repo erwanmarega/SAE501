@@ -35,16 +35,16 @@ class SwimmerController extends AbstractController
         $data = json_decode($request->getContent(), true);
 
         if (empty($data['email']) || empty($data['password'])) {
-            return $this->json(['message' => 'Email and password are required'], Response::HTTP_BAD_REQUEST);
+            return $this->json(['message' => 'L\'email et le mot de passe sont requis'], Response::HTTP_BAD_REQUEST);
         }
 
         if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-            return $this->json(['message' => 'Invalid email format'], Response::HTTP_BAD_REQUEST);
+            return $this->json(['message' => 'Format d\'email invalide'], Response::HTTP_BAD_REQUEST);
         }
 
         $existingSwimmer = $this->entityManager->getRepository(Swimmer::class)->findOneBy(['email' => $data['email']]);
         if ($existingSwimmer) {
-            return $this->json(['message' => 'Email already in use'], Response::HTTP_CONFLICT);
+            return $this->json(['message' => 'Cet email est déjà utilisé'], Response::HTTP_CONFLICT);
         }
 
         $swimmer = new Swimmer();
@@ -61,7 +61,7 @@ class SwimmerController extends AbstractController
         $token = $this->jwtManager->create($swimmer);
 
         return $this->json([
-            'message' => 'User registered successfully',
+            'message' => 'Utilisateur enregistré avec succès',
             'token' => $token,
         ], Response::HTTP_CREATED);
     }
@@ -74,13 +74,13 @@ class SwimmerController extends AbstractController
         $data = json_decode($request->getContent(), true);
 
         if (empty($data['nom']) || empty($data['prenom'])) {
-            return $this->json(['message' => 'Name and first name are required'], Response::HTTP_BAD_REQUEST);
+            return $this->json(['message' => 'Le nom et le prénom sont requis'], Response::HTTP_BAD_REQUEST);
         }
 
         $user = $this->getUser(); 
 
         if (!$user instanceof Swimmer) {
-            return $this->json(['message' => 'User not authenticated'], Response::HTTP_UNAUTHORIZED);
+            return $this->json(['message' => 'Utilisateur non authentifié'], Response::HTTP_UNAUTHORIZED);
         }
 
         $user->setNom($data['nom']);
@@ -95,7 +95,7 @@ class SwimmerController extends AbstractController
         $this->entityManager->flush();
 
         return $this->json([
-            'message' => 'User registration completed successfully',
+            'message' => 'Inscription finalisée',
         ], Response::HTTP_OK);
     }
 
@@ -107,48 +107,46 @@ class SwimmerController extends AbstractController
         $user = $this->getUser(); 
 
         if (!$user) {
-            return $this->json(['message' => 'User not authenticated'], Response::HTTP_UNAUTHORIZED);
+            return $this->json(['message' => 'Utilisateur non authentifié'], Response::HTTP_UNAUTHORIZED);
         }
 
         if (!$user instanceof Swimmer) {
-            return $this->json(['message' => 'User is not a swimmer'], Response::HTTP_UNAUTHORIZED);
+            return $this->json(['message' => 'Aucun compte avec ces informations'], Response::HTTP_UNAUTHORIZED);
         }
 
         return $this->json([
             'prenom' => $user->getPrenom(),  
             'nom' => $user->getNom(),
+            'dateNaissance' => $user->getDateNaissance() ? $user->getDateNaissance()->format('Y-m-d') : null,
         ]);
     }
 
     /**
- * @Route("/swimmer/login", name="login_swimmer", methods={"POST"})
- */
-public function login(Request $request): Response
-{
-    $data = json_decode($request->getContent(), true);
+     * @Route("/swimmer/login", name="login_swimmer", methods={"POST"})
+     */
+    public function login(Request $request): Response
+    {
+        $data = json_decode($request->getContent(), true);
 
-    if (empty($data['email']) || empty($data['password'])) {
-        return $this->json(['message' => 'Email and password are required'], Response::HTTP_BAD_REQUEST);
+        if (empty($data['email']) || empty($data['password'])) {
+            return $this->json(['message' => 'L\'email et le mot de passe sont requis'], Response::HTTP_BAD_REQUEST);
+        }
+
+        $swimmer = $this->entityManager->getRepository(Swimmer::class)->findOneBy(['email' => $data['email']]);
+
+        if (!$swimmer) {
+            return $this->json(['message' => 'Email ou mot de passe invalide'], Response::HTTP_UNAUTHORIZED);
+        }
+
+        if (!$this->passwordHasher->isPasswordValid($swimmer, $data['password'])) {
+            return $this->json(['message' => 'Email ou mot de passe invalide'], Response::HTTP_UNAUTHORIZED);
+        }
+
+        $token = $this->jwtManager->create($swimmer);
+
+        return $this->json([
+            'message' => 'Connexion réussie',
+            'token' => $token,
+        ]);
     }
-
-    // Vérifier si l'utilisateur existe avec cet email
-    $swimmer = $this->entityManager->getRepository(Swimmer::class)->findOneBy(['email' => $data['email']]);
-
-    if (!$swimmer) {
-        return $this->json(['message' => 'Invalid email or password'], Response::HTTP_UNAUTHORIZED);
-    }
-
-    // Vérifier le mot de passe
-    if (!$this->passwordHasher->isPasswordValid($swimmer, $data['password'])) {
-        return $this->json(['message' => 'Invalid email or password'], Response::HTTP_UNAUTHORIZED);
-    }
-
-    // Générer le token JWT
-    $token = $this->jwtManager->create($swimmer);
-
-    return $this->json([
-        'message' => 'Login successful',
-        'token' => $token,
-    ]);
-}
 }
