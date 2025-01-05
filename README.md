@@ -33,7 +33,7 @@ Le projet de refonte du site de l'association de natation de Villiers-sur-Marne 
 - **Concepteur 3D** : Valentin Fontaine
 
 ## 📆 **Planning Prévisionnel**
-- **Phase de préparation ** : Cadrage et spécifications (2 semaines)
+- **Phase de préparation** : Cadrage et spécifications (2 semaines)
 - **Phase de conception** : Conceptiond de la charte graphique, maquette (2 semaines)
 - **Phase de développement** : Développement du frontend et backend (6 semaines)
 - **Phase de test et validation** : Tests unitaires et fonctionnels, corrections, validation finale (3 semaines)
