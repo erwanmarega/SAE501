@@ -92,7 +92,6 @@ const SignupPage: React.FC = () => {
 
       <Button
         variant="primary"
-        format="big"
         type="button"
         onClick={onSignup}
         disabled={isLoading}

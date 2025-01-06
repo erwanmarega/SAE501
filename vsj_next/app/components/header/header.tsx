@@ -38,8 +38,8 @@ const Header = () => {
             console.warn(
               "Token expiré ou non valide. Redirection vers la page de connexion."
             );
-            /*localStorage.removeItem("authToken");
-            router.push("/authentification");*/
+            localStorage.removeItem("authToken");
+            router.push("/authentification");
           } else {
             console.error(
               "Erreur lors de la récupération des données utilisateur"
@@ -50,13 +50,13 @@ const Header = () => {
             "Erreur réseau lors de la récupération des données utilisateur",
             error
           );
-          /*router.push("/authentification");*/
+          router.push("/authentification");
         }
       };
 
       fetchUserData();
     } else {
-      //router.push("/authentification");
+      router.push("/authentification");
     }
   }, [router]);
 

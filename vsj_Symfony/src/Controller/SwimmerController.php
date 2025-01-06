@@ -27,9 +27,9 @@ class SwimmerController extends AbstractController
         $this->jwtManager = $jwtManager;
     }
 
-    /**
-     * @Route("/register", name="register_swimmer", methods={"POST"})
-     */
+    
+     #[Route('/register', name:'register_swimmer', methods:['POST'])]
+    
     public function register(Request $request): Response
     {
         $data = json_decode($request->getContent(), true);
@@ -66,9 +66,9 @@ class SwimmerController extends AbstractController
         ], Response::HTTP_CREATED);
     }
 
-    /**
-     * @Route("/api/complete-registration", name="complete_registration", methods={"POST"})
-     */
+    
+      #[Route('/api/complete-registration', name:'complete_registration', methods:['POST'])]
+   
     public function completeRegistration(Request $request): Response
     {
         $data = json_decode($request->getContent(), true);
