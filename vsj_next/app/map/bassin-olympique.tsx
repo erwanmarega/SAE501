@@ -69,7 +69,7 @@ const BassinOlympique = () => {
   };
 
   return (
-    <div className="h-[100vh] flex flex-col items-center bg-[#F7F7F7] dark:bg-[#262629]">
+    <div className="h-[100vh] flex flex-col items-center bg-[#F7F7F7] dark:bg-[#262629] overflow-hidden">
       <Header />
 
       <div className="flex flex-col items-center justify-center h-full w-full">
@@ -83,30 +83,37 @@ const BassinOlympique = () => {
           </Card>
 
           <section className="grid grid-rows-[1fr_2fr] gap-6 h-full">
-            <Card className="flex flex-col items-center justify-center text-center p-6">
+            <Card className="flex flex-col items-center justify-center text-center p-6 relative">
+              <span className="absolute top-4 right-4 text-md bg-blue-100 text-blue-600 py-1 px-5 rounded-full font-mona">
+                Natation
+              </span>
               <h2 className="text-4xl font-semibold text-gray-800 font-mona">
                 Bassin Olympique
               </h2>
               <p className="text-2xl text-[#353535] font-mona">Compétition</p>
 
               {!isAudioVisible ? (
-                <button
-                  onClick={handleAudioButtonClick}
-                  className="mt-6 px-8 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 flex items-center gap-2 animate-bounce"
-                >
-                  <img
-                    src="./assets/img/Vector.png"
-                    alt="Écouter Icone"
-                    className="w-5 h-5"
-                  />
-                  <span className="font-medium">Écouter</span>
-                </button>
+                <div className="group">
+                  <button
+                    onClick={handleAudioButtonClick}
+                    className="mt-6 px-8 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 flex items-center gap-2 group-hover:animate-bounce"
+                  >
+                    <img
+                      src="./assets/img/Vector.png"
+                      alt="Écouter Icone"
+                      className="w-5 h-5"
+                    />
+                    <span className="font-medium">Écouter</span>
+                  </button>
+                </div>
               ) : (
-                <div className="flex items-center mt-6 gap-4 w-full">
+                <div className="flex items-center justify-start mt-12 gap-4 w-full pl-8">
+                  {" "}
+                  {/* Ajout de pl-8 pour décaler vers la droite */}
                   {/* Bouton reculer */}
                   <button
                     onClick={() => skipTime(-15)}
-                    className="flex items-center"
+                    className="flex items-center justify-center"
                   >
                     <img
                       src="./assets/img/recu.png"
@@ -114,7 +121,6 @@ const BassinOlympique = () => {
                       className="w-8 h-8"
                     />
                   </button>
-
                   {/* Bouton lecture/pause */}
                   <button
                     onClick={toggleAudio}
@@ -134,11 +140,10 @@ const BassinOlympique = () => {
                       />
                     )}
                   </button>
-
                   {/* Bouton avancer */}
                   <button
                     onClick={() => skipTime(15)}
-                    className="flex items-center"
+                    className="flex items-center justify-center"
                   >
                     <img
                       src="./assets/img/avan.png"
@@ -146,9 +151,8 @@ const BassinOlympique = () => {
                       className="w-8 h-8"
                     />
                   </button>
-
                   {/* Barre de progression */}
-                  <div className="flex items-center gap-2 w-48">
+                  <div className="flex items-center gap-2 w-48 justify-center">
                     <input
                       type="range"
                       min="0"
@@ -162,16 +166,16 @@ const BassinOlympique = () => {
                           setCurrentTime(audioRef.current.currentTime);
                         }
                       }}
-                      className="w-full"
+                      className="w-full appearance-none rounded-full bg-gray-300"
                     />
                     <span>
                       {Math.floor(currentTime / 60)}:
                       {("0" + Math.floor(currentTime % 60)).slice(-2)}
                     </span>
                   </div>
-
                   {/* Contrôle du volume */}
                   <div className="relative flex items-center gap-2 w-24">
+                    {/* Réduit la largeur */}
                     <img
                       src="./assets/img/volume.png"
                       alt="Volume bas"
@@ -179,7 +183,7 @@ const BassinOlympique = () => {
                       onClick={toggleVolumeVisibility}
                     />
                     <div
-                      className={`absolute left-12 top-0 transform transition-all duration-300 ${
+                      className={`absolute left-8 top-1/2 transform -translate-y-1/2 transition-all duration-300 ${
                         isVolumeVisible
                           ? "opacity-100 translate-x-0"
                           : "opacity-0 translate-x-full"
@@ -192,7 +196,7 @@ const BassinOlympique = () => {
                         step="0.01"
                         value={volume}
                         onChange={handleVolumeChange}
-                        className="w-full"
+                        className="w-12 h-2 appearance-none rounded-full bg-gradient-to-r from-blue-400 to-indigo-500" // Réduit la taille de la barre
                       />
                     </div>
                   </div>
@@ -209,9 +213,9 @@ const BassinOlympique = () => {
             </Card>
 
             {/* Autres sections */}
-            <section className="grid grid-cols-2 grid-rows-2 gap-6">
+            <section className="grid grid-cols-2 grid-rows-2 gap-6 mt-8">
               {/* Carte 1 */}
-              <Card className="relative flex flex-col items-center justify-center text-center p-4">
+              <Card className="relative flex flex-col items-center justify-center text-center p-6">
                 <div className="absolute top-4 left-4 flex items-center gap-2">
                   <img
                     src="./assets/img/Group 480.png"
@@ -222,14 +226,14 @@ const BassinOlympique = () => {
                     Profondeur
                   </h3>
                 </div>
-                <p className="text-8xl font-bold text-[#303030] font-outfit">
+                <p className="text-8xl font-bold text-[#303030] font-outfit mt-12">
                   50
                 </p>
                 <p className="text-gray-500 font-outfit">mètres</p>
               </Card>
 
               {/* Carte 2 */}
-              <Card className="relative flex flex-col items-center justify-center text-center p-4">
+              <Card className="relative flex flex-col items-center justify-center text-center p-6">
                 <div className="absolute top-4 left-4 flex items-center gap-2">
                   <img
                     src="./assets/img/capa.png"
@@ -240,14 +244,14 @@ const BassinOlympique = () => {
                     Capacité
                   </h3>
                 </div>
-                <p className="text-8xl font-bold text-[#303030] font-outfit">
+                <p className="text-8xl font-bold text-[#303030] font-outfit mt-12">
                   10
                 </p>
                 <p className="text-gray-500 font-outfit">couloirs</p>
               </Card>
 
               {/* Carte 3 */}
-              <Card className="relative flex flex-col items-center justify-center text-center p-4">
+              <Card className="relative flex flex-col items-center justify-center text-center p-6">
                 <div className="absolute top-4 left-4 flex items-center gap-2">
                   <img
                     src="./assets/img/Group 498.png"
@@ -258,14 +262,14 @@ const BassinOlympique = () => {
                     Température
                   </h3>
                 </div>
-                <p className="text-8xl font-bold text-[#303030] font-outfit">
+                <p className="text-8xl font-bold text-[#303030] font-outfit mt-12">
                   26
                 </p>
                 <p className="text-gray-500 font-outfit">°C</p>
               </Card>
 
               {/* Carte 4 */}
-              <Card className="relative flex flex-col items-center justify-center text-center p-4">
+              <Card className="relative flex flex-col items-center justify-center text-center p-6">
                 <div className="absolute top-4 left-4 flex items-center gap-2">
                   <img
                     src="./assets/img/Horloge.png"
@@ -276,7 +280,7 @@ const BassinOlympique = () => {
                     Horaires
                   </h3>
                 </div>
-                <p className="text-8xl font-bold text-[#303030] font-outfit">
+                <p className="text-8xl font-bold text-[#303030] font-outfit mt-12">
                   8-18
                 </p>
                 <p className="text-gray-500 font-outfit">heures</p>
