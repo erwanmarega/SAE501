@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Header from "../components/header/header";
 import BassinOlympique from "./bassin-olympique";
+import Pateugoire from "./pateugoire";
 
 const MapPage = () => {
   const [selectedPage, setSelectedPage] = useState("bassin olympique");
@@ -11,6 +12,9 @@ const MapPage = () => {
     switch (value) {
       case "bassin olympique":
         return <BassinOlympique />;
+        break;
+        case "pateugoire":
+        return <Pateugoire />;
         break;
 
       default:
