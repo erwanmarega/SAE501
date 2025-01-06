@@ -6,14 +6,14 @@ import BassinOlympique from "./bassin-olympique";
 import Pateugoire from "./pateugoire";
 
 const MapPage = () => {
-  const [selectedPage, setSelectedPage] = useState("bassin olympique");
+  const [selectedPage, setSelectedPage] = useState("pateugoire");
 
   const whatShow = (value: string) => {
     switch (value) {
       case "bassin olympique":
         return <BassinOlympique />;
         break;
-        case "pateugoire":
+      case "pateugoire":
         return <Pateugoire />;
         break;
 
