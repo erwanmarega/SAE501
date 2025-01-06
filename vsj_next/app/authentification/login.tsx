@@ -2,7 +2,9 @@
 
 import React, { useState } from "react";
 import Input from "@/app/components/ui/input";
-import { useRouter } from "next/navigation"; 
+import { useRouter } from "next/navigation";
+import Button from "@/app/components/ui/button";
+
 
 interface LoginPageProps {
   handleToggle: (active: "Connexion" | "Inscription") => void;
@@ -67,8 +69,15 @@ const LoginPage = ({
         onChange={(e) => setLoginPassword(e.target.value)}
       />
       {error && <p className="text-red-500">{error}</p>}
-      <button onClick={handleLogin} className="btn">Se connecter</button>
-    </main>
+        <Button
+          variant="primary"
+         type="button"
+          onClick={handleLogin}
+         >
+          Se connecter
+        </Button>   
+  
+   </main>
   );
 };
 

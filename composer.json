@@ -1,0 +1,6 @@
+{
+    "require": {
+        "sensio/framework-extra-bundle": "^6.2",
+        "symfony/routing": "^7.2"
+    }
+}

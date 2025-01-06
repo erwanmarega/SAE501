@@ -1,4 +1,3 @@
-// File: /app/components/messages/MessageCard.tsx
 
 import Profil from "@/app/components/profil/profil";
 import React from "react";
@@ -10,7 +9,7 @@ type MessageCardProps = {
   sender: string;
   time: string;
   text: string;
-  fromMe?: boolean; // si c'est "moi" ou "l'autre"
+  fromMe?: boolean; 
 };
 
 const MessageCard: React.FC<MessageCardProps> = ({
@@ -25,13 +24,11 @@ const MessageCard: React.FC<MessageCardProps> = ({
         fromMe ? "items-end" : "items-start"
       }`}
     >
-      {/* En-tête du message */}
       <section className="flex justify-between w-[444px] items-center">
         <div className="bg-gray-200 rounded-full h-4 w-4"></div>
         <P className="!text-xs">{time}</P>
       </section>
 
-      {/* Corps du message */}
       <section>
         <div
           className={`${
