@@ -4,9 +4,14 @@ import React, { useState } from "react";
 import Header from "../components/header/header";
 import BassinOlympique from "./bassin-olympique";
 import Pateugoire from "./pateugoire";
+import PetitBassin from "./petit-bassin";
+import PlateformeDeJeux from "./plateforme-jeux";
+import BassinAquabike from "./bassin-aquabike";
+import SpaBienEtre from "./spa";
+import Vestiaires from "./vestiaire";
 
 const MapPage = () => {
-  const [selectedPage, setSelectedPage] = useState("pateugoire");
+  const [selectedPage, setSelectedPage] = useState("vestiaire");
 
   const whatShow = (value: string) => {
     switch (value) {
@@ -15,6 +20,21 @@ const MapPage = () => {
         break;
       case "pateugoire":
         return <Pateugoire />;
+        break;
+      case "petit bassin":
+        return <PetitBassin />;
+        break;
+      case "plateforme jeux":
+        return <PlateformeDeJeux />;
+        break;
+      case "bassin aquabike":
+        return <BassinAquabike />;
+        break;
+      case "spa":
+        return <SpaBienEtre />;
+        break;
+      case "vestiaire":
+        return <Vestiaires />;
         break;
 
       default:

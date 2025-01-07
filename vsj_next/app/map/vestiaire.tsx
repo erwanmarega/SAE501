@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import Card from "../components/ui/card";
 import Header from "../components/header/header";
 
-const Pataugeoire = () => {
+const Vestiaires = () => {
   const [isAudioVisible, setIsAudioVisible] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isVolumeVisible, setIsVolumeVisible] = useState(false);
@@ -76,8 +76,8 @@ const Pataugeoire = () => {
         <div className="grid grid-cols-[3fr_2fr] gap-10 w-[90%] lg:w-[1400px] h-[85%]">
           <Card className="!px-0 !py-0 h-full">
             <img
-              src="/images/pataugeoire.jpg"
-              alt="Pataugeoire"
+              src="/images/vestiaires.jpg"
+              alt="Vestiaires"
               className="w-full h-full object-cover rounded-lg"
             />
           </Card>
@@ -85,13 +85,13 @@ const Pataugeoire = () => {
           <section className="grid grid-rows-[1fr_2fr] gap-6 h-full">
             <Card className="flex flex-col items-center justify-center text-center p-6 relative">
               <span className="absolute top-4 right-4 text-md bg-blue-100 text-blue-600 py-1 px-5 rounded-full font-mona">
-                Enfants
+                Confort & Praticité
               </span>
               <h2 className="text-4xl font-semibold text-gray-800 font-mona">
-                Pataugeoire
+                Vestiaires
               </h2>
               <p className="text-2xl text-[#353535] font-mona">
-                Espace ludique pour les petits
+                Confort et praticité à votre service
               </p>
 
               {!isAudioVisible ? (
@@ -211,20 +211,18 @@ const Pataugeoire = () => {
               <Card className="relative flex flex-col items-center justify-center text-center p-6">
                 <div className="absolute top-4 left-4 flex items-center gap-2">
                   <img
-                    src="./assets/img/equi.png"
-                    alt="Icone Profondeur"
+                    src="./assets/img/cadenas.png"
+                    alt="Icone Cadenas"
                     className="w-8 h-8"
                   />
                   <h3 className="text-lg font-semibold font-mona text-[#303030]">
-                    Equipement
+                    Cadenas
                   </h3>
                 </div>
                 <p className="text-8xl font-bold text-[#303030] font-outfit mt-12">
                   Oui
                 </p>
-                <p className="text-gray-500 font-outfit">
-                  Jeux aquatiques disponibles
-                </p>
+                <p className="text-gray-500 font-outfit">Cadenas fourni</p>
               </Card>
 
               {/* Carte 2 */}
@@ -240,45 +238,47 @@ const Pataugeoire = () => {
                   </h3>
                 </div>
                 <p className="text-8xl font-bold text-[#303030] font-outfit mt-12">
-                  30
+                  50
                 </p>
-                <p className="text-gray-500 font-outfit">enfants</p>
+                <p className="text-gray-500 font-outfit">casiers</p>
               </Card>
 
               {/* Carte 3 */}
               <Card className="relative flex flex-col items-center justify-center text-center p-6">
                 <div className="absolute top-4 left-4 flex items-center gap-2">
                   <img
-                    src="./assets/img/Group 498.png"
-                    alt="Icone Température"
-                    className="w-8 h-8"
+                    src="./assets/img/access.png"
+                    alt="Icone Accessibilité"
+                    className="w-11 h-11"
                   />
                   <h3 className="text-lg font-semibold font-mona text-[#303030]">
-                    Température
+                    Accessibilité
                   </h3>
                 </div>
                 <p className="text-8xl font-bold text-[#303030] font-outfit mt-12">
-                  28
+                  Oui
                 </p>
-                <p className="text-gray-500 font-outfit">°C</p>
+                <p className="text-gray-500 font-outfit">Accessible PMR</p>
               </Card>
 
               {/* Carte 4 */}
               <Card className="relative flex flex-col items-center justify-center text-center p-6">
                 <div className="absolute top-4 left-4 flex items-center gap-2">
                   <img
-                    src="./assets/img/Horloge.png"
-                    alt="Icone Horaires"
+                    src="./assets/img/equi.png"
+                    alt="Icone Équipements"
                     className="w-8 h-8"
                   />
                   <h3 className="text-lg font-semibold font-mona text-[#303030]">
-                    Horaires
+                    Équipements
                   </h3>
                 </div>
                 <p className="text-8xl font-bold text-[#303030] font-outfit mt-12">
-                  9-19
+                  Oui
                 </p>
-                <p className="text-gray-500 font-outfit">heures</p>
+                <p className="text-gray-500 font-outfit">
+                  Bancs, douches, sèches cheveux
+                </p>
               </Card>
             </section>
           </section>
@@ -288,4 +288,4 @@ const Pataugeoire = () => {
   );
 };
 
-export default Pataugeoire;
+export default Vestiaires;
