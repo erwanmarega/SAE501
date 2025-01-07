@@ -59,7 +59,7 @@ const Loader = () => {
   }, [router]);
 
   return (
-    <div className="flex flex-col items-center justify-center fixed h-screen w-screen top-0 left-0 bg-white">
+    <div className="flex flex-col items-center justify-center fixed h-screen w-screen top-0 left-0 bg-[#F7F7F7]">
       <motion.h3
         className="text-2xl font-bold text-center"
         initial={{ opacity: 0 }}

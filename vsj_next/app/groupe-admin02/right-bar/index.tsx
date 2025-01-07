@@ -9,7 +9,19 @@ import ToggleSlide from "../../authentification/ui/toggle-slide";
 import RightBarEffectif from "./right-bar-effectif";
 import RightBarPlanning from "./right-bar-planning";
 
-const RightBar = () => {
+interface RightBarProps {
+  swimmerValue: number;
+  setSwimmerValue: React.Dispatch<React.SetStateAction<number>>;
+  coachValue: number;
+  setCoachValue: React.Dispatch<React.SetStateAction<number>>;
+}
+
+const RightBar = ({
+  swimmerValue,
+  setSwimmerValue,
+  coachValue,
+  setCoachValue,
+}: RightBarProps) => {
   const options = [
     { value: "baby-swimming", label: "Natation Bébé", icon: "/icons/baby.png" },
     {
@@ -39,7 +51,14 @@ const RightBar = () => {
   const whatShow = (value: string) => {
     switch (value) {
       case "Effectif":
-        return <RightBarEffectif />;
+        return (
+          <RightBarEffectif
+            swimmerValue={swimmerValue}
+            setSwimmerValue={setSwimmerValue}
+            coachValue={coachValue}
+            setCoachValue={setCoachValue}
+          />
+        );
         break;
       case "Planning":
         return <RightBarPlanning />;

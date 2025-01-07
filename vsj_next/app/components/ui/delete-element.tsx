@@ -7,9 +7,13 @@ import { motion } from "framer-motion";
 
 interface DeleteElementProps {
   className?: string;
+  onClick?: () => void; // Ajout de la prop onClick
 }
 
-const DeleteElement: React.FC<DeleteElementProps> = ({ className }) => {
+const DeleteElement: React.FC<DeleteElementProps> = ({
+  className,
+  onClick,
+}) => {
   return (
     <motion.div
       className={clsx(
@@ -24,6 +28,7 @@ const DeleteElement: React.FC<DeleteElementProps> = ({ className }) => {
         stiffness: 350,
         damping: 20,
       }}
+      onClick={onClick} // Ajout de l'événement onClick
     >
       <Image
         alt="Supprimer"

@@ -69,9 +69,9 @@ const CardActivity: React.FC<CardActivityProps> = ({
   return (
     <div
       className={clsx(
-        "card sm:h-60 md:h-64 lg:h-72 xl:h-80 2xl:h-[400px] sm:w-52 md:w-56 lg:w-60 xl:w-72 2xl:w-80 cursor-pointer  flex justify-center items-center m-auto",
+        "card sm:h-60 md:h-64 lg:h-72 xl:h-80 2xl:h-[400px] sm:w-52 md:w-56 lg:w-60 xl:w-72 2xl:w-80 cursor-pointer flex justify-center items-center m-auto select-none",
         {
-          "opacity-50": selected !== null && selected !== identity, // Applique opacity-50 si non sélectionné
+          "opacity-50": selected !== null && selected !== identity,
           "col-start-1 col-end-4 !w-full no-flip flipped":
             chosenButton && permanentSelectedCard === identity,
           "!-translate-y-[666px] !absolute": hideCard,
@@ -89,7 +89,7 @@ const CardActivity: React.FC<CardActivityProps> = ({
         <header
           className={`h-3/6 transition-transform duration-300 survol-container flex justify-center items-center ${
             selected === identity
-              ? "scale-125 -translate-y-4 translate"
+              ? "scale-110 -translate-y-2 translate"
               : "scale-100"
           }`}
         >
@@ -143,7 +143,7 @@ const CardActivity: React.FC<CardActivityProps> = ({
         )}
       >
         {/*BADGE*/}
-        <header className="h-4/6 mb-10 transition-transform duration-300">
+        <header className="h-4/6 mb-10 ">
           <div className="absolute right-2 top-2">
             <div className="bg-primary/15 rounded-full py-1 px-2">
               <p className="text-primary font-mona font-medium sm:text-3xs md:text-3xs lg:text-2xs xl:text-xs 2xl:text-sm text-center whitespace-nowrap">
