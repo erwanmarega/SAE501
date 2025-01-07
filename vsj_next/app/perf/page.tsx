@@ -149,7 +149,7 @@ const PerfPage = () => {
       <Header />
       <div className="grid grid-rows-10 grid-cols-2 h-[82.5vh] max-h-[575px] w-full max-w-[1500px] gap-5 mt-20">
         {/* Barre d'onglets */}
-        <Card className="h-full w-max flex justify-between gap-4 rounded-xl">
+        <Card className="h-12 w-max flex justify-between gap-4 rounded-xl">
           {options.map((option) => (
             <div
               key={option.id}

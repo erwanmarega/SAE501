@@ -11,16 +11,16 @@ const RightBarEffectif = () => {
   return (
     <section className="flex flex-col gap-2">
       <H4>Capacités cible</H4>
-      <div className="flex gap-4">
+      <div className="flex flex-col gap-4">
         <InputNumber
           value={swimmerValue}
           onChange={setSwimmerValue}
-          label="Nageurs"
+          label="Nombres de nageurs optimal"
         />
         <InputNumber
           value={coachValue}
           onChange={setCoachValue}
-          label="Coachs"
+          label="Nombres de coachs optimal"
         />
       </div>
     </section>

@@ -26,8 +26,8 @@ const MessageCard: React.FC<MessageCardProps> = ({
       }`}
     >
       {/* En-tête du message */}
-      <section className="flex justify-between w-[444px] items-center">
-        <div className="bg-gray-200 rounded-full h-4 w-4"></div>
+      <section className={clsx("flex justify-end w-[444px] items-center")}>
+        {/*<div className="bg-gray-200 rounded-full h-4 w-4"></div>*/}
         <P className="!text-xs">{time}</P>
       </section>
 
@@ -36,9 +36,11 @@ const MessageCard: React.FC<MessageCardProps> = ({
         <div
           className={`${
             fromMe ? "bg-primary" : "bg-[#f7f7f7]"
-          } w-[450px] h-max py-3 px-4 rounded-xl`}
+          } w-max max-w-[450px] h-max py-3 px-4  rounded-lg`}
         >
-          <P className={clsx("text-wrap", { "text-white": fromMe })}>{text}</P>
+          <P className={clsx("text-wrap", { "text-white text-wrap": fromMe })}>
+            {text}
+          </P>
         </div>
       </section>
     </div>

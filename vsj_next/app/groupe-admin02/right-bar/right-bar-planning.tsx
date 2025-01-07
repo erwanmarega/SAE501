@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import H4 from "../../components/ui/texts/h4";
 import InputNumber from "../../components/ui/input-number";
 import SeanceCard from "../ui/seance-card";
+import IndicatorSeanceCompletion from "../ui/indicator-seanceCompletion";
 
 const RightBarPlanning = () => {
   const [trainingValue, setTrainingValue] = useState(0);
@@ -43,6 +44,7 @@ const RightBarPlanning = () => {
       <div className="bg-[#F9F9F9] border-dashed border-[#C9C9C9] border-[1px] h-48 w-full rounded-xl flex flex-wrap p-4 gap-6 overflow-hidden">
         {generateSeanceCards()}
       </div>
+      <IndicatorSeanceCompletion />
     </section>
   );
 };

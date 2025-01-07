@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import VanillaTilt from "vanilla-tilt";
 import Button from "../components/ui/button";
 import clsx from "clsx";
+import Link from "next/link";
 
 interface CardActivityProps {
   identity: number;
@@ -22,6 +23,7 @@ interface CardActivityProps {
   chosenButton: boolean;
   hiddenCard: boolean;
   handleRemove: () => void;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const CardActivity: React.FC<CardActivityProps> = ({
@@ -40,6 +42,7 @@ const CardActivity: React.FC<CardActivityProps> = ({
   chosenButton,
   hiddenCard,
   handleRemove,
+  setIsLoading,
 }) => {
   const whatIdName = (title: string) => {
     switch (title) {
@@ -61,10 +64,12 @@ const CardActivity: React.FC<CardActivityProps> = ({
 
   const hideCard = chosenButton && permanentSelectedCard !== identity;
 
+  const [isConfirming, setIsConfirming] = useState(false);
+
   return (
     <div
       className={clsx(
-        "card sm:h-60 md:h-64 lg:h-72 xl:h-80 2xl:h-96 max-h-96 sm:w-52 md:w-56 lg:w-60 xl:w-72 2xl:w-80 cursor-pointer transition-all duration-75 flex justify-center items-center m-auto",
+        "card sm:h-60 md:h-64 lg:h-72 xl:h-80 2xl:h-[400px] sm:w-52 md:w-56 lg:w-60 xl:w-72 2xl:w-80 cursor-pointer  flex justify-center items-center m-auto",
         {
           "opacity-50": selected !== null && selected !== identity, // Applique opacity-50 si non sélectionné
           "col-start-1 col-end-4 !w-full no-flip flipped":
@@ -78,22 +83,22 @@ const CardActivity: React.FC<CardActivityProps> = ({
     >
       {/* Recto de la carte */}
       <div
-        className="card__front flex flex-col justify-between h-full py-2 px-4 sm:rounded-lg md:rounded-xl lg:rounded-xl xl:rounded-2xl w-full"
+        className="card__front flex flex-col justify-between h-full py-2 px-4 sm:rounded-lg md:rounded-xl lg:rounded-xl xl:rounded-2xl w-full border-[#BDCBDD] border-[1px] shadow-activity"
         id={whatIdName(title)}
       >
         <header
-          className={`h-4/6 mb-10 transition-transform duration-300 ${
+          className={`h-3/6 transition-transform duration-300 survol-container flex justify-center items-center ${
             selected === identity
               ? "scale-125 -translate-y-4 translate"
               : "scale-100"
           }`}
         >
-          <Image
+          <img
             src={imageSrc}
             alt={imageAlt}
-            width={300}
-            height={300}
-            className="rounded-lg transition-all"
+            width={250}
+            height={250}
+            className="rounded-lg transition-all survol-element"
             style={{
               filter:
                 selected === identity
@@ -102,7 +107,7 @@ const CardActivity: React.FC<CardActivityProps> = ({
             }}
           />
         </header>
-        <div className="w-[95%] rounded-full m-auto h-[2px] bg-[#E8EAE9] -mt-6"></div>
+        <div className="w-[95%] rounded-full m-auto h-[2px] bg-[#E8EAE9] absolute top-[55%] left-2"></div>
 
         <main className="flex flex-col justify-between h-full">
           <h3
@@ -156,16 +161,28 @@ const CardActivity: React.FC<CardActivityProps> = ({
             <p className="font-mona font-regular text-[#B1B5B8] text-sm">
               Facturation annuelle à 300 €
             </p>{" "}
-            <Button
-              className="!w-5/6 m-auto mt-2 -mb-2 interactive-element"
-              onClick={(e) => {
-                e.stopPropagation();
-                setChosenButton(true);
-                handleRemove();
-              }}
-            >
-              Choisir
-            </Button>
+            <div className="flex justify-center mt-4">
+              {isConfirming ? (
+                <Button
+                  variant="outline"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsLoading(true); // Passe à l'état de chargement
+                  }}
+                >
+                  Confirmer
+                </Button>
+              ) : (
+                <Button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsConfirming(true); // Passe à l'état de confirmation
+                  }}
+                >
+                  Choisir
+                </Button>
+              )}
+            </div>
           </div>
         </header>
         <div className="w-[95%] rounded-full m-auto h-[1px] bg-[#E8EAE9] -mt-3 mb-3"></div>
@@ -173,7 +190,7 @@ const CardActivity: React.FC<CardActivityProps> = ({
           <div className="flex flex-col relative">
             <div className="flex flex-col gap-2">
               <div className="flex gap-4">
-                <Image
+                <img
                   src="assets/icons/checkV.svg"
                   alt="Valide"
                   height={15}
@@ -184,7 +201,7 @@ const CardActivity: React.FC<CardActivityProps> = ({
                 </p>
               </div>
               <div className="flex gap-4">
-                <Image
+                <img
                   src="assets/icons/checkV.svg"
                   alt="Valide"
                   height={15}
@@ -196,7 +213,7 @@ const CardActivity: React.FC<CardActivityProps> = ({
                 </p>
               </div>
               <div className="flex gap-4">
-                <Image
+                <img
                   src="assets/icons/checkV.svg"
                   alt="Valide"
                   height={15}
@@ -207,7 +224,7 @@ const CardActivity: React.FC<CardActivityProps> = ({
                 </p>
               </div>
               <div className="flex gap-4">
-                <Image
+                <img
                   src="assets/icons/checkV.svg"
                   alt="Valide"
                   height={15}
