@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import Card from "../components/ui/card";
 import Header from "../components/header/header";
 
-const BassinOlympique = () => {
+const SpaBienEtre = () => {
   const [isAudioVisible, setIsAudioVisible] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isVolumeVisible, setIsVolumeVisible] = useState(false);
@@ -76,8 +76,8 @@ const BassinOlympique = () => {
         <div className="grid grid-cols-[3fr_2fr] gap-10 w-[90%] lg:w-[1400px] h-[85%]">
           <Card className="!px-0 !py-0 h-full">
             <img
-              src="/images/piscine.jpg"
-              alt="Piscine Olympique"
+              src="/images/spa.jpg"
+              alt="SPA"
               className="w-full h-full object-cover rounded-lg"
             />
           </Card>
@@ -85,12 +85,14 @@ const BassinOlympique = () => {
           <section className="grid grid-rows-[1fr_2fr] gap-6 h-full">
             <Card className="flex flex-col items-center justify-center text-center p-6 relative">
               <span className="absolute top-4 right-4 text-md bg-blue-100 text-blue-600 py-1 px-5 rounded-full font-mona">
-                Natation
+                Bien-être
               </span>
               <h2 className="text-4xl font-semibold text-gray-800 font-mona">
-                Bassin Olympique
+                SPA
               </h2>
-              <p className="text-2xl text-[#353535] font-mona">Compétition</p>
+              <p className="text-2xl text-[#353535] font-mona">
+                Profitez d'un moment de relaxation dans notre espace dédié.
+              </p>
 
               {!isAudioVisible ? (
                 <div className="group">
@@ -108,9 +110,6 @@ const BassinOlympique = () => {
                 </div>
               ) : (
                 <div className="flex items-center justify-start mt-12 gap-4 w-full pl-8">
-                  {" "}
-                  {/* Ajout de pl-8 pour décaler vers la droite */}
-                  {/* Bouton reculer */}
                   <button
                     onClick={() => skipTime(-15)}
                     className="flex items-center justify-center"
@@ -121,7 +120,6 @@ const BassinOlympique = () => {
                       className="w-8 h-8"
                     />
                   </button>
-                  {/* Bouton lecture/pause */}
                   <button
                     onClick={toggleAudio}
                     className="w-10 h-10 text-white rounded-full flex items-center justify-center"
@@ -140,7 +138,6 @@ const BassinOlympique = () => {
                       />
                     )}
                   </button>
-                  {/* Bouton avancer */}
                   <button
                     onClick={() => skipTime(15)}
                     className="flex items-center justify-center"
@@ -151,7 +148,6 @@ const BassinOlympique = () => {
                       className="w-8 h-8"
                     />
                   </button>
-                  {/* Barre de progression */}
                   <div className="flex items-center gap-2 w-48 justify-center">
                     <input
                       type="range"
@@ -173,12 +169,10 @@ const BassinOlympique = () => {
                       {("0" + Math.floor(currentTime % 60)).slice(-2)}
                     </span>
                   </div>
-                  {/* Contrôle du volume */}
                   <div className="relative flex items-center gap-2 w-24">
-                    {/* Réduit la largeur */}
                     <img
                       src="./assets/img/volume.png"
-                      alt="Volume bas"
+                      alt="Volume"
                       className="w-6 h-6 cursor-pointer"
                       onClick={toggleVolumeVisibility}
                     />
@@ -196,7 +190,7 @@ const BassinOlympique = () => {
                         step="0.01"
                         value={volume}
                         onChange={handleVolumeChange}
-                        className="w-12 h-2 appearance-none rounded-full bg-gradient-to-r from-blue-400 to-indigo-500" // Réduit la taille de la barre
+                        className="w-12 h-2 appearance-none rounded-full bg-gradient-to-r from-blue-400 to-indigo-500"
                       />
                     </div>
                   </div>
@@ -205,67 +199,68 @@ const BassinOlympique = () => {
 
               <audio
                 ref={audioRef}
-                src="./assets/audio/TEST.mp3"
+                src="./assets/audio/spa_description.mp3"
                 onTimeUpdate={handleTimeUpdate}
                 onEnded={handleAudioEnd}
                 onLoadedMetadata={handleLoadedMetadata}
               />
             </Card>
 
-            {/* Autres sections */}
             <section className="grid grid-cols-2 grid-rows-2 gap-6 mt-8">
               {/* Carte 1 */}
               <Card className="relative flex flex-col items-center justify-center text-center p-6">
                 <div className="absolute top-4 left-4 flex items-center gap-2">
                   <img
-                    src="./assets/img/Group 480.png"
-                    alt="Icone Profondeur"
+                    src="./assets/img/equi.png"
+                    alt="Icone Équipements"
                     className="w-8 h-8"
                   />
                   <h3 className="text-lg font-semibold font-mona text-[#303030]">
-                    Profondeur
+                    Équipements
                   </h3>
                 </div>
                 <p className="text-8xl font-bold text-[#303030] font-outfit mt-12">
-                  50
+                  10+
                 </p>
-                <p className="text-gray-500 font-outfit">mètres</p>
+                <p className="text-gray-500 font-outfit">Saunas & Hammams</p>
               </Card>
 
               {/* Carte 2 */}
               <Card className="relative flex flex-col items-center justify-center text-center p-6">
                 <div className="absolute top-4 left-4 flex items-center gap-2">
                   <img
-                    src="./assets/img/capa.png"
-                    alt="Icone Capacité"
+                    src="./assets/img/reser.png"
+                    alt="Icone Réservation"
                     className="w-8 h-8"
                   />
                   <h3 className="text-lg font-semibold font-mona text-[#303030]">
-                    Capacité
+                    Réservation
                   </h3>
                 </div>
                 <p className="text-8xl font-bold text-[#303030] font-outfit mt-12">
-                  10
+                  Oui
                 </p>
-                <p className="text-gray-500 font-outfit">couloirs</p>
+                <p className="text-gray-500 font-outfit">
+                  en ligne ou sur place
+                </p>
               </Card>
 
               {/* Carte 3 */}
               <Card className="relative flex flex-col items-center justify-center text-center p-6">
                 <div className="absolute top-4 left-4 flex items-center gap-2">
                   <img
-                    src="./assets/img/Group 498.png"
-                    alt="Icone Température"
+                    src="./assets/img/services.png"
+                    alt="Icone Services"
                     className="w-8 h-8"
                   />
                   <h3 className="text-lg font-semibold font-mona text-[#303030]">
-                    Température
+                    Services
                   </h3>
                 </div>
                 <p className="text-8xl font-bold text-[#303030] font-outfit mt-12">
-                  26
+                  15+
                 </p>
-                <p className="text-gray-500 font-outfit">°C</p>
+                <p className="text-gray-500 font-outfit">Massages & soins</p>
               </Card>
 
               {/* Carte 4 */}
@@ -281,7 +276,7 @@ const BassinOlympique = () => {
                   </h3>
                 </div>
                 <p className="text-8xl font-bold text-[#303030] font-outfit mt-12">
-                  8-18
+                  9-22
                 </p>
                 <p className="text-gray-500 font-outfit">heures</p>
               </Card>
@@ -293,4 +288,4 @@ const BassinOlympique = () => {
   );
 };
 
-export default BassinOlympique;
+export default SpaBienEtre;
