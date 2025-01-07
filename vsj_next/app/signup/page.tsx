@@ -13,7 +13,6 @@ const Signup: React.FC = () => {
   const [barWidthStep1To2, setBarWidthStep1To2] = useState(0);
   const [barWidthStep2To3, setBarWidthStep2To3] = useState(0);
 
-  // State pour chaque champ du formulaire
   const [formData, setFormData] = useState({
     nom: "",
     prenom: "",
@@ -22,7 +21,7 @@ const Signup: React.FC = () => {
     codePostal: "",
     ville: "",
     telephone: "",
-    email: ""
+    email: "",
   });
 
   const token = localStorage.getItem("authToken");
@@ -31,7 +30,7 @@ const Signup: React.FC = () => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -55,6 +54,7 @@ const Signup: React.FC = () => {
   const handlePreviousStep = () => {
     setStep((prev) => Math.max(prev - 1, 1));
 
+    // Animer les barres de régression
     if (step === 2 && barWidthStep1To2 > 0) {
       setBarWidthStep1To2((prev) => Math.max(prev - 100, 0));
     }
@@ -65,29 +65,27 @@ const Signup: React.FC = () => {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/api/complete-registration`, {
-        method: "POST",  // Changer de PUT à POST
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
-        },
-        body: JSON.stringify(formData),
-      });
-  
+      const response = await fetch(
+        `http://localhost:8000/api/complete-registration`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
       const textResponse = await response.text();
       console.log("Réponse du serveur :", textResponse);
-  
+
       if (response.ok) {
-        console.log("Profil mis à jour ou créé avec succès !");
+        console.log("Profil enregistré avec succès !");
         setShowConfetti(true);
         setStep(4);
       } else {
-        try {
-          const errorData = JSON.parse(textResponse);
-          console.error("Erreur lors de la mise à jour du profil:", errorData);
-        } catch (error) {
-          console.error("La réponse n'est pas du JSON valide:", textResponse);
-        }
+        console.error("Erreur lors de la soumission :", textResponse);
       }
     } catch (error) {
       console.error("Erreur réseau :", error);
@@ -105,8 +103,8 @@ const Signup: React.FC = () => {
             <div className="text-5xl mb-8 flex items-center justify-center w-20 h-20 bg-blue-500 text-white rounded-full">
               <img
                 src="./assets/img/icon.png"
-                alt="Check"
-                className="w-9 h-9"
+                alt="Validated"
+                className="w-10 h-10"
               />
             </div>
             <h1 className="text-3xl font-bold text-black mb-6">
@@ -122,6 +120,7 @@ const Signup: React.FC = () => {
           </div>
         ) : (
           <>
+            {/* En-tête */}
             <div className="flex flex-col items-center mb-12">
               <img
                 src="./assets/img/logo.png"
@@ -142,7 +141,78 @@ const Signup: React.FC = () => {
               <H3 className="mt-8">{stepTitles[step - 1]}</H3>
             </div>
 
-            {/* Étape 1 : Informations personnelles */}
+            {/* Barre de progression */}
+            <div className="flex items-center justify-center gap-3 mb-12">
+              <div className="flex items-center gap-3">
+                <div
+                  className={`w-12 h-12 flex items-center justify-center rounded-full text-xl font-medium ${
+                    step >= 1
+                      ? "bg-blue-500 text-white"
+                      : "bg-blue-500 text-white"
+                  }`}
+                >
+                  {step > 1 ? (
+                    <img
+                      src="./assets/img/icon.png"
+                      alt="Validated"
+                      className="w-5 h-5"
+                    />
+                  ) : (
+                    "1"
+                  )}
+                </div>
+                <div className="relative w-20 h-[4px] bg-gray-300">
+                  <div
+                    className={`absolute left-0 top-0 h-full bg-blue-500`}
+                    style={{
+                      width: `${barWidthStep1To2}%`,
+                      transition: "width 0.5s ease",
+                    }}
+                  ></div>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <div
+                  className={`w-12 h-12 flex items-center justify-center rounded-full text-xl font-medium ${
+                    step >= 2
+                      ? "bg-blue-500 text-white"
+                      : "bg-gray-300 text-gray-500"
+                  }`}
+                >
+                  {step > 2 ? (
+                    <img
+                      src="./assets/img/icon.png"
+                      alt="Validated"
+                      className="w-5 h-5"
+                    />
+                  ) : (
+                    "2"
+                  )}
+                </div>
+                <div className="relative w-20 h-[4px] bg-gray-300">
+                  <div
+                    className={`absolute left-0 top-0 h-full bg-blue-500`}
+                    style={{
+                      width: `${barWidthStep2To3}%`,
+                      transition: "width 0.5s ease",
+                    }}
+                  ></div>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <div
+                  className={`w-12 h-12 flex items-center justify-center rounded-full text-xl font-medium ${
+                    step === 3
+                      ? "bg-blue-500 text-white"
+                      : "bg-gray-300 text-gray-500"
+                  }`}
+                >
+                  3
+                </div>
+              </div>
+            </div>
+
+            {/* Étape 1 */}
             {step === 1 && (
               <form className="grid grid-cols-3 gap-6 mb-10">
                 <input
@@ -171,7 +241,7 @@ const Signup: React.FC = () => {
               </form>
             )}
 
-            {/* Étape 2 : Résidence */}
+            {/* Étape 2 */}
             {step === 2 && (
               <form className="grid grid-cols-3 gap-6 mb-10">
                 <input
@@ -201,9 +271,9 @@ const Signup: React.FC = () => {
               </form>
             )}
 
-            {/* Étape 3 : Coordonnées */}
+            {/* Étape 3 */}
             {step === 3 && (
-              <form className="grid grid-cols-2 gap-6 mb-10">
+              <form className="grid grid-cols-1 gap-6 mb-10">
                 <input
                   type="text"
                   name="telephone"
@@ -212,11 +282,11 @@ const Signup: React.FC = () => {
                   onChange={handleChange}
                   className="col-span-1 border border-gray-300 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
-                
               </form>
             )}
 
-            <div className="flex flex-col gap-1">
+            {/* Boutons */}
+            <div className="flex flex-col gap-6">
               <Button
                 variant="primary"
                 format="big"
@@ -229,11 +299,11 @@ const Signup: React.FC = () => {
                 <button
                   type="button"
                   onClick={handlePreviousStep}
-                  className={`w-full text-black font-medium text-lg py-4 rounded-md border-none hover:underline transition-all ${
-                    step > 1 ? "visible" : "invisible"
+                  className={`w-full text-gray-600 text-base h-full underline bg-transparent ${
+                    step === 1 && "opacity-0 pointer-events-none"
                   }`}
                 >
-                  ← Étape précédente
+                  Revenir en arrière
                 </button>
               </div>
             </div>

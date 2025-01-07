@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import Card from "../components/ui/card";
 import Header from "../components/header/header";
 
-const BassinOlympique = () => {
+const BassinAquabike = () => {
   const [isAudioVisible, setIsAudioVisible] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isVolumeVisible, setIsVolumeVisible] = useState(false);
@@ -76,8 +76,8 @@ const BassinOlympique = () => {
         <div className="grid grid-cols-[3fr_2fr] gap-10 w-[90%] lg:w-[1400px] h-[85%]">
           <Card className="!px-0 !py-0 h-full">
             <img
-              src="/images/piscine.jpg"
-              alt="Piscine Olympique"
+              src="/images/aquabike.jpg"
+              alt="Bassin Aquabike"
               className="w-full h-full object-cover rounded-lg"
             />
           </Card>
@@ -88,9 +88,11 @@ const BassinOlympique = () => {
                 Natation
               </span>
               <h2 className="text-4xl font-semibold text-gray-800 font-mona">
-                Bassin Olympique
+                Bassin Aquabike
               </h2>
-              <p className="text-2xl text-[#353535] font-mona">Compétition</p>
+              <p className="text-2xl text-[#353535] font-mona">
+                Centre aquatique
+              </p>
 
               {!isAudioVisible ? (
                 <div className="group">
@@ -108,9 +110,6 @@ const BassinOlympique = () => {
                 </div>
               ) : (
                 <div className="flex items-center justify-start mt-12 gap-4 w-full pl-8">
-                  {" "}
-                  {/* Ajout de pl-8 pour décaler vers la droite */}
-                  {/* Bouton reculer */}
                   <button
                     onClick={() => skipTime(-15)}
                     className="flex items-center justify-center"
@@ -121,7 +120,6 @@ const BassinOlympique = () => {
                       className="w-8 h-8"
                     />
                   </button>
-                  {/* Bouton lecture/pause */}
                   <button
                     onClick={toggleAudio}
                     className="w-10 h-10 text-white rounded-full flex items-center justify-center"
@@ -140,7 +138,6 @@ const BassinOlympique = () => {
                       />
                     )}
                   </button>
-                  {/* Bouton avancer */}
                   <button
                     onClick={() => skipTime(15)}
                     className="flex items-center justify-center"
@@ -151,7 +148,6 @@ const BassinOlympique = () => {
                       className="w-8 h-8"
                     />
                   </button>
-                  {/* Barre de progression */}
                   <div className="flex items-center gap-2 w-48 justify-center">
                     <input
                       type="range"
@@ -173,12 +169,10 @@ const BassinOlympique = () => {
                       {("0" + Math.floor(currentTime % 60)).slice(-2)}
                     </span>
                   </div>
-                  {/* Contrôle du volume */}
                   <div className="relative flex items-center gap-2 w-24">
-                    {/* Réduit la largeur */}
                     <img
                       src="./assets/img/volume.png"
-                      alt="Volume bas"
+                      alt="Volume"
                       className="w-6 h-6 cursor-pointer"
                       onClick={toggleVolumeVisibility}
                     />
@@ -196,7 +190,7 @@ const BassinOlympique = () => {
                         step="0.01"
                         value={volume}
                         onChange={handleVolumeChange}
-                        className="w-12 h-2 appearance-none rounded-full bg-gradient-to-r from-blue-400 to-indigo-500" // Réduit la taille de la barre
+                        className="w-12 h-2 appearance-none rounded-full bg-gradient-to-r from-blue-400 to-indigo-500"
                       />
                     </div>
                   </div>
@@ -212,7 +206,6 @@ const BassinOlympique = () => {
               />
             </Card>
 
-            {/* Autres sections */}
             <section className="grid grid-cols-2 grid-rows-2 gap-6 mt-8">
               {/* Carte 1 */}
               <Card className="relative flex flex-col items-center justify-center text-center p-6">
@@ -227,7 +220,7 @@ const BassinOlympique = () => {
                   </h3>
                 </div>
                 <p className="text-8xl font-bold text-[#303030] font-outfit mt-12">
-                  50
+                  1.5
                 </p>
                 <p className="text-gray-500 font-outfit">mètres</p>
               </Card>
@@ -245,9 +238,9 @@ const BassinOlympique = () => {
                   </h3>
                 </div>
                 <p className="text-8xl font-bold text-[#303030] font-outfit mt-12">
-                  10
+                  20
                 </p>
-                <p className="text-gray-500 font-outfit">couloirs</p>
+                <p className="text-gray-500 font-outfit">personnes</p>
               </Card>
 
               {/* Carte 3 */}
@@ -281,7 +274,7 @@ const BassinOlympique = () => {
                   </h3>
                 </div>
                 <p className="text-8xl font-bold text-[#303030] font-outfit mt-12">
-                  8-18
+                  7-22
                 </p>
                 <p className="text-gray-500 font-outfit">heures</p>
               </Card>
@@ -293,4 +286,4 @@ const BassinOlympique = () => {
   );
 };
 
-export default BassinOlympique;
+export default BassinAquabike;
