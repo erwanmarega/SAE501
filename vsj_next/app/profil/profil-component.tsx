@@ -35,7 +35,6 @@ const ProfilComponent = () => {
           const data = response.data;
           setPrenom(data.prenom);
 
-          // ✅ Calcul précis de l'âge
           if (data.dateNaissance) {
             const birthDate = new Date(data.dateNaissance);
             const currentDate = new Date();
