@@ -14,6 +14,8 @@ interface RightBarProps {
   setSwimmerValue: React.Dispatch<React.SetStateAction<number>>;
   coachValue: number;
   setCoachValue: React.Dispatch<React.SetStateAction<number>>;
+  toggleValue: string;
+  setToggleValue: React.Dispatch<React.SetStateAction<"Effectif" | "Planning">>;
 }
 
 const RightBar = ({
@@ -21,6 +23,8 @@ const RightBar = ({
   setSwimmerValue,
   coachValue,
   setCoachValue,
+  toggleValue,
+  setToggleValue,
 }: RightBarProps) => {
   const options = [
     { value: "baby-swimming", label: "Natation Bébé", icon: "/icons/baby.png" },
@@ -41,9 +45,6 @@ const RightBar = ({
     },
   ];
 
-  const [toggleValue, setToggleValue] = useState<"Effectif" | "Planning">(
-    "Effectif"
-  );
   const handleToggleAuth = (active: "Effectif" | "Planning") => {
     setToggleValue(active);
   };

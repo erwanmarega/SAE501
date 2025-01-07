@@ -6,6 +6,7 @@ import Header from "../components/header/header";
 import TopBar from "./top-bar";
 import RightBar from "./right-bar";
 import EditEffectif from "./edit-effectif";
+import EditPlanning from "./edit-planning";
 
 const GroupAdmin02Page = () => {
   const [swimmerValue, setSwimmerValue] = useState(6);
@@ -29,6 +30,9 @@ const GroupAdmin02Page = () => {
   ];
 
   const [swimmerEffectif, setSwimmerEffectif] = useState(swimmers.length);
+  const [toggleValue, setToggleValue] = useState<"Effectif" | "Planning">(
+    "Effectif"
+  );
 
   useEffect(() => {
     setSwimmerEffectif(swimmers.length);
@@ -51,6 +55,19 @@ const GroupAdmin02Page = () => {
     },
   ];
 
+  const whatShow = (value: string) => {
+    switch (value) {
+      case "Effectif":
+        return <EditEffectif swimmers={swimmers} coachs={coachs} />;
+        break;
+      case "Planning":
+        return <EditPlanning />;
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <div className=" lg:h-[100vh] flex items-center justify-center lg:overflow-y-hidden">
       <Header />
@@ -60,12 +77,14 @@ const GroupAdmin02Page = () => {
             swimmerValue={swimmerValue}
             swimmerEffectif={swimmerEffectif}
           />
-          <EditEffectif swimmers={swimmers} coachs={coachs} />
+          {whatShow(toggleValue)}
           <RightBar
             swimmerValue={swimmerValue}
             setSwimmerValue={setSwimmerValue}
             coachValue={coachValue}
             setCoachValue={setCoachValue}
+            toggleValue={toggleValue}
+            setToggleValue={setToggleValue}
           />
         </div>
       </section>
