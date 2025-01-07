@@ -64,19 +64,27 @@ const Header = () => {
     <div className="flex flex-row w-full h-16 items-center justify-between px-8 absolute top-0">
       <div>
         <H1 className="dark:text-white">
-          {language === "en"
-            ? `Welcome, ${prenom || "User"}`
-            : `Bienvenue, ${prenom || "Utilisateur"}`}
+          {language === "en" ? (
+            <>
+              Welcome,{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400 underline decoration-2">
+                {prenom || "User"}
+              </span>
+            </>
+          ) : (
+            <>
+              Bienvenue,{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400 underline decoration-2">
+                {prenom || "Utilisateur"}
+              </span>
+            </>
+          )}
         </H1>
-        <div
-          className={clsx("bg-primary rounded-full h-1 w-22 mr-0", {
-            "ml-[62%]": language === "en",
-            "ml-[64%]": language === "fr",
-          })}
-        ></div>
       </div>
       <div>
-        <Logo placement="center" />
+        <Link href={"/"}>
+          <Logo placement="center" />
+        </Link>
       </div>
       <div className="flex items-center gap-6">
         <ThemeToggle />

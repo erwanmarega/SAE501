@@ -20,16 +20,22 @@ const SeanceCard = ({ variant = "training" }: SeanceCardProps) => {
         }
       )}
     >
-      <Image
-        src={
-          isTraining
-            ? "/assets/icons/data_train.svg"
-            : "/assets/icons/storm_competition.svg"
-        }
-        alt={isTraining ? "Entraînement" : "Compétition"}
-        width={28}
-        height={28}
-      />
+      {isTraining ? (
+        <Image
+          src={"/assets/icons/data_train.svg"}
+          alt={"Entraînement"}
+          width={28}
+          height={28}
+        />
+      ) : (
+        <Image
+          src={"/assets/icons/storm_competition.svg"}
+          alt={"Compétition"}
+          width={24}
+          height={24}
+        />
+      )}
+
       <h5 className="font-mona font-bold text-5xs text-[#8E8E8E]">
         {isTraining ? "Entraînement" : "Compétition"}
       </h5>

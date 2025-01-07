@@ -1,5 +1,6 @@
 import React from "react";
 import clsx from "clsx";
+import Link from "next/link";
 
 const CardRecap = () => {
   return (
@@ -11,17 +12,19 @@ const CardRecap = () => {
           <p className="font-outfit font-bold text-medium text-2xl">300.00€</p>
           <p className="font-mona font-regular text-[#B1B5B8] text-sm">
             Facturation annuelle à 300 €
-          </p>{" "}
-          <Button
-            className="!w-5/6 m-auto mt-2 -mb-2 interactive-element"
-            onClick={(e) => {
-              e.stopPropagation();
-              setChosenButton(true);
-              handleRemove();
-            }}
-          >
-            Choisir
-          </Button>
+          </p>
+          <Link href={"/"}>
+            <Button
+              className="!w-5/6 m-auto mt-2 -mb-2 interactive-element"
+              onClick={(e) => {
+                e.stopPropagation();
+                setChosenButton(true);
+                handleRemove();
+              }}
+            >
+              Choisir
+            </Button>
+          </Link>
         </div>
       </header>
       <div className="w-[95%] rounded-full m-auto h-[1px] bg-[#E8EAE9] -mt-3 mb-3"></div>
@@ -57,7 +60,7 @@ const CardRecap = () => {
                 alt="Valide"
                 height={15}
                 width={15}
-              />{" "}
+              />
               <p className="font-mona font-medium text-xs">
                 Programmes adaptés aux nageurs débutants comme confirmés
               </p>

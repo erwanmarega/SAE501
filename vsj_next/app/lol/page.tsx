@@ -4,6 +4,11 @@ import React, { useEffect, useState } from "react";
 import VanillaTilt from "vanilla-tilt";
 import CardActivity from "./card-activity";
 import CardRecap from "./card-recap";
+import Logo from "../components/ui/logo";
+import H3 from "../components/ui/texts/h3";
+import P from "../components/ui/texts/p";
+import H1 from "../components/ui/texts/h1";
+import Loader from "../components/ui/loader";
 
 const ActivityPage = () => {
   const [chosenButton, setChosenButton] = useState(false);
@@ -60,7 +65,7 @@ const ActivityPage = () => {
   const activities = [
     {
       title: "Aquabike",
-      imageSrc: "/assets/img/3dblockAquabike.png",
+      imageSrc: "/assets/img/bloc_aquabike.webp",
       imageAlt: "Aquabike",
       description:
         "L'aquabike est un sport aquatique intense, parfait pour renforcer le bas du corps.",
@@ -69,7 +74,7 @@ const ActivityPage = () => {
     },
     {
       title: "Natation",
-      imageSrc: "/assets/img/3dblockNatation.png",
+      imageSrc: "/assets/img/bloc_natation.webp",
       imageAlt: "Natation",
       description:
         "La natation est le sport aquatique élite où les meilleurs se rencontrent.",
@@ -78,7 +83,7 @@ const ActivityPage = () => {
     },
     {
       title: "Aquagym",
-      imageSrc: "/assets/img/3dblockAquagym.png",
+      imageSrc: "/assets/img/block_aquagym.webp",
       imageAlt: "Aquagym",
       description:
         "L'aquagym est un excellent moyen de rester en forme tout en douceur.",
@@ -94,31 +99,54 @@ const ActivityPage = () => {
     }, 2500);
   };
 
+  const [isLoading, setIsLoading] = useState(false);
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
   return (
-    <section className="grid grid-cols-3 h-screen m-auto w-2/3 gap-12 bg-[#f7f7f7] overflow-hidden">
-      {activities.map((activity, index) => (
-        <CardActivity
-          key={index}
-          identity={index}
-          imageSrc={activity.imageSrc}
-          imageAlt={activity.imageAlt}
-          title={activity.title}
-          description={activity.description}
-          price={activity.price}
-          badge={activity.badge}
-          onMouseEnter={() => {
-            setSelectedCard(index);
-            setPermanentSelectedCard(index);
-          }}
-          onMouseLeave={() => setSelectedCard(null)}
-          selected={selectedCard}
-          chosenButton={chosenButton}
-          setChosenButton={setChosenButton}
-          permanentSelectedCard={permanentSelectedCard}
-          hiddenCard={hiddenCard}
-          handleRemove={handleRemove}
-        />
-      ))}
+    <section className="h-screen flex flex-col justify-center items-center">
+      <H1 className="absolute top-4 left-6">
+        Bienvenue{" "}
+        <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400 underline decoration-2">
+          Erwan
+        </span>{" "}
+      </H1>
+      <section className="flex flex-col items-center">
+        <Logo />
+        <H3 className="text-3xl">Nos activités</H3>
+        <P className="!text-lg max-w-96 text-wrap text-center leading-tight">
+          Découvrez nos options pour profiter pleinement des activités du club
+          de natation.
+        </P>
+      </section>
+      <section className="grid grid-cols-3  m-auto w-2/3 gap-12 bg-[#f7f7f7] ">
+        {activities.map((activity, index) => (
+          <CardActivity
+            key={index}
+            identity={index}
+            imageSrc={activity.imageSrc}
+            imageAlt={activity.imageAlt}
+            title={activity.title}
+            description={activity.description}
+            price={activity.price}
+            badge={activity.badge}
+            onMouseEnter={() => {
+              setSelectedCard(index);
+              setPermanentSelectedCard(index);
+            }}
+            onMouseLeave={() => setSelectedCard(null)}
+            selected={selectedCard}
+            chosenButton={chosenButton}
+            setChosenButton={setChosenButton}
+            permanentSelectedCard={permanentSelectedCard}
+            hiddenCard={hiddenCard}
+            handleRemove={handleRemove}
+            setIsLoading={setIsLoading}
+          />
+        ))}
+      </section>
     </section>
   );
 };

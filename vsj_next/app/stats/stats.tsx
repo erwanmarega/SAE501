@@ -8,7 +8,7 @@ const Stats = () => {
     <div>
       <div className="flex items-center">
         <StatsIcon color="true" />
-        <H4>Statistiques</H4>
+        <H4>Présence</H4>
       </div>
       <section>
         <p>Semaine du 30 janvier</p>

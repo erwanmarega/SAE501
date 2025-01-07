@@ -78,13 +78,13 @@ const ContainerMessage: React.FC<ContainerMessageProps> = ({
       </header>
       {/* Conteneur des messages, scrollable */}
       <main
-        className="h-[425px] w-full flex flex-col gap-2 p-4 overflow-y-scroll [&::-webkit-scrollbar]:w-2
+        className="h-[425px] w-full flex flex-col gap-2 p-4 overflow-y-scroll [&::-webkit-scrollbar]:w-[6px]
         [&::-webkit-scrollbar-track]:rounded-full
         [&::-webkit-scrollbar-track]:bg-gray-100
         [&::-webkit-scrollbar-thumb]:rounded-full
         [&::-webkit-scrollbar-thumb]:bg-gray-300
         dark:[&::-webkit-scrollbar-track]:bg-neutral-700
-        dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500"
+        dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500 "
       >
         {discussions[selectedDiscussion].map((msg) => (
           <MessageCard

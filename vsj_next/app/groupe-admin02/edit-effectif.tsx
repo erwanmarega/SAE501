@@ -6,6 +6,7 @@ import EditIconButton from "../components/ui/interactive-icons/edit-icon-button"
 import Card from "../components/ui/card";
 import Image from "next/image";
 import DeleteElement from "../components/ui/delete-element";
+import Popup from "../components/ui/popup";
 
 const EditEffectif = () => {
   const swimmers = [
@@ -44,6 +45,8 @@ const EditEffectif = () => {
 
   const [isActiveSwimmer, setIsActiveSwimmer] = useState(false);
   const [isActiveCoach, setIsActiveCoach] = useState(false);
+  const [showNewSwimmer, setShowNewSwimmer] = useState(false);
+  const [showNewCoach, setShowNewCoach] = useState(false);
 
   const handleClickSwimmer = () => {
     setIsActiveSwimmer(!isActiveSwimmer);
@@ -90,8 +93,8 @@ const EditEffectif = () => {
       </div>
 
       {/* Section des coachs */}
-      <div className="row-start-7 row-end-9 h-full w-full border-dashed border-[#D9D9D9] border-2 rounded-xl relative">
-        <section className="flex flex-wrap gap-4 p-4">
+      <div className="row-start-7 row-end-9 h-full w-full border-dashed border-[#D9D9D9] border-2 rounded-xl relative flex">
+        <section className="flex flex-wrap items-center gap-4 p-4">
           {coachs.map((coach, index) => (
             <div key={index} className="h-max w-max relative">
               <SwimmerCard
@@ -106,9 +109,12 @@ const EditEffectif = () => {
             </div>
           ))}
           {isActiveCoach && (
-            <Card className="flex justify-center items-center w-[205px] !rounded-2xl select-none">
+            <Card
+              className="flex justify-center items-center w-[205px] !rounded-2xl h-16"
+              onClick={() => setShowNewCoach(true)}
+            >
               <Image
-                alt="Ajouter un coach"
+                alt="Ajouter un nageur"
                 height={20}
                 width={20}
                 src="/assets/icons/blue_plus.svg"
@@ -122,6 +128,7 @@ const EditEffectif = () => {
           handleClick={handleClickCoach}
         />
       </div>
+      {showNewCoach && <Popup />}
     </>
   );
 };

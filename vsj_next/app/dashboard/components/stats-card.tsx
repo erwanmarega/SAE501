@@ -143,7 +143,7 @@ const StatsCard = () => {
           src={"/assets/icons/stats.svg"}
           alt="Température de l'eau"
         />
-        <H4>Statistiques</H4>
+        <H4>Présence</H4>
       </header>
       <main className="flex justify-center items-center">
         <section className="flex flex-col">

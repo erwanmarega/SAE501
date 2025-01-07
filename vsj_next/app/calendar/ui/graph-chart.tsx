@@ -3,20 +3,19 @@
 import React, { useRef, useEffect } from "react";
 import ApexCharts from "apexcharts";
 
+// Calcul des positions pour remplacer les valeurs
+const calculatePositions = (data) => {
+  const sorted = [...data].sort((a, b) => b - a); // Trier par ordre décroissant
+  return data.map((value) => sorted.indexOf(value) + 1); // Renvoyer les positions
+};
+
 const defaultSeries = [
   {
-    name: "Income",
-    data: [
+    name: "Ranking",
+    data: calculatePositions([
       18000, 51000, 60000, 38000, 88000, 50000, 40000, 52000, 88000, 80000,
       60000, 70000,
-    ],
-  },
-  {
-    name: "Outcome",
-    data: [
-      27000, 38000, 60000, 77000, 40000, 50000, 49000, 29000, 42000, 27000,
-      42000, 50000,
-    ],
+    ]),
   },
 ];
 
@@ -51,31 +50,19 @@ export default function GraphChart({
     // Configuration du graphique
     const chartOptions = {
       chart: {
-        // Hauteur et largeur en 100% → ApexCharts s’adapte au parent
         height: "80%",
         width: "100%",
         type: "area",
-        toolbar: {
-          show: false,
-        },
-        zoom: {
-          enabled: false,
-        },
+        toolbar: { show: false },
+        zoom: { enabled: false },
       },
       series,
-      legend: {
-        show: false,
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      stroke: {
-        curve: "smooth",
-        width: 2,
-      },
+      legend: { show: false },
+      dataLabels: { enabled: false },
+      stroke: { curve: "smooth", width: 2 },
       grid: {
         strokeDashArray: 2,
-        borderColor: "#e5e7eb", // Couleur de la grille en mode "clair"
+        borderColor: "#e5e7eb",
       },
       fill: {
         type: "gradient",
@@ -91,12 +78,8 @@ export default function GraphChart({
         type: "category",
         tickPlacement: "on",
         categories,
-        axisBorder: {
-          show: false,
-        },
-        axisTicks: {
-          show: false,
-        },
+        axisBorder: { show: false },
+        axisTicks: { show: false },
         labels: {
           style: {
             colors: "#9ca3af",
@@ -120,43 +103,28 @@ export default function GraphChart({
             fontFamily: "Inter, ui-sans-serif",
             fontWeight: 400,
           },
-          formatter: (value) => (value >= 1000 ? `${value / 1000}k` : value),
+          formatter: (value) => value, // Afficher la position telle quelle
         },
       },
       tooltip: {
-        x: {
-          format: "MMMM yyyy",
-        },
+        x: { format: "MMMM yyyy" },
         y: {
-          formatter: (value) =>
-            `$${value >= 1000 ? `${value / 1000}k` : value}`,
+          formatter: (value) => `Position: ${value}`, // Afficher la position dans l'infobulle
         },
       },
       responsive: [
         {
           breakpoint: 568,
           options: {
-            // On garde un height: "100%" pour rester responsive,
-            // mais assurez-vous que le parent ait une hauteur fixe ou min-height
-            chart: {
-              height: "100%",
-            },
+            chart: { height: "100%" },
             xaxis: {
               labels: {
-                style: {
-                  fontSize: "11px",
-                },
+                style: { fontSize: "11px" },
                 formatter: (val) => (val ? val.slice(0, 3) : val),
               },
             },
             yaxis: {
-              labels: {
-                style: {
-                  fontSize: "11px",
-                },
-                formatter: (value) =>
-                  value >= 1000 ? `${value / 1000}k` : value,
-              },
+              labels: { style: { fontSize: "11px" } },
             },
           },
         },
@@ -181,23 +149,14 @@ export default function GraphChart({
 
   return (
     <>
-      {/* Légende (exemple) */}
       <div className="flex justify-center sm:justify-end items-center gap-x-4 mb-3 sm:mb-6">
         <div className="inline-flex items-center">
           <span className="size-2.5 inline-block bg-blue-600 rounded-sm me-2" />
           <span className="text-[13px] text-gray-600 dark:text-neutral-400">
-            Income
-          </span>
-        </div>
-        <div className="inline-flex items-center">
-          <span className="size-2.5 inline-block bg-purple-600 rounded-sm me-2" />
-          <span className="text-[13px] text-gray-600 dark:text-neutral-400">
-            Outcome
+            Rankings
           </span>
         </div>
       </div>
-
-      {/* Conteneur du chart → taille gérée par Tailwind ou style inline */}
       <div className="w-full h-80" ref={chartRef} />
     </>
   );
