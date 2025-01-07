@@ -13,7 +13,6 @@ import { useLanguage } from "../components/header/ui/context/language-provider";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 
-// Images
 import BackgroundIMG_01 from "@/public/assets/img/login/backgroundIMG_01.png";
 
 const AuthentificationPage = () => {
@@ -27,11 +26,9 @@ const AuthentificationPage = () => {
     setToggleValue(active);
   };
 
-  // LoginData
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
 
-  // SignupData
   const [signupEmail, setSignupEmail] = useState("");
   const [signupPassword, setSignupPassword] = useState("");
   const [signupConfirmPassword, setSignupConfirmPassword] = useState("");
@@ -39,7 +36,7 @@ const AuthentificationPage = () => {
   const [signupSuccess, setSignupSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSignup = async (): Promise<boolean> => {
+  const onSignup = async (): Promise<boolean> => {
     if (!signupEmail || !signupPassword || !signupConfirmPassword) {
       setSignupError("Veuillez remplir tous les champs obligatoires.");
       return false;
@@ -132,7 +129,7 @@ const AuthentificationPage = () => {
         setSignupPassword={setSignupPassword}
         signupConfirmPassword={signupConfirmPassword}
         setSignupConfirmPassword={setSignupConfirmPassword}
-        handleSignup={handleSignup} 
+        onSignup={onSignup} 
         signupError={signupError}
         signupSuccess={signupSuccess}
         isLoading={isLoading}
@@ -177,13 +174,7 @@ const AuthentificationPage = () => {
         <footer className="flex flex-col items-center gap-4">
           {toggleValue === "Connexion" ? (
             <>
-              <Button 
-                type="submit"
-                variant="primary"
-                onClick={handleLogin} 
-              >
-                {language === "fr" ? "Se connecter" : "Login"}
-              </Button>
+             
               <Button variant="outline" icon={GoogleIcon}>
                 {language === "fr"
                   ? "Se connecter avec Google"
@@ -192,14 +183,7 @@ const AuthentificationPage = () => {
             </>
           ) : (
             <>
-              <Button
-                type="submit"
-                variant="primary"
-                onClick={handleSignup} 
-                disabled={isLoading}
-              >
-                {language === "fr" ? "S'inscrire" : "Sign Up"}
-              </Button>
+           
 
               <Button variant="outline" icon={GoogleIcon}>
                 {language === "fr"

@@ -15,10 +15,9 @@ class CalendarEvent
     private ?int $id = null;
 
     #[ORM\Column(type: 'string')]
-    private string $date; // Format dd/MM/yyyy
-
+    private string $date; 
     #[ORM\Column(type: 'string')]
-    private string $status; // training, competition, etc.
+    private string $status; 
 
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $title = null;
@@ -26,7 +25,6 @@ class CalendarEvent
     #[ORM\Column(type: 'json', nullable: true)]
     private ?array $details = null;
 
-    // Getters et setters
     public function getId(): ?int
     {
         return $this->id;

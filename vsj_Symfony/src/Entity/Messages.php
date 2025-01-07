@@ -38,7 +38,6 @@ class Messages
         $this->createdAt = new \DateTime();
     }
 
-    // ✅ Getters et Setters
 
     public function getId(): ?int
     {

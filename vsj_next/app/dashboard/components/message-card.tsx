@@ -28,7 +28,7 @@ const MessageCard = ({ position }: MessageCardProps) => {
       <div className="flex flex-col w-full">
         <header className="flex flex-row justify-between w-full">
           <h3 className="font-outfit font-medium text-base text-[#424242] text-nowrap">
-            Thierry Marchand
+            Renaud emel
           </h3>
           <p className="font-outfit font-black text-xs mt-1 text-[#424242]">
             18:20
@@ -36,7 +36,8 @@ const MessageCard = ({ position }: MessageCardProps) => {
         </header>
         <main>
           <p className="font-mona text-2xs font-light text-[#636363]">
-            Salut, est ce que l'entraînement de demain est bien maintenu ?
+            Salut, j’ai lancé une startup à 10M et je vous donne des ailes.
+            #redbull
           </p>
         </main>
       </div>
