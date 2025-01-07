@@ -25,12 +25,11 @@ const ActivityPage = () => {
         "max-glare": 0.5,
       });
     }
-    // Gérer le flip sur clic
+
     const cards = document.querySelectorAll(".card");
     const handleCardClick = (event: Event, card?: Element) => {
       const target = event.target as HTMLElement;
 
-      // Vérifie si le clic a lieu sur un bouton ou un élément enfant qui doit être interactif
       if (target.closest("button") || target.closest(".interactive-element")) {
         return;
       }
@@ -108,10 +107,10 @@ const ActivityPage = () => {
   return (
     <section className="h-screen flex flex-col justify-center items-center">
       <H1 className="absolute top-4 left-6">
-        Bienvenue{" "}
+        Bienvenue
         <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400 underline decoration-2">
           Erwan
-        </span>{" "}
+        </span>
       </H1>
       <section className="flex flex-col items-center">
         <Logo />

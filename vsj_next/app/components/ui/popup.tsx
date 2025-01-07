@@ -1,35 +1,27 @@
 import React from "react";
 import H3 from "./texts/h3";
 import DeleteElement from "./delete-element";
-import { Input } from "postcss";
+import InputSelectImage from "./input-select-image";
+import Button from "./button";
 
-const Popup = () => {
+interface PopupProps {
+  close: React.Dispatch<React.SetStateAction<boolean>>;
+  children: React.ReactNode;
+}
+
+const Popup = ({ close, children }: PopupProps) => {
   return (
     <section className="h-screen w-screen fixed bg-black/25 flex justify-center items-center z-10 top-0 left-0">
       <div
-        className="m-auto border-[1px] border-gray-300 bg-white h-max w-96 flex flex-col items-center p-4 rounded-xl shadow-card relative"
+        className="m-auto border-[1px] border-gray-300 bg-white h-max w-[450px] flex flex-col items-center p-4 rounded-xl shadow-card relative gap-6 "
         id="popup-container"
       >
-        <DeleteElement className="z-10 top-1 right-1" />
-        <H3>Ajouter un coach</H3>
-        <div className="flex flex-col">
-          <Input
-            label="Mot de passe"
-            name="password"
-            type="password"
-            placeholder="Entrez votre mot de passe"
-            value={loginPassword}
-            onChange={(e) => setLoginPassword(e.target.value)}
-          />
-          <Input
-            label="Mot de passe"
-            name="password"
-            type="password"
-            placeholder="Entrez votre mot de passe"
-            value={loginPassword}
-            onChange={(e) => setLoginPassword(e.target.value)}
-          />
-        </div>
+        <DeleteElement
+          className="z-10 top-2 right-2 h-max w-max"
+          onClick={() => close(false)}
+        />
+        <section className="flex flex-col gap-4">{children}</section>
+        <Button className="!w-36">Enregistrez</Button>
       </div>
     </section>
   );

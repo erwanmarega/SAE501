@@ -7,42 +7,10 @@ import Card from "../components/ui/card";
 import Image from "next/image";
 import DeleteElement from "../components/ui/delete-element";
 import Popup from "../components/ui/popup";
+import H3 from "../components/ui/texts/h3";
+import InputSelectImage from "../components/ui/input-select-image";
 
-const EditEffectif = () => {
-  const swimmers = [
-    {
-      first_name: "Stéphane",
-      last_name: "Cablet",
-      dob: "Nageur crawl",
-      note: "Graph",
-      size: 50,
-    },
-    {
-      first_name: "Stéphane",
-      last_name: "Cablet",
-      dob: "Nageur crawl",
-      note: "Graph",
-      size: 50,
-    },
-  ];
-
-  const coachs = [
-    {
-      first_name: "Stéphane",
-      last_name: "Cablet",
-      dob: "Coach",
-      note: "Graph",
-      size: 50,
-    },
-    {
-      first_name: "Stéphane",
-      last_name: "Cablet",
-      dob: "Coach",
-      note: "Graph",
-      size: 50,
-    },
-  ];
-
+const EditEffectif = ({ swimmers, coachs }) => {
   const [isActiveSwimmer, setIsActiveSwimmer] = useState(false);
   const [isActiveCoach, setIsActiveCoach] = useState(false);
   const [showNewSwimmer, setShowNewSwimmer] = useState(false);
@@ -75,7 +43,10 @@ const EditEffectif = () => {
             </div>
           ))}
           {isActiveSwimmer && (
-            <Card className="flex justify-center items-center w-[205px] !rounded-2xl">
+            <Card
+              className="flex justify-center items-center w-[205px] !rounded-2xl cursor-pointer hover:bg-gray-50"
+              onClick={() => setShowNewSwimmer(true)}
+            >
               <Image
                 alt="Ajouter un nageur"
                 height={20}
@@ -110,7 +81,7 @@ const EditEffectif = () => {
           ))}
           {isActiveCoach && (
             <Card
-              className="flex justify-center items-center w-[205px] !rounded-2xl h-16"
+              className="flex justify-center items-center w-[205px] !rounded-2xl h-16 cursor-pointer hover:bg-gray-50"
               onClick={() => setShowNewCoach(true)}
             >
               <Image
@@ -128,7 +99,42 @@ const EditEffectif = () => {
           handleClick={handleClickCoach}
         />
       </div>
-      {showNewCoach && <Popup />}
+      {showNewCoach && (
+        <Popup close={setShowNewCoach}>
+          <H3>Ajouter un coach</H3>
+          <div className="flex flex-col">
+            <InputSelectImage
+              options={[
+                { id: 1, name: "M. Marega" },
+                { id: 2, name: "M. Parry" },
+                { id: 3, name: "M. Leopold" },
+              ]}
+              placeholder="Rechercher un coach"
+              onSelect={(selected) =>
+                console.log("Option sélectionnée :", selected)
+              }
+            />
+          </div>
+        </Popup>
+      )}
+      {showNewSwimmer && (
+        <Popup close={setShowNewSwimmer}>
+          <H3>Ajouter un nageur</H3>
+          <div className="flex flex-col">
+            <InputSelectImage
+              options={[
+                { id: 1, name: "Denzo Thierry" },
+                { id: 2, name: "Liam Détein" },
+                { id: 3, name: "Francis Ngannou" },
+              ]}
+              placeholder="Rechercher un nageur"
+              onSelect={(selected) =>
+                console.log("Option sélectionnée :", selected)
+              }
+            />
+          </div>
+        </Popup>
+      )}
     </>
   );
 };

@@ -143,21 +143,19 @@ input[type="time"]::-moz-focus-inner {
 
 .card {
   transform-style: preserve-3d;
-  perspective: 1000px; /* Optionnel, ajoutez cette ligne sur un parent si nécessaire */
-  position: relative; /* Pour superposer le recto et le verso */
+  perspective: 1000px;
+  position: relative;
   transition: transform 0.3s;
 }
 .card__front,
 .card__back {
   position: absolute;
-
-  backface-visibility: hidden; /* Empêche la face cachée d’être visible à travers */
+  backface-visibility: hidden;
   top: 0;
   left: 0;
 }
 .card__front {
-  /* Styles de la face avant */
-  z-index: 2;
+  z-index: 1;
   transform: rotateY(0deg);
 }
 
@@ -174,9 +172,9 @@ input[type="time"]::-moz-focus-inner {
 }
 
 .card__back {
-  /* Styles de la face arrière */
   background-color: white;
   transform: rotateY(180deg);
+  z-index: 5;
 }
 
 .card.blue {
