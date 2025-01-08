@@ -164,13 +164,13 @@ const CardActivity: React.FC<CardActivityProps> = ({
             <div className="flex justify-center mt-4">
               {isConfirming ? (
                 <Button
-                  variant="outline"
+                  variant="secondary"
                   onClick={(e) => {
                     e.stopPropagation();
                     setIsLoading(true); // Passe à l'état de chargement
                   }}
                 >
-                  Confirmer
+                  <p className="text-gray-700">Confirmer</p>
                 </Button>
               ) : (
                 <Button
