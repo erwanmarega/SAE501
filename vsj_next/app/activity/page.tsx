@@ -1,179 +1,153 @@
-export default function Home() {
+"use client";
+
+import React, { useEffect, useState } from "react";
+import VanillaTilt from "vanilla-tilt";
+import CardActivity from "./card-activity";
+import CardRecap from "./card-recap";
+import Logo from "../components/ui/logo";
+import H3 from "../components/ui/texts/h3";
+import P from "../components/ui/texts/p";
+import H1 from "../components/ui/texts/h1";
+import Loader from "../components/ui/loader";
+
+const ActivityPage = () => {
+  const [chosenButton, setChosenButton] = useState(false);
+
+  useEffect(() => {
+    console.log("CHOSENBUTTON:", chosenButton);
+
+    // Initialiser VanillaTilt sur tous les éléments avec la classe "card"
+    if (!chosenButton) {
+      VanillaTilt.init(document.querySelectorAll(".card"), {
+        max: 25,
+        speed: 5000,
+        glare: true,
+        "max-glare": 0.5,
+      });
+    }
+
+    const cards = document.querySelectorAll(".card");
+    const handleCardClick = (event: Event, card?: Element) => {
+      const target = event.target as HTMLElement;
+
+      if (target.closest("button") || target.closest(".interactive-element")) {
+        return;
+      }
+
+      if (chosenButton) {
+        return;
+      }
+
+      card?.classList.toggle("flipped");
+    };
+
+    cards.forEach((card) => {
+      card.addEventListener("click", (event) => handleCardClick(event, card));
+    });
+
+    // Nettoyer l'écouteur d'événement
+    return () => {
+      if (chosenButton) {
+        cards.forEach((card) => {
+          card.removeEventListener("click", () => handleCardClick(card));
+        });
+      }
+    };
+  }, [chosenButton]);
+
+  const [selectedCard, setSelectedCard] = useState<number | null>(null);
+  const [permanentSelectedCard, setPermanentSelectedCard] = useState<
+    number | null
+  >(null);
+
+  // Notre tableau d'objets, chacun correspondant à une carte
+  const activities = [
+    {
+      title: "Aquabike",
+      imageSrc: "/assets/img/bloc_aquabike.webp",
+      imageAlt: "Aquabike",
+      description:
+        "L'aquabike est un sport aquatique intense, parfait pour renforcer le bas du corps.",
+      price: "250€",
+      badge: "Intermédiaire",
+    },
+    {
+      title: "Natation",
+      imageSrc: "/assets/img/bloc_natation.webp",
+      imageAlt: "Natation",
+      description:
+        "La natation est le sport aquatique élite où les meilleurs se rencontrent.",
+      price: "300€",
+      badge: "Élite",
+    },
+    {
+      title: "Aquagym",
+      imageSrc: "/assets/img/block_aquagym.webp",
+      imageAlt: "Aquagym",
+      description:
+        "L'aquagym est un excellent moyen de rester en forme tout en douceur.",
+      price: "200€",
+      badge: "Débutant",
+    },
+  ];
+
+  const [hiddenCard, setHiddenCard] = useState(false);
+  const handleRemove = () => {
+    setTimeout(() => {
+      setHiddenCard(true);
+    }, 2500);
+  };
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
   return (
-    <div className="bg-gray-100 min-h-screen flex flex-col items-center px-4 py-8 select-none">
-      {" "}
-      {}
-      <header className="w-full mb-6">
-        <h1 className="text-2xl font-bold mb-2 text-left">
-          Bonjour{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400 underline decoration-2">
-            Erwan
-          </span>
-        </h1>
-        <div className="flex justify-center mb-4">
-          <img src="./assets/img/logo.png" alt="Logo" className="w-16 h-auto" />
-        </div>
-        <div className="text-center">
-          <p className="text-gray-600 text-4xl font-semibold">Nos activités</p>
-          <p className="text-gray-500 text-sm">
-            Découvrez nos options pour profiter pleinement des activités du club
-            de natation.
-          </p>
-        </div>
-      </header>
-      <section className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 w-full max-w-5xl">
-        {/* Carte 1 */}
-        <div className="bg-white rounded-xl shadow-md p-6 transform transition-transform duration-500 hover:scale-110 hover:shadow-lg w-full mx-auto space-y-4 select-none">
-          <div className="flex justify-between items-center mb-2">
-            <h3 className="text-lg font-bold">Aquagym</h3>
-            <span className="text-xs bg-blue-100 text-blue-600 py-1 px-2 rounded-full">
-              Souplesse
-            </span>
-          </div>
-          <p className="text-xl font-bold text-gray-800 mb-0.5">225.00€</p>
-          <p className="text-xs text-gray-500">Facturation annuelle à 225 €</p>
-          <button className="mt-4 bg-primary text-white py-2 px-4 rounded-md w-full hover:bg-blue-700">
-            Souscrire →
-          </button>
-          <div className="w-65 h-0.5 bg-[#E8EAE9] mx-auto mt-4"></div>
-          <ul className="space-y-3 text-xs text-gray-600">
-            <li>
-              <img
-                src="./assets/img/image.png"
-                alt="Check"
-                className="inline-block w-4 h-4 mr-2"
-              />
-              Séances dynamiques et conviviales en musique
-            </li>
-            <li>
-              <img
-                src="./assets/img/image.png"
-                alt="Check"
-                className="inline-block w-4 h-4 mr-2"
-              />
-              Exercices adaptés pour renforcer vos muscles tout en douceur
-            </li>
-            <li>
-              <img
-                src="./assets/img/image.png"
-                alt="Check"
-                className="inline-block w-4 h-4 mr-2"
-              />
-              Activité idéale pour fortifier le corps et améliorer votre
-              bien-être
-            </li>
-          </ul>
-          <div className="text-right">
-            <a
-              href="#"
-              className="mt-4 inline-block text-blue-600 text-xs font-medium"
-            >
-              Voir plus →
-            </a>
-          </div>
-        </div>
-
-        {}
-        <div className="bg-white rounded-xl shadow-md p-6 transform transition-transform duration-500 hover:scale-110 hover:shadow-lg w-full mx-auto space-y-4 select-none">
-          <div className="flex justify-between items-center mb-2">
-            <h3 className="text-lg font-bold">Natation</h3>
-            <span className="text-xs bg-blue-100 text-blue-600 py-1 px-2 rounded-full">
-              Elite
-            </span>
-          </div>
-          <p className="text-xl font-bold text-gray-800 mb-0.5">300.00€</p>
-          <p className="text-xs text-gray-500">Facturation annuelle à 300 €</p>
-          <button className="mt-4 bg-primary text-white py-2 px-4 rounded-md w-full hover:bg-blue-700">
-            Souscrire →
-          </button>
-          <div className="w-65 h-0.5 bg-[#E8EAE9] mx-auto mt-4"></div>
-          <ul className="space-y-3 text-xs text-gray-600">
-            <li>
-              <img
-                src="./assets/img/image.png"
-                alt="Check"
-                className="inline-block w-4 h-4 mr-2"
-              />
-              Accès aux séances de natation libre pour tous niveaux
-            </li>
-            <li>
-              <img
-                src="./assets/img/image.png"
-                alt="Check"
-                className="inline-block w-4 h-4 mr-2"
-              />
-              Cours encadrés pour perfectionner votre technique et votre style
-            </li>
-            <li>
-              <img
-                src="./assets/img/image.png"
-                alt="Check"
-                className="inline-block w-4 h-4 mr-2"
-              />
-              Programmes adaptés aux nageurs débutants comme confirmés
-            </li>
-          </ul>
-          <div className="text-right">
-            <a
-              href="#"
-              className="mt-4 inline-block text-blue-600 text-xs font-medium"
-            >
-              Voir plus →
-            </a>
-          </div>
-        </div>
-
-        {}
-        <div className="bg-white rounded-xl shadow-md p-6 transform transition-transform duration-500 hover:scale-110 hover:shadow-lg w-full mx-auto space-y-4 select-none">
-          <div className="flex justify-between items-center mb-2">
-            <h3 className="text-lg font-bold">Aquabike</h3>
-            <span className="text-xs bg-blue-100 text-blue-600 py-1 px-2 rounded-full">
-              Remise en forme
-            </span>
-          </div>
-          <p className="text-xl font-bold text-gray-800 mb-0.5">250.00€</p>
-          <p className="text-xs text-gray-500">Facturation annuelle à 250 €</p>
-          <button className="mt-4 bg-primary text-white py-2 px-4 rounded-md w-full hover:bg-blue-700">
-            Souscrire →
-          </button>
-          <div className="w-65 h-0.5 bg-[#E8EAE9] mx-auto mt-4"></div>
-          <ul className="space-y-3 text-xs text-gray-600">
-            <li>
-              <img
-                src="./assets/img/image.png"
-                alt="Check"
-                className="inline-block w-4 h-4 mr-2"
-              />
-              Pédalez dans l’eau pour un entraînement intensif et efficace
-            </li>
-            <li>
-              <img
-                src="./assets/img/image.png"
-                alt="Check"
-                className="inline-block w-4 h-4 mr-2"
-              />
-              Séances qui allient cardio et renforcement musculaire
-            </li>
-            <li>
-              <img
-                src="./assets/img/image.png"
-                alt="Check"
-                className="inline-block w-4 h-4 mr-2"
-              />
-              Idéal pour brûler des calories tout en préservant vos
-              articulations
-            </li>
-          </ul>
-          <div className="text-right">
-            <a
-              href="#"
-              className="mt-4 inline-block text-blue-600 text-xs font-medium"
-            >
-              Voir plus →
-            </a>
-          </div>
-        </div>
+    <section className="h-screen flex flex-col justify-center items-center">
+      <H1 className="absolute top-4 left-6">
+        Bienvenue
+        <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400 underline decoration-2">
+          Erwan
+        </span>
+      </H1>
+      <section className="flex flex-col items-center">
+        <Logo />
+        <H3 className="text-3xl">Nos activités</H3>
+        <P className="!text-lg max-w-96 text-wrap text-center leading-tight">
+          Découvrez nos options pour profiter pleinement des activités du club
+          de natation.
+        </P>
       </section>
-    </div>
+      <section className="grid grid-cols-3  m-auto w-2/3 gap-12 bg-[#f7f7f7] ">
+        {activities.map((activity, index) => (
+          <CardActivity
+            key={index}
+            identity={index}
+            imageSrc={activity.imageSrc}
+            imageAlt={activity.imageAlt}
+            title={activity.title}
+            description={activity.description}
+            price={activity.price}
+            badge={activity.badge}
+            onMouseEnter={() => {
+              setSelectedCard(index);
+              setPermanentSelectedCard(index);
+            }}
+            onMouseLeave={() => setSelectedCard(null)}
+            selected={selectedCard}
+            chosenButton={chosenButton}
+            setChosenButton={setChosenButton}
+            permanentSelectedCard={permanentSelectedCard}
+            hiddenCard={hiddenCard}
+            handleRemove={handleRemove}
+            setIsLoading={setIsLoading}
+          />
+        ))}
+      </section>
+    </section>
   );
-}
+};
+
+export default ActivityPage;

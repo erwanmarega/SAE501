@@ -58,8 +58,7 @@ const SignupPage: React.FC = () => {
   };
 
   return (
-    <main className="flex flex-col items-center gap-6 justify-center p-4 max-w-md mx-auto">
-      <h1 className="text-2xl font-bold">Inscription</h1>
+    <main className="flex flex-col items-center gap-6">
 
       {error && <p className="text-red-500">{error}</p>}
 
@@ -93,7 +92,6 @@ const SignupPage: React.FC = () => {
 
       <Button
         variant="primary"
-        format="big"
         type="button"
         onClick={onSignup}
         disabled={isLoading}

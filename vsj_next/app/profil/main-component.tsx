@@ -6,12 +6,14 @@ import License from "./main-components/license";
 import Adhesion from "./main-components/adhesion";
 import AdminDocs from "./main-components/admin-docs";
 import Button from "../components/ui/button";
+import { useRouter } from "next/navigation"; 
 
 const MainComponent = () => {
   const [selected, setSelected] = useState<string>("License");
+  const router = useRouter(); 
 
   const options = [
-    { id: "License", label: "License" },
+    { id: "License", label: "Licence" },
     { id: "Adhésion", label: "Adhésion" },
     { id: "Administration et Documents", label: "Administration et Documents" },
   ];
@@ -37,6 +39,12 @@ const MainComponent = () => {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+
+    router.push("/landing"); 
+  };
+
   return (
     <section className="row-start-6 row-end-10 flex flex-col gap-4 lg:col-start-2 lg:col-end-4 lg:row-start-2 lg:row-end-6 h-full w-full">
       <section className="flex justify-between">
@@ -55,7 +63,7 @@ const MainComponent = () => {
             </div>
           ))}
         </Card>
-        <Button className="!w-36">Se déconnecter</Button>
+        <Button className="!w-36" onClick={handleLogout}>Se déconnecter</Button>
       </section>
 
       <Card id="main" className="bg-white shadow-md h-full w-full !px-6 !py-4 ">

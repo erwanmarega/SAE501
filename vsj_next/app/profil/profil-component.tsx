@@ -8,7 +8,7 @@ import api from "../utils/axiosInstance";
 interface UserProfile {
   prenom: string;
   nom: string;
-  dateNaissance: string; // Date au format ISO (ex: "1990-05-15")
+  dateNaissance: string; 
 }
 
 const ProfilComponent = () => {
@@ -35,7 +35,6 @@ const ProfilComponent = () => {
           const data = response.data;
           setPrenom(data.prenom);
 
-          // ✅ Calcul précis de l'âge
           if (data.dateNaissance) {
             const birthDate = new Date(data.dateNaissance);
             const currentDate = new Date();

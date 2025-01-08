@@ -24,6 +24,11 @@ class Messages
     #[Groups(['message:read'])]
     private ?Swimmer $sender = null;
 
+    #[ORM\ManyToOne(targetEntity: Swimmer::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['message:read'])]
+    private ?Swimmer $receiver = null;
+
     #[ORM\Column(type: 'datetime')]
     #[Groups(['message:read'])]
     private ?\DateTimeInterface $createdAt = null;
@@ -32,6 +37,7 @@ class Messages
     {
         $this->createdAt = new \DateTime();
     }
+
 
     public function getId(): ?int
     {
@@ -65,6 +71,23 @@ class Messages
     public function getSenderEmail(): ?string
     {
         return $this->sender ? $this->sender->getEmail() : null;
+    }
+
+    public function getReceiver(): ?Swimmer
+    {
+        return $this->receiver;
+    }
+
+    public function setReceiver(?Swimmer $receiver): self
+    {
+        $this->receiver = $receiver;
+
+        return $this;
+    }
+
+    public function getReceiverEmail(): ?string
+    {
+        return $this->receiver ? $this->receiver->getEmail() : null;
     }
 
     public function getCreatedAt(): ?\DateTimeInterface
