@@ -12,6 +12,7 @@ const Signup: React.FC = () => {
   const [showConfetti, setShowConfetti] = useState(false);
   const [barWidthStep1To2, setBarWidthStep1To2] = useState(0);
   const [barWidthStep2To3, setBarWidthStep2To3] = useState(0);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const [formData, setFormData] = useState({
     nom: "",
@@ -32,22 +33,40 @@ const Signup: React.FC = () => {
       ...prev,
       [name]: value,
     }));
+    setErrorMessage("");
+  };
+
+  const validateStep = (): boolean => {
+    if (step === 1) {
+      return formData.nom && formData.prenom && formData.dateNaissance;
+    }
+    if (step === 2) {
+      return formData.adresse && formData.codePostal && formData.ville;
+    }
+    if (step === 3) {
+      return formData.telephone;
+    }
+    return true;
   };
 
   const handleNextStep = () => {
-    if (step === 3) {
-      handleSubmit();
-      setShowConfetti(true);
-      setStep(4);
-    } else {
-      setStep((prev) => Math.min(prev + 1, 3));
-    }
+    if (validateStep()) {
+      if (step === 3) {
+        handleSubmit();
+        setShowConfetti(true);
+        setStep(4);
+      } else {
+        setStep((prev) => Math.min(prev + 1, 3));
+      }
 
-    if (step === 1 && barWidthStep1To2 < 100) {
-      setBarWidthStep1To2((prev) => Math.min(prev + 100, 100));
-    }
-    if (step === 2 && barWidthStep2To3 < 100) {
-      setBarWidthStep2To3((prev) => Math.min(prev + 100, 100));
+      if (step === 1 && barWidthStep1To2 < 100) {
+        setBarWidthStep1To2((prev) => Math.min(prev + 100, 100));
+      }
+      if (step === 2 && barWidthStep2To3 < 100) {
+        setBarWidthStep2To3((prev) => Math.min(prev + 100, 100));
+      }
+    } else {
+      setErrorMessage("Veuillez remplir tous les champs obligatoires.");
     }
   };
 
@@ -65,7 +84,7 @@ const Signup: React.FC = () => {
   const handleSubmit = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8000/api/complete-registration`,
+        "http://localhost:8000/api/complete-registration",
         {
           method: "POST",
           headers: {
@@ -112,7 +131,7 @@ const Signup: React.FC = () => {
             <div className="text-7xl mb-8">👏</div>
             <button
               className="bg-blue-500 text-white font-medium text-lg py-4 px-16 rounded-md hover:bg-blue-600 transition-all"
-              onClick={() => (window.location.href = "/activity")}
+              onClick={() => (window.location.href = "/")}
             >
               Démarrer l'expérience →
             </button>
@@ -139,6 +158,7 @@ const Signup: React.FC = () => {
               <H3 className="mt-8">{stepTitles[step - 1]}</H3>
             </div>
 
+            {/* Barre de progression */}
             <div className="flex items-center justify-center gap-3 mb-12">
               <div className="flex items-center gap-3">
                 <div
@@ -160,7 +180,7 @@ const Signup: React.FC = () => {
                 </div>
                 <div className="relative w-20 h-[4px] bg-gray-300">
                   <div
-                    className={`absolute left-0 top-0 h-full bg-blue-500`}
+                    className="absolute left-0 top-0 h-full bg-blue-500"
                     style={{
                       width: `${barWidthStep1To2}%`,
                       transition: "width 0.5s ease",
@@ -188,7 +208,7 @@ const Signup: React.FC = () => {
                 </div>
                 <div className="relative w-20 h-[4px] bg-gray-300">
                   <div
-                    className={`absolute left-0 top-0 h-full bg-blue-500`}
+                    className="absolute left-0 top-0 h-full bg-blue-500"
                     style={{
                       width: `${barWidthStep2To3}%`,
                       transition: "width 0.5s ease",
@@ -209,6 +229,7 @@ const Signup: React.FC = () => {
               </div>
             </div>
 
+            {/* Affichage des étapes */}
             {step === 1 && (
               <form className="grid grid-cols-3 gap-6 mb-10">
                 <input
@@ -237,7 +258,6 @@ const Signup: React.FC = () => {
               </form>
             )}
 
-            {/* Étape 2 */}
             {step === 2 && (
               <form className="grid grid-cols-3 gap-6 mb-10">
                 <input
@@ -280,6 +300,12 @@ const Signup: React.FC = () => {
               </form>
             )}
 
+            {/* Message d'erreur */}
+            {errorMessage && (
+              <p className="text-red-500 text-center mb-4">{errorMessage}</p>
+            )}
+
+            {/* Boutons */}
             <div className="flex flex-col gap-6">
               <Button
                 variant="primary"
