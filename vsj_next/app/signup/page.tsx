@@ -12,6 +12,7 @@ const Signup: React.FC = () => {
   const [showConfetti, setShowConfetti] = useState(false);
   const [barWidthStep1To2, setBarWidthStep1To2] = useState(0);
   const [barWidthStep2To3, setBarWidthStep2To3] = useState(0);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const [formData, setFormData] = useState({
     nom: "",
@@ -32,29 +33,46 @@ const Signup: React.FC = () => {
       ...prev,
       [name]: value,
     }));
+    setErrorMessage("");
+  };
+
+  const validateStep = (): boolean => {
+    if (step === 1) {
+      return formData.nom && formData.prenom && formData.dateNaissance;
+    }
+    if (step === 2) {
+      return formData.adresse && formData.codePostal && formData.ville;
+    }
+    if (step === 3) {
+      return formData.telephone;
+    }
+    return true;
   };
 
   const handleNextStep = () => {
-    if (step === 3) {
-      handleSubmit();
-      setShowConfetti(true);
-      setStep(4);
-    } else {
-      setStep((prev) => Math.min(prev + 1, 3));
-    }
+    if (validateStep()) {
+      if (step === 3) {
+        handleSubmit();
+        setShowConfetti(true);
+        setStep(4);
+      } else {
+        setStep((prev) => Math.min(prev + 1, 3));
+      }
 
-    if (step === 1 && barWidthStep1To2 < 100) {
-      setBarWidthStep1To2((prev) => Math.min(prev + 100, 100));
-    }
-    if (step === 2 && barWidthStep2To3 < 100) {
-      setBarWidthStep2To3((prev) => Math.min(prev + 100, 100));
+      if (step === 1 && barWidthStep1To2 < 100) {
+        setBarWidthStep1To2((prev) => Math.min(prev + 100, 100));
+      }
+      if (step === 2 && barWidthStep2To3 < 100) {
+        setBarWidthStep2To3((prev) => Math.min(prev + 100, 100));
+      }
+    } else {
+      setErrorMessage("Veuillez remplir tous les champs obligatoires.");
     }
   };
 
   const handlePreviousStep = () => {
     setStep((prev) => Math.max(prev - 1, 1));
 
-    // Animer les barres de régression
     if (step === 2 && barWidthStep1To2 > 0) {
       setBarWidthStep1To2((prev) => Math.max(prev - 100, 0));
     }
@@ -66,7 +84,7 @@ const Signup: React.FC = () => {
   const handleSubmit = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8000/api/complete-registration`,
+        "http://localhost:8000/api/complete-registration",
         {
           method: "POST",
           headers: {
@@ -120,7 +138,6 @@ const Signup: React.FC = () => {
           </div>
         ) : (
           <>
-            {/* En-tête */}
             <div className="flex flex-col items-center mb-12">
               <img
                 src="./assets/img/logo.png"
@@ -163,7 +180,7 @@ const Signup: React.FC = () => {
                 </div>
                 <div className="relative w-20 h-[4px] bg-gray-300">
                   <div
-                    className={`absolute left-0 top-0 h-full bg-blue-500`}
+                    className="absolute left-0 top-0 h-full bg-blue-500"
                     style={{
                       width: `${barWidthStep1To2}%`,
                       transition: "width 0.5s ease",
@@ -191,7 +208,7 @@ const Signup: React.FC = () => {
                 </div>
                 <div className="relative w-20 h-[4px] bg-gray-300">
                   <div
-                    className={`absolute left-0 top-0 h-full bg-blue-500`}
+                    className="absolute left-0 top-0 h-full bg-blue-500"
                     style={{
                       width: `${barWidthStep2To3}%`,
                       transition: "width 0.5s ease",
@@ -212,7 +229,7 @@ const Signup: React.FC = () => {
               </div>
             </div>
 
-            {/* Étape 1 */}
+            {/* Affichage des étapes */}
             {step === 1 && (
               <form className="grid grid-cols-3 gap-6 mb-10">
                 <input
@@ -241,7 +258,6 @@ const Signup: React.FC = () => {
               </form>
             )}
 
-            {/* Étape 2 */}
             {step === 2 && (
               <form className="grid grid-cols-3 gap-6 mb-10">
                 <input
@@ -271,7 +287,6 @@ const Signup: React.FC = () => {
               </form>
             )}
 
-            {/* Étape 3 */}
             {step === 3 && (
               <form className="grid grid-cols-1 gap-6 mb-10">
                 <input
@@ -283,6 +298,11 @@ const Signup: React.FC = () => {
                   className="col-span-1 border border-gray-300 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </form>
+            )}
+
+            {/* Message d'erreur */}
+            {errorMessage && (
+              <p className="text-red-500 text-center mb-4">{errorMessage}</p>
             )}
 
             {/* Boutons */}
