@@ -54,7 +54,6 @@ const Signup: React.FC = () => {
   const handlePreviousStep = () => {
     setStep((prev) => Math.max(prev - 1, 1));
 
-    // Animer les barres de régression
     if (step === 2 && barWidthStep1To2 > 0) {
       setBarWidthStep1To2((prev) => Math.max(prev - 100, 0));
     }
@@ -113,14 +112,13 @@ const Signup: React.FC = () => {
             <div className="text-7xl mb-8">👏</div>
             <button
               className="bg-blue-500 text-white font-medium text-lg py-4 px-16 rounded-md hover:bg-blue-600 transition-all"
-              onClick={() => (window.location.href = "/")}
+              onClick={() => (window.location.href = "/activity")}
             >
               Démarrer l'expérience →
             </button>
           </div>
         ) : (
           <>
-            {/* En-tête */}
             <div className="flex flex-col items-center mb-12">
               <img
                 src="./assets/img/logo.png"
@@ -141,7 +139,6 @@ const Signup: React.FC = () => {
               <H3 className="mt-8">{stepTitles[step - 1]}</H3>
             </div>
 
-            {/* Barre de progression */}
             <div className="flex items-center justify-center gap-3 mb-12">
               <div className="flex items-center gap-3">
                 <div
@@ -212,7 +209,6 @@ const Signup: React.FC = () => {
               </div>
             </div>
 
-            {/* Étape 1 */}
             {step === 1 && (
               <form className="grid grid-cols-3 gap-6 mb-10">
                 <input
@@ -271,7 +267,6 @@ const Signup: React.FC = () => {
               </form>
             )}
 
-            {/* Étape 3 */}
             {step === 3 && (
               <form className="grid grid-cols-1 gap-6 mb-10">
                 <input
@@ -285,7 +280,6 @@ const Signup: React.FC = () => {
               </form>
             )}
 
-            {/* Boutons */}
             <div className="flex flex-col gap-6">
               <Button
                 variant="primary"

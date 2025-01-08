@@ -28,8 +28,7 @@ class SwimmerController extends AbstractController
     }
 
     
-     #[Route('/register', name:'register_swimmer', methods:['POST'])]
-    
+    #[Route('/register', name:'register_swimmer', methods:['POST'])]
     public function register(Request $request): Response
     {
         $data = json_decode($request->getContent(), true);
@@ -67,8 +66,7 @@ class SwimmerController extends AbstractController
     }
 
     
-      #[Route('/api/complete-registration', name:'complete_registration', methods:['POST'])]
-   
+    #[Route('/api/complete-registration', name:'complete_registration', methods:['POST'])]
     public function completeRegistration(Request $request): Response
     {
         $data = json_decode($request->getContent(), true);
@@ -99,9 +97,8 @@ class SwimmerController extends AbstractController
         ], Response::HTTP_OK);
     }
 
-    /**
-     * @Route("/api/user-profile", name="user_profile", methods={"GET"})
-     */
+    
+    #[Route('/api/user-profile', name:'user_profile', methods:['GET'])]
     public function getUserProfile(): Response
     {
         $user = $this->getUser(); 
@@ -125,9 +122,8 @@ class SwimmerController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/swimmer/login", name="login_swimmer", methods={"POST"})
-     */
+    
+    #[Route('/swimmer/login', name:'login_swimmer', methods:['POST'])]
     public function login(Request $request): Response
     {
         $data = json_decode($request->getContent(), true);
@@ -154,9 +150,8 @@ class SwimmerController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/api/user-profile", name="update_user_profile", methods={"PUT"})
-     */
+   
+    #[Route('/api/user-profile', name:'update_user_profile', methods:['PUT'])]
     public function updateUserProfile(Request $request): Response
     {
         $user = $this->getUser();
