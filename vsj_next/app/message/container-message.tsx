@@ -1,12 +1,24 @@
-import React from "react";
-import Card from "../components/ui/card";
-import Profil from "../components/profil/profil";
-import H4 from "../components/ui/texts/h4";
+"use client";
+
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import MessageCard from "./message-card";
+import TextareaAutosize from "react-textarea-autosize";
+import H3 from "../components/ui/texts/h3";
+
+type Message = {
+  id: number;
+  sender: string;
+  time: string;
+  text: string;
+  fromMe?: boolean;
+};
+
+interface User {
+  prenom: string;
+  nom: string;
+}
 
 interface ContainerMessageProps {
-  messages: Message[];
   textareaRef: React.RefObject<HTMLTextAreaElement>;
   text: string;
   handleTextChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
@@ -14,11 +26,11 @@ interface ContainerMessageProps {
   isRecording: boolean;
   startRecording: () => void;
   stopRecording: () => void;
-  selectedDiscussion: string;
+  selectedDiscussion: string | number | null;
+  discussions: Record<number, Message[]>;
 }
 
-const ContainerMessage: React.FC<ContainerMessageProps> = ({
-  messages,
+const ContainerMessage = ({
   textareaRef,
   text,
   handleTextChange,
@@ -28,113 +40,123 @@ const ContainerMessage: React.FC<ContainerMessageProps> = ({
   stopRecording,
   selectedDiscussion,
   discussions,
-}) => {
+}: ContainerMessageProps) => {
+  const [user, setUser] = useState<User | null>(null);
+  const messages = discussions[Number(selectedDiscussion)] || [];
+
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      if (!selectedDiscussion) return;
+
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/messages/conversation/${selectedDiscussion}`, {
+          headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` },
+        });
+
+        if (!response.ok) {
+          throw new Error("Erreur lors de la récupération des informations de l'utilisateur");
+        }
+
+        const data = await response.json();
+
+        setUser({
+          prenom: data[0]?.receiverPrenom || data[0]?.senderPrenom,
+          nom: data[0]?.receiverNom || data[0]?.senderNom,
+        });
+      } catch (error) {
+        console.error("Erreur :", error);
+      }
+    };
+
+    fetchUserInfo();
+  }, [selectedDiscussion]);
+
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage();
+    }
+  };
+
   return (
-    <Card className="col-start-2 col-end-5 w-full h-full grid-rows-[50px_1fr_50px]">
-      {/* En-tête de la conversation */}
-      <header className="flex justify-between p-2 border-b-2 border-[#EBEBEB]">
-        <div className="flex gap-2">
-          <Profil size={65} />
-          <div>
-            <H4 className="!text-2xl">Erwan</H4>
-            <div className="flex gap-2 items-center">
-              <div className="bg-primary h-3 w-3 rounded-full"></div>
-              <p className="font-mona font-light text-[#3B3B3B]">active</p>
-            </div>
-          </div>
-        </div>
-        <div className="flex gap-2">
-          <Image
-            src="/assets/icons/settingmessage.svg"
-            alt="Paramètres message"
-            width={5}
-            height={5}
-          />
-        </div>
+    <div className="col-span-3 flex flex-col h-full border rounded-lg overflow-hidden bg-white">
+      <header className="flex items-center justify-between p-4 border-b bg-gray-100">
+        <H3 className="text-lg font-semibold">
+          {user
+            ? ` ${user.prenom} ${user.nom}`
+            : selectedDiscussion
+            ? "Chargement des informations..."
+            : "Aucune discussion sélectionnée"}
+        </H3>
       </header>
 
-      {/* Conteneur des messages, scrollable */}
-      <main
-        className="h-[425px] w-full flex flex-col gap-2 p-4 overflow-y-scroll [&::-webkit-scrollbar]:w-2
-        [&::-webkit-scrollbar-track]:rounded-full
-        [&::-webkit-scrollbar-track]:bg-gray-100
-        [&::-webkit-scrollbar-thumb]:rounded-full
-        [&::-webkit-scrollbar-thumb]:bg-gray-300
-        dark:[&::-webkit-scrollbar-track]:bg-neutral-700
-        dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500"
-      >
-        {discussions[selectedDiscussion].map((msg) => (
-          <MessageCard
-            key={msg.id}
-            sender={msg.sender}
-            time={msg.time}
-            text={msg.text}
-            fromMe={msg.fromMe}
-          />
-        ))}
+      <main className="flex-1 overflow-y-auto p-4 space-y-2 bg-gray-50">
+        {messages.length > 0 ? (
+          messages.map((message) => (
+            <div
+              key={message.id}
+              className={`flex ${
+                message.fromMe ? "justify-end" : "justify-start"
+              }`}
+            >
+              <div
+                className={`p-3 rounded-lg max-w-xs ${
+                  message.fromMe
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-200 text-gray-800"
+                }`}
+              >
+                <p className="text-sm">{message.text}</p>
+                <p className="text-xs text-right mt-1 opacity-70">
+                  {message.time}
+                </p>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p className="text-center text-gray-500 mt-10">
+            Aucun message dans cette conversation.
+          </p>
+        )}
+        <div ref={messagesEndRef} />
       </main>
 
-      {/* Footer d’envoi de message */}
-      <footer className="h-max w-[98%] relative">
-        <textarea
+      <footer className="flex items-center p-4 border-t bg-white gap-2">
+        <TextareaAutosize
           ref={textareaRef}
           value={text}
           onChange={handleTextChange}
-          className="bg-[#f7f7f7] w-full rounded-lg text-lg font-medium font-mona pl-16 pr-20 py-3 absolute -bottom-12"
-          rows={1}
-          style={{
-            resize: "none",
-            overflow: "hidden",
-          }}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" && !e.shiftKey) {
-              e.preventDefault();
-              handleSendMessage();
-            }
-          }}
+          onKeyDown={handleKeyDown}
+          placeholder="Écrivez un message..."
+          className="flex-1 p-2 border rounded-lg resize-none overflow-hidden"
+          minRows={1}
+          maxRows={5}
         />
-        <Image
-          src="/assets/icons/add_file.svg"
-          alt="Ajouter un fichier"
-          width={25}
-          height={25}
-          className="absolute left-4 top-3"
-        />
-        {!isRecording ? (
-          <button onClick={startRecording} className="absolute right-14 top-3">
-            <Image
-              src="/assets/icons/voice_message.svg"
-              alt="Message vocal"
-              width={15}
-              height={15}
-            />
-          </button>
-        ) : (
-          <button onClick={stopRecording} className="absolute right-14 top-3">
-            <video
-              src="/assets/gifs/voice_animation02.webm"
-              width="500"
-              height="300"
-              controls
-              autoPlay
-              loop
-              muted
-            >
-              Your browser does not support the video tag.
-            </video>
-          </button>
-        )}
 
-        <Image
-          src="/assets/icons/send_active_message.svg"
-          alt="Envoyer le message"
-          width={22}
-          height={22}
-          className="absolute right-4 top-[15px] cursor-pointer"
+        <button
           onClick={handleSendMessage}
-        />
+          disabled={!text.trim()}
+          className={`p-2 rounded-lg ${
+            text.trim() ? "bg-blue-500" : "bg-gray-200 cursor-not-allowed"
+          }`}
+        >
+          <Image
+            src="/assets/icons/send.svg"
+            alt="Envoyer"
+            width={24}
+            height={24}
+          />
+        </button>
       </footer>
-    </Card>
+    </div>
   );
 };
 

@@ -4,17 +4,33 @@ import React from "react";
 import Profil from "@/app/components/profil/profil";
 import H4 from "@/app/components/ui/texts/h4";
 import P from "@/app/components/ui/texts/p";
+import clsx from "clsx";
 
 interface PersonCardProps {
   name: string;
   text: string;
   date: string;
-  icon?: string; // Facultatif, si tu souhaites afficher une icône/lettre dans le footer
+  icon?: string;
+  selectedDiscussion: string;
+  setSelectedDiscussion: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const PersonCard: React.FC<PersonCardProps> = ({ name, text, date, icon }) => {
+const PersonCard: React.FC<PersonCardProps> = ({
+  name,
+  text,
+  date,
+  icon,
+  selectedDiscussion,
+  setSelectedDiscussion,
+}) => {
   return (
-    <div className="relative border-[#f7f7f7] border-t-2 w-full overflow-hidden hover:bg-gray-100 cursor-pointer">
+    <div
+      className={clsx(
+        "relative border-[#f7f7f7] border-t-2 w-full overflow-hidden hover:bg-gray-100 cursor-pointer",
+        { "bg-gray-50": selectedDiscussion === name }
+      )}
+      onClick={() => setSelectedDiscussion(name)}
+    >
       <section className="grid grid-cols-[50px_1fr] py-3 px-4 gap-4 w-full">
         <Profil size={52.5} />
         <main className="h-full w-5/6 flex flex-col justify-between">

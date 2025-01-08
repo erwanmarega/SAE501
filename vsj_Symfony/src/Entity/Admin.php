@@ -18,7 +18,7 @@ class Admin
     private ?string $title = null;
 
     #[ORM\Column(type: 'integer')]
-    private ?int $startDate = null; // en minutes
+    private ?int $startDate = null; 
 
     #[ORM\Column(type: 'time')]
     private ?\DateTimeInterface $duration = null;

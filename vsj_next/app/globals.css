@@ -143,21 +143,19 @@ input[type="time"]::-moz-focus-inner {
 
 .card {
   transform-style: preserve-3d;
-  perspective: 1000px; /* Optionnel, ajoutez cette ligne sur un parent si nécessaire */
-  position: relative; /* Pour superposer le recto et le verso */
-  transition: transform 0.6s; /* Pour une transition fluide */
+  perspective: 1000px;
+  position: relative;
+  transition: transform 0.3s;
 }
 .card__front,
 .card__back {
   position: absolute;
-
-  backface-visibility: hidden; /* Empêche la face cachée d’être visible à travers */
+  backface-visibility: hidden;
   top: 0;
   left: 0;
 }
 .card__front {
-  /* Styles de la face avant */
-  z-index: 2;
+  z-index: 1;
   transform: rotateY(0deg);
 }
 
@@ -174,9 +172,9 @@ input[type="time"]::-moz-focus-inner {
 }
 
 .card__back {
-  /* Styles de la face arrière */
   background-color: white;
   transform: rotateY(180deg);
+  z-index: 5;
 }
 
 .card.blue {
@@ -257,4 +255,39 @@ input[type="time"]::-moz-focus-inner {
 /* État cliqué : on applique une rotation Y de 180° */
 .card.flipped {
   transform: rotateY(180deg) !important;
+}
+/* From Uiverse.io by Nawsome */
+.circle {
+  animation: move571 2s linear infinite;
+}
+
+.circle.right {
+  animation-direction: reverse;
+}
+
+@keyframes move571 {
+  25% {
+    transform: translateX(-32px);
+  }
+
+  75% {
+    transform: translateX(32px);
+  }
+}
+
+.survol-container {
+  perspective: 1000px;
+}
+
+.survol-element {
+  object-fit: cover;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.survol-element:hover {
+  transform: translateZ(50px) scale(1.1);
+}
+
+.no-transition {
+  transition: none !important;
 }

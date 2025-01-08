@@ -8,10 +8,8 @@ const LandingPage = () => {
   return (
     <>
       <div className="bg-[#f8f9ff] text-black text-[15px] h-screen">
-        {/* HEADER */}
         <header className="py-4 px-4 sm:px-10 z-50 min-h-[70px]">
           <div className="relative flex flex-wrap items-center gap-4">
-            {/* Logo */}
             <a href="javascript:void(0)">
               <img
                 src="https://via.placeholder.com/150x50.png?text=VSJ+Natation"
@@ -20,12 +18,10 @@ const LandingPage = () => {
               />
             </a>
 
-            {/* MENU */}
             <div
               id="collapseMenu"
               className="max-lg:hidden lg:!block max-lg:fixed max-lg:before:fixed max-lg:before:bg-black max-lg:before:opacity-50 max-lg:before:inset-0 max-lg:before:z-50 z-50"
             >
-              {/* Bouton pour fermer le menu en version mobile */}
               <button
                 id="toggleClose"
                 className="lg:hidden fixed top-2 right-4 z-[100] rounded-full bg-white p-3"
@@ -41,7 +37,6 @@ const LandingPage = () => {
               </button>
 
               <ul className="lg:ml-12 lg:flex gap-x-6 max-lg:space-y-3 max-lg:fixed max-lg:bg-white max-lg:w-1/2 max-lg:min-w-[300px] max-lg:top-0 max-lg:left-0 max-lg:p-6 max-lg:h-full max-lg:shadow-md max-lg:overflow-auto z-50">
-                {/* Logo en version mobile */}
                 <li className="mb-6 hidden max-lg:block">
                   <a href="javascript:void(0)">
                     <img
@@ -94,7 +89,6 @@ const LandingPage = () => {
               </ul>
             </div>
 
-            {/* BOUTONS DROITS */}
             <div className="flex ml-auto">
               <Link href={"/authentification"}>
                 <Button className="px-6 py-3 rounded-xl text-white bg-primary transition-all hover:bg-primary/80  !max-w-40">
@@ -119,7 +113,7 @@ const LandingPage = () => {
           </div>
         </header>
 
-        {/* HERO */}
+        
         <div className="relative">
           <div className="px-4 sm:px-10">
             <div className="mt-16 max-w-4xl mx-auto text-center relative z-10">

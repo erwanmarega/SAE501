@@ -13,7 +13,7 @@ const Dashboard = () => {
   const { language } = useLanguage();
 
   return (
-    <main className="grid grid-cols-5 grid-rows-10 gap-5 w-full h-[73vh] p-4">
+    <main className="grid grid-cols-5 grid-rows-10 gap-5 w-full h-[73vh] p-4 -mt-10">
       <MapCard />
       <CalendarCard />
       <MessageCard position={1} />

@@ -11,17 +11,17 @@ import Message from "./message/message";
 import Group from "./group/page";
 import Map from "./map/page";
 import Stats from "./stats/stats";
+import clsx from "clsx";
 
 import Header from "./components/header/header";
 import { EventsProvider } from "./calendar/database/events-context";
 import Group02 from "./groupe02/group02";
 
-import { redirect } from "next/navigation";
 import MessageUpdate from "./message/message-update";
 
 export default function Home() {
-  // État pour suivre la page actuelle, par défaut "Dashboard"
-  const [currentPage, setCurrentPage] = useState("");
+  // État pour suivre la page actuelle, par défaut "Calendar"
+  const [currentPage, setCurrentPage] = useState("Dashboard");
 
   // Fonction pour rendre le composant correspondant
   const renderPage = () => {
@@ -39,12 +39,17 @@ export default function Home() {
       case "Stats":
         return <Stats />;
       default:
-        return <Calendar />;
+        return <Dashboard />;
     }
   };
 
   return (
-    <div className=" lg:h-[100vh] flex items-center justify-center lg:overflow-y-hidden bg-[#F7F7F7] dark:bg-[#262629]">
+    <div
+      className={clsx(
+        "lg:h-[100vh] flex items-center justify-center lg:overflow-y-hidden bg-[#F7F7F7] dark:bg-[#262629]",
+        { "lg:!h-[100vh]": currentPage === "Dashboard" }
+      )}
+    >
       {/* Composant d'en-tête */}
       <Header />
 

@@ -142,7 +142,7 @@ const BottomBar: React.FC<BottomBarProps> = ({
             {isSelected("Stats") && (
               <>
                 <TypingText
-                  text={language === "fr" ? "Stats" : "Stats"}
+                  text={language === "fr" ? "Présence" : "Attendance"}
                   className="absolute -bottom-4 m-auto font-outfit font-bold text-[#818181] text-xs"
                 />
                 <AnimatedCloud color="rgba(52, 140, 255, 0.15)" />
