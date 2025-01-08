@@ -54,7 +54,7 @@ const Loader = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       router.push("/");
-    }, 15000); // Ajustez selon vos besoins
+    }, 10000); // Ajustez selon vos besoins
     return () => clearTimeout(timer);
   }, [router]);
 
