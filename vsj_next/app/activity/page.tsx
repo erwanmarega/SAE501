@@ -107,7 +107,7 @@ const ActivityPage = () => {
   return (
     <section className="h-screen flex flex-col justify-center items-center">
       <H1 className="absolute top-4 left-6">
-        Bienvenue
+        Bienvenue{" "}
         <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400 underline decoration-2">
           Erwan
         </span>
