@@ -10,7 +10,6 @@ const RightBarPlanning = () => {
   const [trainingValue, setTrainingValue] = useState(0);
   const [competitionValue, setCompetitionValue] = useState(0);
 
-  // Génération dynamique des cartes
   const generateSeanceCards = () => {
     const trainingCards = Array.from({ length: trainingValue }, (_, index) => (
       <SeanceCard key={`training-${index}`} variant="training" />
