@@ -1,14 +1,17 @@
 import React, { useState, useRef } from "react";
 import Card from "../components/ui/card";
 import Header from "../components/header/header";
+import { useLanguage } from "./ui/context/language-provider";
 
 const Vestiaires = ({ showHeader }: { showHeader: boolean }) => {
+  const { language } = useLanguage(); // Get the current language
   const [isAudioVisible, setIsAudioVisible] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isVolumeVisible, setIsVolumeVisible] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(1);
+  const [isDragging, setIsDragging] = useState(false); // Gestion du drag du cercle
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const handleAudioButtonClick = () => {
@@ -31,7 +34,7 @@ const Vestiaires = ({ showHeader }: { showHeader: boolean }) => {
   };
 
   const handleTimeUpdate = () => {
-    if (audioRef.current) {
+    if (!isDragging && audioRef.current) {
       setCurrentTime(audioRef.current.currentTime);
     }
   };
@@ -68,15 +71,37 @@ const Vestiaires = ({ showHeader }: { showHeader: boolean }) => {
     setIsVolumeVisible(!isVolumeVisible);
   };
 
+  // Drag du cercle bleu
+  const handleDragStart = () => setIsDragging(true);
+
+  const handleDragEnd = () => {
+    setIsDragging(false);
+    if (audioRef.current) {
+      audioRef.current.currentTime = currentTime; // Mise à jour après déplacement
+    }
+  };
+
+  const handleDragMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (isDragging && duration > 0) {
+      const rect = (e.currentTarget as HTMLDivElement).getBoundingClientRect();
+      const offsetX = e.clientX - rect.left; // Position du curseur
+      const newTime = (offsetX / rect.width) * duration; // Conversion en temps
+      setCurrentTime(Math.min(Math.max(newTime, 0), duration)); // Assure une limite
+    }
+  };
+
   return (
     <div
-      className="h-[105vh] flex flex-col items-center dark:bg-[#262629] overflow-hidden"
+      className="min-h-screen flex flex-col items-center overflow-auto"
       style={{ transform: "scale(0.9)" }}
     >
-      {showHeader && <Header />}{" "}
-      {/* Affiche le Header uniquement si showHeader est vrai */}
-      <div className="flex flex-col items-center justify-center h-full w-full">
-        <div className="grid grid-cols-[3fr_2fr] gap-10 w-[90%] lg:w-[1400px] h-[85%]">
+      {showHeader && (
+        <div className="w-full z-10">
+          <Header />
+        </div>
+      )}
+      <div className="flex flex-col items-center justify-center w-full pt-20">
+        <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-10 w-[90%] lg:w-[1400px] h-auto">
           <Card className="!px-0 !py-0 h-full">
             <img
               src="/images/vestiaires.jpg"
@@ -88,14 +113,18 @@ const Vestiaires = ({ showHeader }: { showHeader: boolean }) => {
           <section className="grid grid-rows-[1fr_2fr] gap-6 h-full">
             <Card className="flex flex-col items-center justify-center text-center p-6 relative">
               <span className="absolute top-4 right-4 text-sm bg-blue-100 text-blue-600 py-1 px-4 rounded-full font-mona">
-                Confort & Praticité
+                {language === "en"
+                  ? "Comfort & Practicality"
+                  : "Confort & Praticité"}
               </span>
 
               <h2 className="text-4xl font-semibold text-gray-800 font-mona">
-                Vestiaires
+                {language === "en" ? "Lockers" : "Vestiaires"}
               </h2>
               <p className="text-2xl text-[#353535] font-mona">
-                Confort et praticité à votre service
+                {language === "en"
+                  ? "Comfort and practicality at your service"
+                  : "Confort et praticité à votre service"}
               </p>
 
               {!isAudioVisible ? (
@@ -106,10 +135,12 @@ const Vestiaires = ({ showHeader }: { showHeader: boolean }) => {
                   >
                     <img
                       src="./assets/img/Vector.png"
-                      alt="Écouter Icone"
+                      alt={language === "en" ? "Listen" : "Écouter"}
                       className="w-5 h-5"
                     />
-                    <span className="font-medium">Écouter</span>
+                    <span className="font-medium">
+                      {language === "en" ? "Listen" : "Écouter"}
+                    </span>
                   </button>
                 </div>
               ) : (
@@ -120,7 +151,7 @@ const Vestiaires = ({ showHeader }: { showHeader: boolean }) => {
                   >
                     <img
                       src="./assets/img/recu.png"
-                      alt="Reculer de 15s"
+                      alt={language === "en" ? "Rewind 15s" : "Reculer de 15s"}
                       className="w-8 h-8"
                     />
                   </button>
@@ -131,13 +162,13 @@ const Vestiaires = ({ showHeader }: { showHeader: boolean }) => {
                     {isPlaying ? (
                       <img
                         src="./assets/img/pause.png"
-                        alt="Pause"
+                        alt={language === "en" ? "Pause" : "Pause"}
                         className="w-10 h-10"
                       />
                     ) : (
                       <img
                         src="./assets/img/rectan.png"
-                        alt="Play"
+                        alt={language === "en" ? "Play" : "Lire"}
                         className="w-9 h-9"
                       />
                     )}
@@ -148,31 +179,31 @@ const Vestiaires = ({ showHeader }: { showHeader: boolean }) => {
                   >
                     <img
                       src="./assets/img/avan.png"
-                      alt="Avancer de 15s"
+                      alt={language === "en" ? "Forward 15s" : "Avancer de 15s"}
                       className="w-8 h-8"
                     />
                   </button>
-                  <div className="flex items-center gap-2 w-48 justify-center">
-                    <input
-                      type="range"
-                      min="0"
-                      max={duration}
-                      value={currentTime}
-                      onChange={(e) => {
-                        if (audioRef.current) {
-                          audioRef.current.currentTime = parseFloat(
-                            e.target.value
-                          );
-                          setCurrentTime(audioRef.current.currentTime);
-                        }
-                      }}
-                      className="w-full appearance-none rounded-full bg-gray-300"
-                      style={{
-                        background: `linear-gradient(to right, #3b82f6 ${
-                          (currentTime / duration) * 100
-                        }%, #e5e7eb ${(currentTime / duration) * 100}%)`,
-                      }}
-                    />
+                  <div
+                    className="relative flex items-center gap-2 w-48"
+                    onMouseMove={handleDragMove}
+                    onMouseUp={handleDragEnd}
+                    onMouseLeave={handleDragEnd}
+                  >
+                    <div className="relative w-full h-1 bg-gray-300 rounded-full">
+                      <div
+                        className="absolute top-0 left-0 h-1 bg-blue-500 rounded-full"
+                        style={{
+                          width: `${(currentTime / duration) * 100}%`,
+                        }}
+                      ></div>
+                      <div
+                        className="absolute top-1/2 w-4 h-4 bg-blue-500 rounded-full cursor-pointer transform -translate-x-1/2 -translate-y-1/2"
+                        style={{
+                          left: `${(currentTime / duration) * 100}%`,
+                        }}
+                        onMouseDown={handleDragStart}
+                      ></div>
+                    </div>
                     <span>
                       {Math.floor(currentTime / 60)}:
                       {("0" + Math.floor(currentTime % 60)).slice(-2)}
@@ -182,7 +213,7 @@ const Vestiaires = ({ showHeader }: { showHeader: boolean }) => {
                   <div className="relative flex items-center gap-2 w-24">
                     <img
                       src="./assets/img/volume.png"
-                      alt="Volume"
+                      alt={language === "en" ? "Volume" : "Volume"}
                       className="w-6 h-6 cursor-pointer"
                       onClick={toggleVolumeVisibility}
                     />
@@ -216,78 +247,90 @@ const Vestiaires = ({ showHeader }: { showHeader: boolean }) => {
               />
             </Card>
 
-            <section className="grid grid-cols-2 grid-rows-2 gap-6 mt-8">
-              {/* Carte 1 */}
-              <Card className="relative flex flex-col items-center justify-center text-center p-6">
+            <section className="grid grid-cols-2 grid-rows-2 gap-6 mt-8 overflow-auto">
+              {/* Card 1 */}
+              <Card className="relative flex flex-col items-center justify-center text-center p-6 min-h-[200px] overflow-auto">
                 <div className="absolute top-4 left-4 flex items-center gap-2">
                   <img
                     src="./assets/img/cadenas.png"
-                    alt="Icone Cadenas"
+                    alt={language === "en" ? "Padlock" : "Icone Cadenas"}
                     className="w-8 h-8"
                   />
                   <h3 className="text-lg font-semibold font-mona text-[#303030]">
-                    Cadenas
+                    {language === "en" ? "Padlock" : "Cadenas"}
                   </h3>
                 </div>
                 <p className="text-8xl font-bold text-[#303030] font-outfit mt-12">
-                  Oui
+                  {language === "en" ? "Yes" : "Oui"}
                 </p>
-                <p className="text-gray-500 font-outfit">Cadenas fourni</p>
+                <p className="text-gray-500 font-outfit">
+                  {language === "en" ? "Lock provided" : "Cadenas fourni"}
+                </p>
               </Card>
 
-              {/* Carte 2 */}
-              <Card className="relative flex flex-col items-center justify-center text-center p-6">
+              {/* Card 2 */}
+              <Card className="relative flex flex-col items-center justify-center text-center p-6 min-h-[200px] overflow-auto">
                 <div className="absolute top-4 left-4 flex items-center gap-2">
                   <img
                     src="./assets/img/capa.png"
-                    alt="Icone Capacité"
+                    alt={language === "en" ? "Capacity" : "Icone Capacité"}
                     className="w-8 h-8"
                   />
                   <h3 className="text-lg font-semibold font-mona text-[#303030]">
-                    Capacité
+                    {language === "en" ? "Capacity" : "Capacité"}
                   </h3>
                 </div>
                 <p className="text-8xl font-bold text-[#303030] font-outfit mt-12">
                   50
                 </p>
-                <p className="text-gray-500 font-outfit">casiers</p>
+                <p className="text-gray-500 font-outfit">
+                  {language === "en" ? "lockers" : "casiers"}
+                </p>
               </Card>
 
-              {/* Carte 3 */}
-              <Card className="relative flex flex-col items-center justify-center text-center p-6">
+              {/* Card 3 */}
+              <Card className="relative flex flex-col items-center justify-center text-center p-6 min-h-[200px] overflow-auto">
                 <div className="absolute top-4 left-4 flex items-center gap-2">
                   <img
                     src="./assets/img/access.png"
-                    alt="Icone Accessibilité"
+                    alt={
+                      language === "en"
+                        ? "Accessibility"
+                        : "Icone Accessibilité"
+                    }
                     className="w-11 h-11"
                   />
                   <h3 className="text-lg font-semibold font-mona text-[#303030]">
-                    Accessibilité
+                    {language === "en" ? "Accessibility" : "Accessibilité"}
                   </h3>
                 </div>
                 <p className="text-8xl font-bold text-[#303030] font-outfit mt-12">
-                  Oui
+                  {language === "en" ? "Yes" : "Oui"}
                 </p>
-                <p className="text-gray-500 font-outfit">Accessible PMR</p>
+                <p className="text-gray-500 font-outfit">
+                  {language === "en" ? "Accessible PMR" : "Accessible PMR"}
+                </p>
               </Card>
 
-              {/* Carte 4 */}
-              <Card className="relative flex flex-col items-center justify-center text-center p-6">
+              {/* Card 4 */}
+              <Card className="relative flex flex-col items-center justify-center text-center p-6 min-h-[200px] overflow-auto">
                 <div className="absolute top-4 left-4 flex items-center gap-2">
                   <img
                     src="./assets/img/equi.png"
-                    alt="Icone Équipements"
+                    alt={language === "en" ? "Equipment" : "Icone Équipements"}
                     className="w-8 h-8"
                   />
                   <h3 className="text-lg font-semibold font-mona text-[#303030]">
-                    Équipements
+                    {language === "en" ? "Equipment" : "Équipements"}
                   </h3>
                 </div>
                 <p className="text-8xl font-bold text-[#303030] font-outfit mt-12">
-                  Oui
+                  {language === "en" ? "Yes" : "Oui"}
                 </p>
                 <p className="text-gray-500 font-outfit">
-                  Bancs, douches, sèches cheveux
+                  {language === "en"
+                    ? "Benches, showers, hair dryers"
+                    : "Bancs, douches, sèches cheveux"}
                 </p>
               </Card>
             </section>
