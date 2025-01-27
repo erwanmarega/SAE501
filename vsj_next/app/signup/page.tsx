@@ -36,6 +36,20 @@ const Signup: React.FC = () => {
     setErrorMessage("");
   };
 
+  const validateDate = (dateString: string): boolean => {
+    const today = new Date();
+    const inputDate = new Date(dateString);
+    const maxAge = 120;
+    const minDate = new Date(
+      today.getFullYear() - maxAge,
+      today.getMonth(),
+      today.getDate()
+    );
+
+    // Vérifie si la date est valide et dans les limites autorisées
+    return inputDate <= today && inputDate >= minDate;
+  };
+
   const validateStep = (): boolean => {
     if (step === 1) {
       if (!formData.nom || !formData.prenom || !formData.dateNaissance) {
@@ -48,6 +62,12 @@ const Signup: React.FC = () => {
       }
       if (!/^[A-Za-zÀ-ÿ\s-]{1,50}$/.test(formData.prenom)) {
         setErrorMessage("Le prénom ne doit contenir que des lettres.");
+        return false;
+      }
+      if (!validateDate(formData.dateNaissance)) {
+        setErrorMessage(
+          "La date de naissance est invalide ou dépasse les limites autorisées."
+        );
         return false;
       }
       return true;
@@ -89,38 +109,7 @@ const Signup: React.FC = () => {
   };
 
   const handleNextStep = () => {
-    let error = "";
-
-    if (step === 1) {
-      // Validation des champs étape 1
-      if (!formData.nom || !formData.prenom || !formData.dateNaissance) {
-        error = "Champs obligatoires non remplis.";
-      } else if (!/^[A-Za-zÀ-ÿ\s-]{1,50}$/.test(formData.nom)) {
-        error = "Le nom ne doit contenir que des lettres.";
-      } else if (!/^[A-Za-zÀ-ÿ\s-]{1,50}$/.test(formData.prenom)) {
-        error = "Le prénom ne doit contenir que des lettres.";
-      }
-    } else if (step === 2) {
-      // Validation des champs étape 2
-      if (!formData.adresse || !formData.codePostal || !formData.ville) {
-        error = "Champs obligatoires non remplis.";
-      } else if (!/^[0-9]{4,6}$/.test(formData.codePostal)) {
-        error =
-          "Le code postal doit contenir uniquement des chiffres (4 à 6 caractères).";
-      } else if (!/^[A-Za-zÀ-ÿ\s-]{1,50}$/.test(formData.ville)) {
-        error = "Le nom de la ville ne doit contenir que des lettres.";
-      }
-    } else if (step === 3) {
-      // Validation des champs étape 3
-      if (!formData.telephone) {
-        error = "Champs obligatoires non remplis.";
-      } else if (!/^\+?[0-9]{10,15}$/.test(formData.telephone)) {
-        error = "Le numéro de téléphone doit contenir 10 à 15 chiffres.";
-      }
-    }
-
-    if (error) {
-      setErrorMessage(error); // Affiche l'erreur
+    if (!validateStep()) {
       return;
     }
 
@@ -378,7 +367,7 @@ const Signup: React.FC = () => {
                   onChange={handleChange}
                   pattern="\+?[0-9]{10,15}"
                   title="Le numéro de téléphone doit contenir 10 à 15 chiffres."
-                  className="col-span-1 border border-gray-300 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 max-w-[800px] mx-auto"
+                  className="col-span-1 border border-gray-300 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-full max-w-[400px] mx-auto"
                 />
               </form>
             )}

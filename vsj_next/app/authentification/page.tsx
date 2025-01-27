@@ -1,4 +1,4 @@
-"use client"; 
+"use client";
 
 import React, { useState } from "react";
 import Logo from "../components/ui/logo";
@@ -101,9 +101,9 @@ const AuthentificationPage = () => {
       const data = await response.json();
 
       if (response.ok) {
-        router.push("/"); 
+        router.push("/");
       } else {
-        alert(data.message); 
+        alert(data.message);
       }
     } catch (error) {
       alert("Une erreur est survenue");
@@ -118,7 +118,7 @@ const AuthentificationPage = () => {
         setLoginEmail={setLoginEmail}
         loginPassword={loginPassword}
         setLoginPassword={setLoginPassword}
-        handleLogin={handleLogin}  
+        handleLogin={handleLogin}
       />
     ) : (
       <SignupPage
@@ -129,7 +129,7 @@ const AuthentificationPage = () => {
         setSignupPassword={setSignupPassword}
         signupConfirmPassword={signupConfirmPassword}
         setSignupConfirmPassword={setSignupConfirmPassword}
-        onSignup={onSignup} 
+        onSignup={onSignup}
         signupError={signupError}
         signupSuccess={signupSuccess}
         isLoading={isLoading}
@@ -174,7 +174,6 @@ const AuthentificationPage = () => {
         <footer className="flex flex-col items-center gap-4">
           {toggleValue === "Connexion" ? (
             <>
-             
               <Button variant="outline" icon={GoogleIcon}>
                 {language === "fr"
                   ? "Se connecter avec Google"
@@ -183,8 +182,6 @@ const AuthentificationPage = () => {
             </>
           ) : (
             <>
-           
-
               <Button variant="outline" icon={GoogleIcon}>
                 {language === "fr"
                   ? "S'inscrire avec Google"

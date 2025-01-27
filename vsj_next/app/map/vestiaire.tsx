@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import Card from "../components/ui/card";
 import Header from "../components/header/header";
 
-const Vestiaires = () => {
+const Vestiaires = ({ showHeader }: { showHeader: boolean }) => {
   const [isAudioVisible, setIsAudioVisible] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isVolumeVisible, setIsVolumeVisible] = useState(false);
@@ -69,9 +69,12 @@ const Vestiaires = () => {
   };
 
   return (
-    <div className="h-[100vh] flex flex-col items-center bg-[#F7F7F7] dark:bg-[#262629] overflow-hidden">
-      <Header />
-
+    <div
+      className="h-[105vh] flex flex-col items-center dark:bg-[#262629] overflow-hidden"
+      style={{ transform: "scale(0.9)" }}
+    >
+      {showHeader && <Header />}{" "}
+      {/* Affiche le Header uniquement si showHeader est vrai */}
       <div className="flex flex-col items-center justify-center h-full w-full">
         <div className="grid grid-cols-[3fr_2fr] gap-10 w-[90%] lg:w-[1400px] h-[85%]">
           <Card className="!px-0 !py-0 h-full">
@@ -84,9 +87,10 @@ const Vestiaires = () => {
 
           <section className="grid grid-rows-[1fr_2fr] gap-6 h-full">
             <Card className="flex flex-col items-center justify-center text-center p-6 relative">
-              <span className="absolute top-4 right-4 text-md bg-blue-100 text-blue-600 py-1 px-5 rounded-full font-mona">
+              <span className="absolute top-4 right-4 text-sm bg-blue-100 text-blue-600 py-1 px-4 rounded-full font-mona">
                 Confort & Praticité
               </span>
+
               <h2 className="text-4xl font-semibold text-gray-800 font-mona">
                 Vestiaires
               </h2>
@@ -163,12 +167,18 @@ const Vestiaires = () => {
                         }
                       }}
                       className="w-full appearance-none rounded-full bg-gray-300"
+                      style={{
+                        background: `linear-gradient(to right, #3b82f6 ${
+                          (currentTime / duration) * 100
+                        }%, #e5e7eb ${(currentTime / duration) * 100}%)`,
+                      }}
                     />
                     <span>
                       {Math.floor(currentTime / 60)}:
                       {("0" + Math.floor(currentTime % 60)).slice(-2)}
                     </span>
                   </div>
+
                   <div className="relative flex items-center gap-2 w-24">
                     <img
                       src="./assets/img/volume.png"
