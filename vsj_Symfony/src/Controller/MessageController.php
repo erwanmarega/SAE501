@@ -132,7 +132,7 @@ class MessageController extends AbstractController
     }
 
  
-    #[Route('/api/messages/add-contact', name:'add_contact', methods:['POST'])]
+    #[Route('/api/messages/add-contact', name: 'add_contact', methods: ['POST'])]
     public function addContact(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
         $user = $this->getUser();
@@ -147,10 +147,12 @@ class MessageController extends AbstractController
             return $this->json(['message' => 'Prénom et nom requis'], JsonResponse::HTTP_BAD_REQUEST);
         }
     
-        $contact = $entityManager->getRepository(Swimmer::class)->findOneBy([
-            'prenom' => $data['prenom'],
-            'nom' => $data['nom']
-        ]);
+        $contact = $entityManager->getRepository(Swimmer::class)->createQueryBuilder('s')
+            ->where('LOWER(s.prenom) = :prenom AND LOWER(s.nom) = :nom')
+            ->setParameter('prenom', strtolower(trim($data['prenom'])))
+            ->setParameter('nom', strtolower(trim($data['nom'])))
+            ->getQuery()
+            ->getOneOrNullResult();
     
         if (!$contact) {
             return $this->json(['message' => 'Contact introuvable'], JsonResponse::HTTP_NOT_FOUND);
@@ -158,6 +160,17 @@ class MessageController extends AbstractController
     
         if ($user->getId() === $contact->getId()) {
             return $this->json(['message' => 'Vous ne pouvez pas vous ajouter vous-même en contact'], JsonResponse::HTTP_BAD_REQUEST);
+        }
+    
+        $existingMessage = $entityManager->getRepository(Messages::class)->createQueryBuilder('m')
+            ->where('(m.sender = :user AND m.receiver = :contact) OR (m.sender = :contact AND m.receiver = :user)')
+            ->setParameter('user', $user)
+            ->setParameter('contact', $contact)
+            ->getQuery()
+            ->getOneOrNullResult();
+    
+        if ($existingMessage) {
+            return $this->json(['message' => 'Ce contact est déjà dans votre liste'], JsonResponse::HTTP_CONFLICT);
         }
     
         $message = new Messages();

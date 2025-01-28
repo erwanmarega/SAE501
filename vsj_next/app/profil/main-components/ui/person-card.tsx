@@ -6,7 +6,6 @@ import { EmailIcon } from "@/app/components/ui/interactive-icons/emailIcon";
 import Link from "next/link";
 import { useEvents } from "@/app/calendar/database/events-context";
 
-// Interface pour typer les props
 interface PersonCardProps {
   name: string;
   role: string;
@@ -23,7 +22,7 @@ const PersonCard: React.FC<PersonCardProps> = ({
   const { setWhatShow } = useEvents();
 
   const handleLinkClick = (message: string) => {
-    setWhatShow(message); // Définir la valeur de whatShow ici
+    setWhatShow(message); 
   };
 
   return (

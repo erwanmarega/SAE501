@@ -1,13 +1,38 @@
-# see https://symfony.com/doc/current/reference/configuration/framework.html
+# Configuration de base du framework Symfony
 framework:
     secret: '%env(APP_SECRET)%'
 
-    # Note that the session will be started ONLY if you read or write from it.
-    session: true
+    # Gestion des sessions
+    session:
+        handler_id: null
+        cookie_secure: auto
+        cookie_samesite: lax
 
-    #esi: true
-    #fragments: true
+    # Fragments et ESI (utilisés pour le rendu de fragments de page)
+    fragments: true
+    esi: true
 
+    # Profiler (activer pour le débogage)
+    profiler:
+        enabled: '%kernel.debug%'
+
+# Configuration spécifique pour le bundle NelmioCorsBundle
+nelmio_cors:
+    defaults:
+        allow_origin: ['http://localhost:3000'] # Frontend URL
+        allow_credentials: true
+        allow_headers: ['Content-Type', 'Authorization']
+        allow_methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE']
+        expose_headers: ['Authorization']
+        max_age: 3600
+    paths:
+        '^/api/':
+            allow_origin: ['http://localhost:3000']
+            allow_headers: ['Content-Type', 'Authorization']
+            allow_methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE']
+            expose_headers: ['Authorization']
+
+# Configuration pour l'environnement de test
 when@test:
     framework:
         test: true

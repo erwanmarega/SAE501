@@ -3,7 +3,6 @@ import AdhesionCard from "./ui/adhesion-card";
 import H4 from "@/app/components/ui/texts/h4";
 
 const Adhesion = () => {
-  // Tableau d’adhésions
   const adhesions = [
     {
       variant: "default",
@@ -25,8 +24,7 @@ const Adhesion = () => {
     },
   ];
 
-  // On vérifie s’il n’y a que 2 adhésions
-  // et on ajoute une "carte d'ajout" en plus :
+
 
   adhesions.push({
     variant: "add",

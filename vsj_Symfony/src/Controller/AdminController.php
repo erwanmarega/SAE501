@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Training;
 use App\Entity\Group;
+use App\Entity\Swimmer;
+use App\Entity\LoginHistory;
 use App\Entity\Competition;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -163,7 +165,6 @@ class AdminController extends AbstractController
         ]);
     }
 
-
     #[Route('/admin/competition', name: 'create_competition', methods: ['POST'])]
     public function createCompetition(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
@@ -207,4 +208,70 @@ class AdminController extends AbstractController
 
         return $this->json(['message' => 'Compétition supprimée'], JsonResponse::HTTP_OK);
     }
+
+    #[Route('/admin/user/{id}/roles', name: 'update_user_roles', methods: ['PUT'])]
+public function updateUserRoles(
+    int $id,
+    Request $request,
+    EntityManagerInterface $entityManager
+): JsonResponse {
+    $data = json_decode($request->getContent(), true);
+
+    $user = $entityManager->getRepository(Swimmer::class)->find($id);
+
+    if (!$user) {
+        return $this->json(['message' => 'Utilisateur non trouvé'], JsonResponse::HTTP_NOT_FOUND);
+    }
+
+    if (!isset($data['roles']) || !is_array($data['roles'])) {
+        return $this->json(['message' => 'Les rôles doivent être un tableau'], JsonResponse::HTTP_BAD_REQUEST);
+    }
+
+    $validRoles = ['ROLE_ADMIN', 'ROLE_COACH', 'ROLE_SWIMMER'];
+    $invalidRoles = array_diff($data['roles'], $validRoles);
+
+    if (!empty($invalidRoles)) {
+        return $this->json([
+            'message' => 'Certains rôles sont invalides',
+            'invalidRoles' => $invalidRoles,
+        ], JsonResponse::HTTP_BAD_REQUEST);
+    }
+
+    try {
+        $user->setRoles($data['roles']);
+        $entityManager->flush();
+
+        return $this->json([
+            'message' => 'Rôles mis à jour avec succès',
+            'roles' => $user->getRoles(),
+        ], JsonResponse::HTTP_OK);
+    } catch (\Exception $e) {
+        return $this->json([
+            'message' => 'Erreur lors de la mise à jour des rôles',
+            'error' => $e->getMessage(),
+        ], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+    }
+}
+
+#[Route('/admin/user/{id}/history', name: 'user_login_history', methods: ['GET'])]
+public function getLoginHistory(int $id, EntityManagerInterface $entityManager): JsonResponse
+{
+    $user = $entityManager->getRepository(Swimmer::class)->find($id);
+
+    if (!$user) {
+        return $this->json(['message' => 'Utilisateur non trouvé'], JsonResponse::HTTP_NOT_FOUND);
+    }
+
+    $history = $entityManager->getRepository(LoginHistory::class)->findBy(['user' => $user], ['dateTime' => 'DESC']);
+
+    return $this->json([
+        'user' => $user->getEmail(),
+        'history' => array_map(function (LoginHistory $entry) {
+            return [
+                'action' => $entry->getAction(),
+                'dateTime' => $entry->getDateTime()->format('Y-m-d H:i:s'),
+            ];
+        }, $history),
+    ]);
+}
 }

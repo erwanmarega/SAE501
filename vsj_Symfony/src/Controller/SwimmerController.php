@@ -196,4 +196,34 @@ class SwimmerController extends AbstractController
     
         return $this->json(['message' => 'Profil mis à jour avec succès']);
     }
+
+   
+     #[Route("/swimmer/change-password", name:'swimmer_change_password', methods:['POST'])]
+     
+    public function changePassword(Request $request, UserPasswordHasherInterface $passwordHasher): Response
+    {
+        $data = json_decode($request->getContent(), true);
+
+        if (!isset($data['currentPassword']) || !isset($data['newPassword'])) {
+            return $this->json(['message' => 'Les champs currentPassword et newPassword sont requis'], Response::HTTP_BAD_REQUEST);
+        }
+
+        /** @var Swimmer $user */
+        $user = $this->getUser();
+
+        if (!$user instanceof Swimmer) {
+            return $this->json(['message' => 'Utilisateur non valide'], Response::HTTP_BAD_REQUEST);
+        }
+
+        if (!$passwordHasher->isPasswordValid($user, $data['currentPassword'])) {
+            return $this->json(['message' => 'Le mot de passe actuel est incorrect'], Response::HTTP_BAD_REQUEST);
+        }
+
+        $newPassword = $passwordHasher->hashPassword($user, $data['newPassword']);
+        $user->setPassword($newPassword);
+
+        $this->entityManager->flush();
+
+        return $this->json(['message' => 'Mot de passe mis à jour avec succès']);
+    }
 }

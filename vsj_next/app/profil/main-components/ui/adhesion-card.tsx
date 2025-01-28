@@ -12,7 +12,6 @@ const AdhesionCard = ({
   category,
   membership,
 }) => {
-  // Si la variante est "add", on affiche un design (ou contenu) différent
   if (variant === "add") {
     return (
       <div className="bg-[#f7f7f7] py-4 px-6 relative flex flex-col gap-2 rounded-xl w-96 h-48 text-center cursor-pointer hover:bg-gray-200 group">
@@ -29,7 +28,6 @@ const AdhesionCard = ({
     );
   }
 
-  // Sinon, on affiche la carte d’adhésion "classique"
   return (
     <div className="bg-[#f7f7f7] py-4 px-6 relative flex flex-col gap-2 rounded-xl w-96 h-48">
       <div

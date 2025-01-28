@@ -1,4 +1,4 @@
-"use client"; // si vous utilisez Next.js App Router, pensez à "use client" si nécessaire
+"use client"; 
 import React from "react";
 import H4 from "@/app/components/ui/texts/h4";
 import H5 from "@/app/components/ui/texts/h5";
@@ -7,7 +7,6 @@ import PersonCard from "./ui/person-card";
 import DragCard from "./ui/drag-card";
 
 const AdminDocs = () => {
-  // Tableau d'objets représentant 3 membres importants du club
   const members = [
     {
       name: "Erwan Marega",

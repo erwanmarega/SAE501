@@ -56,6 +56,8 @@ class Swimmer implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['swimmer:read', 'swimmer:write'])]
     private ?string $telephone = null;
 
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -141,13 +143,9 @@ class Swimmer implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getSalt(): ?string
+    public function eraseCredentials(): void
     {
-        return null;
-    }
-
-    public function eraseCredentials()
-    {
+        
     }
 
     public function getAdresse(): ?string
@@ -197,4 +195,6 @@ class Swimmer implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+   
 }

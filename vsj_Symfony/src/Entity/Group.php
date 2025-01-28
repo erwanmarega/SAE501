@@ -28,6 +28,7 @@ class Group
     {
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
+      
     }
 
     public function getId(): ?int
@@ -43,6 +44,7 @@ class Group
     public function setName(string $name): self
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -54,6 +56,7 @@ class Group
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
         return $this;
     }
 
@@ -65,6 +68,9 @@ class Group
     public function setUpdatedAt(\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
         return $this;
     }
+
+    
 }

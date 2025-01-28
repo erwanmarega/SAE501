@@ -1,7 +1,5 @@
 <?php
 
-// src/Controller/CalendarController.php
-
 namespace App\Controller;
 
 use App\Entity\CalendarEvent;

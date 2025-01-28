@@ -20,7 +20,7 @@ class Coach
     private ?string $prenom = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $group = null;
+    private ?string $groupName = null;
 
     #[ORM\Column(length: 20)]
     private ?string $tel = null;
@@ -60,14 +60,14 @@ class Coach
         return $this;
     }
 
-    public function getGroup(): ?string
+    public function getGroupName(): ?string
     {
-        return $this->group;
+        return $this->groupName;
     }
 
-    public function setGroup(string $group): self
+    public function setGroupName(string $groupName): self
     {
-        $this->group = $group;
+        $this->groupName = $groupName;
 
         return $this;
     }

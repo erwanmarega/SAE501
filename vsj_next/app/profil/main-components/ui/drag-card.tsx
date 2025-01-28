@@ -10,7 +10,7 @@ const DragCard = () => {
   const [files, setFiles] = useState<FileItem[]>([]);
   const [error, setError] = useState<string | null>(null);
 
-  const MAX_FILE_SIZE = 25 * 1024 * 1024; // 25MB
+  const MAX_FILE_SIZE = 25 * 1024 * 1024;
   const ALLOWED_TYPES = ["application/pdf", "image/png", "image/jpeg"];
 
   const handleFiles = (incomingFiles: FileList | null) => {
@@ -20,7 +20,7 @@ const DragCard = () => {
     for (let i = 0; i < incomingFiles.length; i++) {
       const file = incomingFiles[i];
 
-      // Validation
+      
       if (!ALLOWED_TYPES.includes(file.type)) {
         setError("Seuls les fichiers PDF, PNG ou JPG sont autorisés.");
         continue;
@@ -34,7 +34,7 @@ const DragCard = () => {
       newFiles.push({ file, preview });
     }
 
-    setError(null); // Clear any existing error
+    setError(null); 
     setFiles((prevFiles) => [...prevFiles, ...newFiles]);
   };
 
