@@ -13,9 +13,22 @@ const CalendarCard = () => {
   );
   const [allMeasured, setAllMeasured] = useState(false);
 
+  const generateDates = (days: number) => {
+    const dates = [];
+    const today = new Date();
+    for (let i = 0; i < days; i++) {
+      const date = new Date(today);
+      date.setDate(today.getDate() + i);
+      dates.push(date.toLocaleDateString(language, { day: '2-digit', month: '2-digit', year: 'numeric' }));
+    }
+    return dates;
+  };
+
+  const dates = generateDates(6);
+
   const calendarData = [
     {
-      date: "24/12/2024",
+      date: dates[0],
       plan: {
         name: "10x200m",
         type: "entrainement",
@@ -25,11 +38,11 @@ const CalendarCard = () => {
       },
     },
     {
-      date: "25/12/2024",
+      date: dates[1],
       plan: {},
     },
     {
-      date: "26/12/2024",
+      date: dates[2],
       plan: {
         name: "Qualifs Rgnl",
         type: "compétition",
@@ -39,11 +52,11 @@ const CalendarCard = () => {
       },
     },
     {
-      date: "27/12/2024",
+      date: dates[3],
       plan: {},
     },
     {
-      date: "28/12/2024",
+      date: dates[4],
       plan: {
         name: "Recovery Swim",
         type: "entrainement",
@@ -53,15 +66,14 @@ const CalendarCard = () => {
       },
     },
     {
-      date: "29/12/2024",
+      date: dates[5],
       plan: {},
     },
-    // ... potentiellement plus
   ];
 
   const itemRefs = useRef<HTMLDivElement[]>([]);
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (allMeasured) {
       const handleResize = () => {
         if (!containerRef.current) return;
@@ -96,10 +108,9 @@ const CalendarCard = () => {
     }
   }, [calendarData, allMeasured, visibleItemsCount]);
 
+  */
   useEffect(() => {
-    // Une fois que le composant est monté, on set allMeasured à true
-    // pour signifier qu'on a eu un premier rendu avec tous les items.
-    // Ceci provoquera le recalcul après le rendu complet.
+
     if (
       itemRefs.current.filter(Boolean).length === calendarData.length &&
       !allMeasured
@@ -111,13 +122,17 @@ const CalendarCard = () => {
   const itemsToRender =
     visibleItemsCount && allMeasured
       ? calendarData.slice(0, visibleItemsCount)
-      : calendarData; // Au début on affiche tout pour mesurer
+      : calendarData;
+
+  const today = new Date();
+  const options: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  const formattedDate = today.toLocaleDateString(language, options);
 
   return (
     <Card className="w-full h-full row-start-8 row-end-11 col-start-1 col-end-4 grid-row-2">
       <header>
         <H4 className="m-auto text-xl font-semibold dark:text-white ">
-          24 Août 2025
+          {formattedDate}
         </H4>
       </header>
 
