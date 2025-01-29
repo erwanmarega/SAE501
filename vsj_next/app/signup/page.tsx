@@ -35,40 +35,135 @@ const Signup: React.FC = () => {
       ...prev,
       [name]: value,
     }));
+
+    // Validation en temps réel
+    if (name === "nom" && !/^[A-Za-zÀ-ÿ\s-]{1,50}$/.test(value)) {
+      setErrorMessage("Le nom ne doit contenir que des lettres.");
+      return;
+    }
+
+    if (name === "prenom" && !/^[A-Za-zÀ-ÿ\s-]{1,50}$/.test(value)) {
+      setErrorMessage("Le prénom ne doit contenir que des lettres.");
+      return;
+    }
+
+    if (name === "dateNaissance" && !validateDate(value)) {
+      setErrorMessage(
+        "La date de naissance est invalide ou dépasse les limites autorisées."
+      );
+      return;
+    }
+
+    if (name === "codePostal" && !/^[0-9]{5}$/.test(value)) {
+      setErrorMessage(
+        "Le code postal doit contenir uniquement des chiffres (5 caractères)."
+      );
+      return;
+    }
+
+    if (name === "ville" && !/^[A-Za-zÀ-ÿ\s-]{1,50}$/.test(value)) {
+      setErrorMessage("Le nom de la ville ne doit contenir que des lettres.");
+      return;
+    }
+
+    if (name === "telephone" && !/^\+?[0-9]{10,15}$/.test(value)) {
+      setErrorMessage("Le numéro de téléphone doit contenir 10 à 15 chiffres.");
+      return;
+    }
+
+    // Efface l'erreur si la valeur est correcte
     setErrorMessage("");
+  };
+
+  const validateDate = (dateString: string): boolean => {
+    const today = new Date();
+    const inputDate = new Date(dateString);
+    const maxAge = 120;
+    const minDate = new Date(
+      today.getFullYear() - maxAge,
+      today.getMonth(),
+      today.getDate()
+    );
+
+    return inputDate <= today && inputDate >= minDate;
   };
 
   const validateStep = (): boolean => {
     if (step === 1) {
-      return formData.nom && formData.prenom && formData.dateNaissance;
+      if (!formData.nom || !formData.prenom || !formData.dateNaissance) {
+        setErrorMessage("Champs obligatoires non remplis.");
+        return false;
+      }
+      if (!/^[A-Za-zÀ-ÿ\s-]{1,50}$/.test(formData.nom)) {
+        setErrorMessage("Le nom ne doit contenir que des lettres.");
+        return false;
+      }
+      if (!/^[A-Za-zÀ-ÿ\s-]{1,50}$/.test(formData.prenom)) {
+        setErrorMessage("Le prénom ne doit contenir que des lettres.");
+        return false;
+      }
+      if (!validateDate(formData.dateNaissance)) {
+        setErrorMessage(
+          "La date de naissance est invalide ou dépasse les limites autorisées."
+        );
+        return false;
+      }
+      return true;
     }
+
     if (step === 2) {
-      return formData.adresse && formData.codePostal && formData.ville;
+      if (!formData.adresse || !formData.codePostal || !formData.ville) {
+        setErrorMessage("Champs obligatoires non remplis.");
+        return false;
+      }
+      if (!/^[0-9]{5}$/.test(formData.codePostal)) {
+        setErrorMessage(
+          "Le code postal doit contenir uniquement des chiffres (5 caractères)."
+        );
+        return false;
+      }
+      if (!/^[A-Za-zÀ-ÿ\s-]{1,50}$/.test(formData.ville)) {
+        setErrorMessage("Le nom de la ville ne doit contenir que des lettres.");
+        return false;
+      }
+      return true;
     }
+
     if (step === 3) {
-      return formData.telephone;
+      if (!formData.telephone) {
+        setErrorMessage("Champs obligatoires non remplis.");
+        return false;
+      }
+      if (!/^\+?[0-9]{10,15}$/.test(formData.telephone)) {
+        setErrorMessage(
+          "Le numéro de téléphone doit contenir 10 à 15 chiffres."
+        );
+        return false;
+      }
+      return true;
     }
+
     return true;
   };
 
   const handleNextStep = () => {
-    if (validateStep()) {
-      if (step === 3) {
-        handleSubmit();
-        setShowConfetti(true);
-        setStep(4);
-      } else {
-        setStep((prev) => Math.min(prev + 1, 3));
-      }
+    if (!validateStep()) {
+      return;
+    }
 
-      if (step === 1 && barWidthStep1To2 < 100) {
-        setBarWidthStep1To2((prev) => Math.min(prev + 100, 100));
-      }
-      if (step === 2 && barWidthStep2To3 < 100) {
-        setBarWidthStep2To3((prev) => Math.min(prev + 100, 100));
-      }
+    if (step === 3) {
+      handleSubmit();
+      setShowConfetti(true);
+      setStep(4);
     } else {
-      setErrorMessage("Veuillez remplir tous les champs obligatoires.");
+      setStep((prev) => Math.min(prev + 1, 3));
+    }
+
+    if (step === 1 && barWidthStep1To2 < 100) {
+      setBarWidthStep1To2((prev) => Math.min(prev + 100, 100));
+    }
+    if (step === 2 && barWidthStep2To3 < 100) {
+      setBarWidthStep2To3((prev) => Math.min(prev + 100, 100));
     }
   };
 
@@ -244,6 +339,8 @@ const Signup: React.FC = () => {
                   placeholder="Nom"
                   value={formData.nom}
                   onChange={handleChange}
+                  pattern="[A-Za-zÀ-ÿ\s-]{1,50}"
+                  title="Le nom ne doit contenir que des lettres."
                   className="col-span-1 border border-gray-300 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <input
@@ -252,6 +349,8 @@ const Signup: React.FC = () => {
                   placeholder="Prénom"
                   value={formData.prenom}
                   onChange={handleChange}
+                  pattern="[A-Za-zÀ-ÿ\s-]{1,50}"
+                  title="Le prénom ne doit contenir que des lettres."
                   className="col-span-1 border border-gray-300 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <input
@@ -272,6 +371,7 @@ const Signup: React.FC = () => {
                   placeholder="Adresse"
                   value={formData.adresse}
                   onChange={handleChange}
+                  title="L'adresse est invalide."
                   className="col-span-1 border border-gray-300 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <input
@@ -280,6 +380,8 @@ const Signup: React.FC = () => {
                   placeholder="Code Postal"
                   value={formData.codePostal}
                   onChange={handleChange}
+                  pattern="[0-5]{4,6}"
+                  title="Le code postal doit contenir uniquement des chiffres (4 à 6 caractères)."
                   className="col-span-1 border border-gray-300 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <input
@@ -288,6 +390,8 @@ const Signup: React.FC = () => {
                   placeholder="Ville"
                   value={formData.ville}
                   onChange={handleChange}
+                  pattern="[A-Za-zÀ-ÿ\s-]{1,50}"
+                  title="Le nom de la ville ne doit contenir que des lettres."
                   className="col-span-1 border border-gray-300 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </form>
@@ -301,7 +405,9 @@ const Signup: React.FC = () => {
                   placeholder="Téléphone"
                   value={formData.telephone}
                   onChange={handleChange}
-                  className="col-span-1 border border-gray-300 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  pattern="\+?[0-9]{10,15}"
+                  title="Le numéro de téléphone doit contenir 10 à 15 chiffres."
+                  className="col-span-1 border border-gray-300 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-full max-w-[400px] mx-auto"
                 />
               </form>
             )}

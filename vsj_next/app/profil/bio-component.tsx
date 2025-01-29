@@ -8,9 +8,7 @@ import P from "../components/ui/texts/p";
 
 const BioComponent = () => {
   const [isEditing, setIsEditing] = useState(false);
-  const [bio, setBio] = useState(
-    "Nageur 100m | On me nomme le dauphin de Meaux. Boxe, Natation & Cricket rien ne m’arrête. El Chefe"
-  );
+  const [bio, setBio] = useState("");
 
   const toggleEditing = () => {
     setIsEditing(!isEditing);
@@ -24,7 +22,7 @@ const BioComponent = () => {
       <EditIcon
         className="absolute top-2 right-2 cursor-pointer"
         onClick={toggleEditing}
-        isActive={isEditing} 
+        isActive={isEditing}
       />
       <H4>Bio</H4>
       <div className="font-light font-mona text-sm text-[#3B3B3B]">

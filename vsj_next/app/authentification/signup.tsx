@@ -34,11 +34,14 @@ const SignupPage: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/register`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        }
+      );
 
       const data = await response.json();
 
@@ -48,7 +51,7 @@ const SignupPage: React.FC = () => {
         if (data.token) {
           localStorage.setItem("authToken", data.token);
         }
-        router.push("/signup"); 
+        router.push("/signup");
       }
     } catch (err) {
       setError("Une erreur réseau est survenue.");
@@ -59,7 +62,6 @@ const SignupPage: React.FC = () => {
 
   return (
     <main className="flex flex-col items-center gap-6">
-
       {error && <p className="text-red-500">{error}</p>}
 
       <Input
