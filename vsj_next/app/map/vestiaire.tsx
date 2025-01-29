@@ -95,11 +95,6 @@ const Vestiaires = ({ showHeader }: { showHeader: boolean }) => {
       className="min-h-screen flex flex-col items-center overflow-auto"
       style={{ transform: "scale(0.8)" }}
     >
-      {showHeader && (
-        <div className="w-full z-10">
-          <Header />
-        </div>
-      )}
       <div className="flex flex-col items-center justify-center w-full pt-20">
         <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-10 w-[90%] lg:w-[1400px] h-auto">
           <Card className="!px-0 !py-0 h-full">
