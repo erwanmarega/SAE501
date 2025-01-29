@@ -6,6 +6,8 @@ import Input from "../components/ui/input";
 import Button from "../components/ui/button";
 import H3 from "../components/ui/texts/h3";
 import H2 from "../components/ui/texts/h2";
+import ThemeToggle from "../components/header/ui/theme-toggle";
+import LanguageSwitcher from "../components/header/ui/language-switcher";
 
 const Signup: React.FC = () => {
   const [step, setStep] = useState(1);
@@ -114,6 +116,10 @@ const Signup: React.FC = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 text-[1.125rem] md:text-xl">
+      <div className="flex items-center gap-6 top-0 right-6 p-6 absolute">
+        <ThemeToggle />
+        <LanguageSwitcher />
+      </div>
       {showConfetti && <Confetti />}
       <div className="w-full max-w-5xl p-10">
         {step === 4 ? (

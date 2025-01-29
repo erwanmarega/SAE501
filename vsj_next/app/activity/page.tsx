@@ -9,6 +9,8 @@ import H3 from "../components/ui/texts/h3";
 import P from "../components/ui/texts/p";
 import H1 from "../components/ui/texts/h1";
 import Loader from "../components/ui/loader";
+import ThemeToggle from "../components/header/ui/theme-toggle";
+import LanguageSwitcher from "../components/header/ui/language-switcher";
 
 const ActivityPage = () => {
   const [chosenButton, setChosenButton] = useState(false);
@@ -112,6 +114,11 @@ const ActivityPage = () => {
           Erwan
         </span>
       </H1>
+      <div className="flex items-center gap-6 top-0 right-6 p-6 absolute">
+        <ThemeToggle />
+        <LanguageSwitcher />
+      </div>
+
       <section className="flex flex-col items-center">
         <Logo />
         <H3 className="text-3xl">Nos activités</H3>

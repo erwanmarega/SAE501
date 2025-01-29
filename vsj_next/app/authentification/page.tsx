@@ -1,4 +1,4 @@
-"use client"; 
+"use client";
 
 import React, { useState } from "react";
 import Logo from "../components/ui/logo";
@@ -12,6 +12,8 @@ import Message from "./ui/message";
 import { useLanguage } from "../components/header/ui/context/language-provider";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import ThemeToggle from "../components/header/ui/theme-toggle";
+import LanguageSwitcher from "../components/header/ui/language-switcher";
 
 import BackgroundIMG_01 from "@/public/assets/img/login/backgroundIMG_01.png";
 
@@ -101,9 +103,9 @@ const AuthentificationPage = () => {
       const data = await response.json();
 
       if (response.ok) {
-        router.push("/"); 
+        router.push("/");
       } else {
-        alert(data.message); 
+        alert(data.message);
       }
     } catch (error) {
       alert("Une erreur est survenue");
@@ -118,7 +120,7 @@ const AuthentificationPage = () => {
         setLoginEmail={setLoginEmail}
         loginPassword={loginPassword}
         setLoginPassword={setLoginPassword}
-        handleLogin={handleLogin}  
+        handleLogin={handleLogin}
       />
     ) : (
       <SignupPage
@@ -129,7 +131,7 @@ const AuthentificationPage = () => {
         setSignupPassword={setSignupPassword}
         signupConfirmPassword={signupConfirmPassword}
         setSignupConfirmPassword={setSignupConfirmPassword}
-        onSignup={onSignup} 
+        onSignup={onSignup}
         signupError={signupError}
         signupSuccess={signupSuccess}
         isLoading={isLoading}
@@ -138,8 +140,12 @@ const AuthentificationPage = () => {
   };
 
   return (
-    <div className="grid grid-cols-2 h-screen bg-[#FAFAFA] overflow-hidden">
+    <div className="grid grid-cols-2 h-screen bg-[#FAFAFA] overflow-hidden relative">
       <Logo placement="left" />
+      <div className="flex items-center gap-6 absolute top-0 right-0 p-6 col-start-1 col-end-2">
+        <ThemeToggle />
+        <LanguageSwitcher />
+      </div>
       <section className="col-start-1 col-end-3 md:col-end-1 flex flex-col items-left m-auto gap-10 justify-start h-[500px]">
         <header className="flex flex-col gap-4 h-[100px]">
           <div>
@@ -174,7 +180,6 @@ const AuthentificationPage = () => {
         <footer className="flex flex-col items-center gap-4">
           {toggleValue === "Connexion" ? (
             <>
-             
               <Button variant="outline" icon={GoogleIcon}>
                 {language === "fr"
                   ? "Se connecter avec Google"
@@ -183,8 +188,6 @@ const AuthentificationPage = () => {
             </>
           ) : (
             <>
-           
-
               <Button variant="outline" icon={GoogleIcon}>
                 {language === "fr"
                   ? "S'inscrire avec Google"
