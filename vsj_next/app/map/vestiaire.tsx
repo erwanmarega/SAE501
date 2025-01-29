@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import Card from "../components/ui/card";
 import Header from "../components/header/header";
-import { useLanguage } from "./ui/context/language-provider";
+import { useLanguage } from "../components/header/ui/context/language-provider";
 
 const Vestiaires = ({ showHeader }: { showHeader: boolean }) => {
   const { language } = useLanguage(); // Get the current language
@@ -93,7 +93,7 @@ const Vestiaires = ({ showHeader }: { showHeader: boolean }) => {
   return (
     <div
       className="min-h-screen flex flex-col items-center overflow-auto"
-      style={{ transform: "scale(0.9)" }}
+      style={{ transform: "scale(0.8)" }}
     >
       {showHeader && (
         <div className="w-full z-10">
@@ -112,7 +112,7 @@ const Vestiaires = ({ showHeader }: { showHeader: boolean }) => {
 
           <section className="grid grid-rows-[1fr_2fr] gap-6 h-full">
             <Card className="flex flex-col items-center justify-center text-center p-6 relative">
-              <span className="absolute top-4 right-4 text-sm bg-blue-100 text-blue-600 py-1 px-4 rounded-full font-mona">
+              <span className="absolute top-4 right-4 text-sm bg-blue-100 text-blue-600 dark:bg-blue-200 dark:text-blue-700 py-1 px-4 rounded-full font-mona">
                 {language === "en"
                   ? "Comfort & Practicality"
                   : "Confort & Praticité"}

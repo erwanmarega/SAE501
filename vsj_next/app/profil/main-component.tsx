@@ -6,16 +6,24 @@ import License from "./main-components/license";
 import Adhesion from "./main-components/adhesion";
 import AdminDocs from "./main-components/admin-docs";
 import Button from "../components/ui/button";
-import { useRouter } from "next/navigation"; 
+import { useRouter } from "next/navigation";
+import { useLanguage } from "../components/header/ui/context/language-provider";
 
 const MainComponent = () => {
+  const { language } = useLanguage(); // Get the current language
   const [selected, setSelected] = useState<string>("License");
-  const router = useRouter(); 
+  const router = useRouter();
 
   const options = [
-    { id: "License", label: "Licence" },
-    { id: "Adhésion", label: "Adhésion" },
-    { id: "Administration et Documents", label: "Administration et Documents" },
+    { id: "License", label: language === "en" ? "License" : "Licence" },
+    { id: "Adhésion", label: language === "en" ? "Membership" : "Adhésion" },
+    {
+      id: "Administration et Documents",
+      label:
+        language === "en"
+          ? "Administration and Documents"
+          : "Administration et Documents",
+    },
   ];
 
   const handleClick = (id: string) => {
@@ -26,14 +34,10 @@ const MainComponent = () => {
     switch (selected) {
       case "License":
         return <License />;
-        break;
       case "Adhésion":
         return <Adhesion />;
-        break;
       case "Administration et Documents":
         return <AdminDocs />;
-        break;
-
       default:
         break;
     }
@@ -41,8 +45,7 @@ const MainComponent = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
-
-    router.push("/landing"); 
+    router.push("/landing");
   };
 
   return (
@@ -63,10 +66,12 @@ const MainComponent = () => {
             </div>
           ))}
         </Card>
-        <Button className="!w-36" onClick={handleLogout}>Se déconnecter</Button>
+        <Button className="!w-36" onClick={handleLogout}>
+          {language === "en" ? "Logout" : "Se déconnecter"}
+        </Button>
       </section>
 
-      <Card id="main" className="bg-white shadow-md h-full w-full !px-6 !py-4 ">
+      <Card id="main" className="bg-white shadow-md h-full w-full !px-6 !py-4">
         {whatShow(selected)}
       </Card>
     </section>

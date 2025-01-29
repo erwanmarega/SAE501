@@ -3,20 +3,22 @@ import Profil from "../components/profil/profil";
 import EditIcon from "../components/ui/interactive-icons/edit";
 import HProfilName from "../components/ui/texts/h-profil-name";
 import HProfilAge from "../components/ui/texts/h-profil-age";
+import { useLanguage } from "../components/header/ui/context/language-provider"; // Importer le contexte de langue
 import api from "../utils/axiosInstance";
 
 interface UserProfile {
   prenom: string;
   nom: string;
-  dateNaissance: string; 
+  dateNaissance: string;
 }
 
 const ProfilComponent = () => {
+  const { language } = useLanguage(); // Obtenir la langue actuelle
   const [prenom, setPrenom] = useState<string | null>(null);
   const [age, setAge] = useState<number | null>(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("authToken"); 
+    const token = localStorage.getItem("authToken");
 
     if (!token) {
       console.error("Token JWT non trouvé dans authToken");
@@ -27,7 +29,7 @@ const ProfilComponent = () => {
       try {
         const response = await api.get<UserProfile>("/api/user-profile", {
           headers: {
-            Authorization: `Bearer ${token}`, 
+            Authorization: `Bearer ${token}`,
           },
         });
 
@@ -39,7 +41,8 @@ const ProfilComponent = () => {
             const birthDate = new Date(data.dateNaissance);
             const currentDate = new Date();
 
-            let calculatedAge = currentDate.getFullYear() - birthDate.getFullYear();
+            let calculatedAge =
+              currentDate.getFullYear() - birthDate.getFullYear();
             const isBirthdayPassed =
               currentDate.getMonth() > birthDate.getMonth() ||
               (currentDate.getMonth() === birthDate.getMonth() &&
@@ -76,9 +79,16 @@ const ProfilComponent = () => {
       <div className="flex flex-col justify-between">
         <EditIcon />
         <div className="flex flex-col">
-          <HProfilAge>{age ? `${age} ans` : "Âge inconnu"}</HProfilAge>
+          <HProfilAge>
+            {age
+              ? `${age} ${language === "en" ? "years" : "ans"}`
+              : language === "en"
+              ? "Unknown Age"
+              : "Âge inconnu"}
+          </HProfilAge>
           <HProfilName className="-mt-1">
-            {prenom || "Prénom inconnu"}
+            {prenom ||
+              (language === "en" ? "Unknown First Name" : "Prénom inconnu")}
           </HProfilName>
         </div>
       </div>

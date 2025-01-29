@@ -33,6 +33,43 @@ const Signup: React.FC = () => {
       ...prev,
       [name]: value,
     }));
+
+    // Validation en temps réel
+    if (name === "nom" && !/^[A-Za-zÀ-ÿ\s-]{1,50}$/.test(value)) {
+      setErrorMessage("Le nom ne doit contenir que des lettres.");
+      return;
+    }
+
+    if (name === "prenom" && !/^[A-Za-zÀ-ÿ\s-]{1,50}$/.test(value)) {
+      setErrorMessage("Le prénom ne doit contenir que des lettres.");
+      return;
+    }
+
+    if (name === "dateNaissance" && !validateDate(value)) {
+      setErrorMessage(
+        "La date de naissance est invalide ou dépasse les limites autorisées."
+      );
+      return;
+    }
+
+    if (name === "codePostal" && !/^[0-9]{5}$/.test(value)) {
+      setErrorMessage(
+        "Le code postal doit contenir uniquement des chiffres (5 caractères)."
+      );
+      return;
+    }
+
+    if (name === "ville" && !/^[A-Za-zÀ-ÿ\s-]{1,50}$/.test(value)) {
+      setErrorMessage("Le nom de la ville ne doit contenir que des lettres.");
+      return;
+    }
+
+    if (name === "telephone" && !/^\+?[0-9]{10,15}$/.test(value)) {
+      setErrorMessage("Le numéro de téléphone doit contenir 10 à 15 chiffres.");
+      return;
+    }
+
+    // Efface l'erreur si la valeur est correcte
     setErrorMessage("");
   };
 
@@ -46,7 +83,6 @@ const Signup: React.FC = () => {
       today.getDate()
     );
 
-    // Vérifie si la date est valide et dans les limites autorisées
     return inputDate <= today && inputDate >= minDate;
   };
 
@@ -78,9 +114,9 @@ const Signup: React.FC = () => {
         setErrorMessage("Champs obligatoires non remplis.");
         return false;
       }
-      if (!/^[0-9]{4,6}$/.test(formData.codePostal)) {
+      if (!/^[0-9]{5}$/.test(formData.codePostal)) {
         setErrorMessage(
-          "Le code postal doit contenir uniquement des chiffres (4 à 6 caractères)."
+          "Le code postal doit contenir uniquement des chiffres (5 caractères)."
         );
         return false;
       }
@@ -113,7 +149,6 @@ const Signup: React.FC = () => {
       return;
     }
 
-    // Si aucune erreur, continuer l'étape suivante
     if (step === 3) {
       handleSubmit();
       setShowConfetti(true);
@@ -122,7 +157,6 @@ const Signup: React.FC = () => {
       setStep((prev) => Math.min(prev + 1, 3));
     }
 
-    // Mise à jour de la barre de progression
     if (step === 1 && barWidthStep1To2 < 100) {
       setBarWidthStep1To2((prev) => Math.min(prev + 100, 100));
     }
@@ -340,7 +374,7 @@ const Signup: React.FC = () => {
                   placeholder="Code Postal"
                   value={formData.codePostal}
                   onChange={handleChange}
-                  pattern="[0-9]{4,6}"
+                  pattern="[0-5]{4,6}"
                   title="Le code postal doit contenir uniquement des chiffres (4 à 6 caractères)."
                   className="col-span-1 border border-gray-300 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
