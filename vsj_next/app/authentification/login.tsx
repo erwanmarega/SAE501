@@ -5,7 +5,6 @@ import Input from "@/app/components/ui/input";
 import { useRouter } from "next/navigation";
 import Button from "@/app/components/ui/button";
 
-
 interface LoginPageProps {
   handleToggle: (active: "Connexion" | "Inscription") => void;
   loginEmail: string;
@@ -22,28 +21,31 @@ const LoginPage = ({
   setLoginPassword,
 }: LoginPageProps) => {
   const [error, setError] = useState<string | null>(null);
-  const router = useRouter();  
+  const router = useRouter();
 
   const handleLogin = async () => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/swimmer/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: loginEmail,
-          password: loginPassword,
-        }),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/swimmer/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: loginEmail,
+            password: loginPassword,
+          }),
+        }
+      );
 
       const data = await response.json();
 
       if (response.ok) {
-        localStorage.setItem("authToken", data.token);
-        router.push("/");  
+        /*localStorage.setItem("authToken", data.token);
+        router.push("/");*/
       } else {
-        setError(data.message);  
+        setError(data.message);
       }
     } catch (error) {
       setError("Une erreur est survenue");
@@ -69,15 +71,10 @@ const LoginPage = ({
         onChange={(e) => setLoginPassword(e.target.value)}
       />
       {error && <p className="text-red-500">{error}</p>}
-        <Button
-          variant="primary"
-         type="button"
-          onClick={handleLogin}
-         >
-          Se connecter
-        </Button>   
-  
-   </main>
+      <Button variant="primary" type="button" onClick={handleLogin}>
+        Se connecter
+      </Button>
+    </main>
   );
 };
 

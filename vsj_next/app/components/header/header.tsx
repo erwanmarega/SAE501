@@ -5,11 +5,11 @@ import { useRouter } from "next/navigation";
 import Logo from "../ui/logo";
 import ThemeToggle from "./ui/theme-toggle";
 import LanguageSwitcher from "./ui/language-switcher";
-import { useLanguage } from "./ui/context/language-provider";
 import H1 from "@/app/components/ui/texts/h1";
 import clsx from "clsx";
 import Profil from "../profil/profil";
 import Link from "next/link";
+import { useLanguage } from "./ui/context/language-provider";
 
 const Header = () => {
   const { language } = useLanguage();
@@ -39,7 +39,7 @@ const Header = () => {
               "Token expiré ou non valide. Redirection vers la page de connexion."
             );
             localStorage.removeItem("authToken");
-            router.push("/authentification");
+            //router.push("/authentification");
           } else {
             console.error(
               "Erreur lors de la récupération des données utilisateur"
@@ -50,13 +50,13 @@ const Header = () => {
             "Erreur réseau lors de la récupération des données utilisateur",
             error
           );
-          router.push("/authentification");
+          //router.push("/authentification");
         }
       };
 
       fetchUserData();
     } else {
-      router.push("/authentification");
+      //router.push("/authentification");
     }
   }, [router]);
 
