@@ -61,7 +61,6 @@ class Swimmer implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['swimmer:read', 'swimmer:write'])]
     private ?Group $group = null;
 
-   // Getter et Setter pour la relation
 public function getGroup(): ?Group
 {
     return $this->group;
@@ -160,7 +159,6 @@ public function setGroup(?Group $group): self
 
     public function eraseCredentials(): void
     {
-        // Optional: erase any temporary credentials if needed
     }
 
     public function getAdresse(): ?string
