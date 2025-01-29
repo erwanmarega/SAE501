@@ -35,7 +35,7 @@ class Training
     private ?bool $isDefined = null;
 
     #[ORM\ManyToOne(targetEntity: Group::class)]
-    #[ORM\JoinColumn(name: 'group_id', referencedColumnName: 'id', nullable: false)]
+    #[ORM\JoinColumn(name: "groups_id", referencedColumnName: "groups_id", nullable: false)]
     private ?Group $group = null;
 
     public function getId(): ?int

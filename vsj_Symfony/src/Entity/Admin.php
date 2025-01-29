@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\AdminRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Group;
 
 #[ORM\Entity(repositoryClass: AdminRepository::class)]
 #[ORM\Table(name: '`admin`')]
@@ -36,8 +37,8 @@ class Admin
     private ?bool $isDefined = null;
 
     #[ORM\ManyToOne(targetEntity: Group::class)]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Group $group = null;
+#[ORM\JoinColumn(name: "groups_id", referencedColumnName: "groups_id", nullable: false)]
+private ?Group $groups = null;
 
     public function getId(): ?int
     {
@@ -128,14 +129,14 @@ class Admin
         return $this;
     }
 
-    public function getGroup(): ?Group
+    public function getGroups(): ?Group
     {
-        return $this->group;
+        return $this->groups;
     }
 
-    public function setGroup(Group $group): self
+    public function setGroups(Group $groups): self
     {
-        $this->group = $group;
+        $this->groups = $groups;
 
         return $this;
     }

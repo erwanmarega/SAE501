@@ -62,6 +62,7 @@ class SwimmerController extends AbstractController
 
         $token = $this->jwtManager->create($swimmer);
 
+        /*
         $email = (new Email())
             ->from('vsj_villiers@gmail.com')
             ->to($swimmer->getEmail())
@@ -69,7 +70,7 @@ class SwimmerController extends AbstractController
             ->text('Merci de vous être inscrit. Votre inscription est presque complète. N\'oublier pas de compléter votre profil.');
 
         $mailer->send($email);
-
+*/
         return $this->json([
             'message' => 'Utilisateur enregistré avec succès',
             'token' => $token,

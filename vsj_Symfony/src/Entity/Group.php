@@ -11,9 +11,10 @@ use Doctrine\ORM\Mapping as ORM;
 class Group
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+#[ORM\GeneratedValue]
+#[ORM\Column(name: "groups_id", type: "integer")]
+private ?int $groups_id = null;
+    
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
@@ -33,7 +34,7 @@ class Group
 
     public function getId(): ?int
     {
-        return $this->id;
+        return $this->groups_id;
     }
 
     public function getName(): ?string
