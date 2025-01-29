@@ -10,6 +10,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
+
 
 class SwimmerController extends AbstractController
 {
@@ -29,7 +33,7 @@ class SwimmerController extends AbstractController
 
     
     #[Route('/register', name:'register_swimmer', methods:['POST'])]
-    public function register(Request $request): Response
+    public function register(Request $request, MailerInterface $mailer): Response
     {
         $data = json_decode($request->getContent(), true);
 
@@ -58,6 +62,14 @@ class SwimmerController extends AbstractController
         $this->entityManager->flush();
 
         $token = $this->jwtManager->create($swimmer);
+
+        $email = (new Email())
+            ->from('vsj_villiers@gmail.com')
+            ->to($swimmer->getEmail())
+            ->subject('Confirmation d\'inscription')
+            ->text('Merci de vous être inscrit. Votre inscription est presque complète. N\'oublier pas de compléter votre profil.');
+
+        $mailer->send($email);
 
         return $this->json([
             'message' => 'Utilisateur enregistré avec succès',
