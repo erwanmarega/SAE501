@@ -56,25 +56,23 @@ class Swimmer implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['swimmer:read', 'swimmer:write'])]
     private ?string $telephone = null;
 
-    // Nouvelle relation ManyToOne avec la table `groups`
     #[ORM\ManyToOne(targetEntity: Group::class)]
-    #[ORM\JoinColumn(name: 'groups_id', referencedColumnName: 'groups_id', nullable: false)]
+    #[ORM\JoinColumn(name: "groups_id", referencedColumnName: "groups_id")]
     #[Groups(['swimmer:read', 'swimmer:write'])]
     private ?Group $group = null;
 
-    // Getter et setter pour la propriété `group`
-    public function getGroup(): ?Group
-    {
-        return $this->group;
-    }
+   // Getter et Setter pour la relation
+public function getGroup(): ?Group
+{
+    return $this->group;
+}
 
-    public function setGroup(?Group $group): self
-    {
-        $this->group = $group;
+public function setGroup(?Group $group): self
+{
+    $this->group = $group;
 
-        return $this;
-    }
-
+    return $this;
+}
     public function getId(): ?int
     {
         return $this->id;
