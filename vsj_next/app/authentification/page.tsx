@@ -140,7 +140,7 @@ const AuthentificationPage = () => {
   };
 
   return (
-    <div className="grid grid-cols-2 h-screen bg-[#FAFAFA] overflow-hidden relative">
+    <div className="grid grid-cols-2 h-screen overflow-hidden relative">
       <Logo placement="left" />
       <div className="flex items-center gap-6 absolute top-0 right-0 p-6 col-start-1 col-end-2">
         <ThemeToggle />
@@ -172,6 +172,7 @@ const AuthentificationPage = () => {
                 position === "left" ? "Connexion" : "Inscription"
               )
             }
+            className="text-gray-900 dark:text-gray-900"
           />
         </header>
 
@@ -201,7 +202,7 @@ const AuthentificationPage = () => {
               ? "Vous n'avez pas de compte ?"
               : "Don't have an account?"}{" "}
             <span
-              className="font-bold cursor-pointer text-primary"
+              className="font-bold cursor-pointer text-blue-500 dark:text-blue-500"
               onClick={() => handleToggleAuth("Inscription")}
             >
               {language === "fr" ? "S'inscrire" : "Sign Up"}

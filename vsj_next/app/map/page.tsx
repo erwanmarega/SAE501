@@ -11,7 +11,7 @@ import SpaBienEtre from "./spa";
 import Vestiaires from "./vestiaire";
 
 const MapPage = () => {
-  const [selectedPage, setSelectedPage] = useState("vestiaire");
+  const [selectedPage, setSelectedPage] = useState("bassin aquabike");
 
   const whatShow = (value: string) => {
     switch (value) {

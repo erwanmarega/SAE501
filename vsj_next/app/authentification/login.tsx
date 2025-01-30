@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Input from "@/app/components/ui/input";
 import { useRouter } from "next/navigation";
 import Button from "@/app/components/ui/button";
+import { useLanguage } from "@/app/components/header/ui/context/language-provider";
 
 interface LoginPageProps {
   handleToggle: (active: "Connexion" | "Inscription") => void;
@@ -20,6 +21,7 @@ const LoginPage = ({
   loginPassword,
   setLoginPassword,
 }: LoginPageProps) => {
+  const { language } = useLanguage(); // Get the current language
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
@@ -48,31 +50,41 @@ const LoginPage = ({
         setError(data.message);
       }
     } catch (error) {
-      setError("Une erreur est survenue");
+      setError(
+        language === "en" ? "An error occurred" : "Une erreur est survenue"
+      );
     }
   };
 
   return (
     <main className="flex flex-col items-center gap-6">
       <Input
-        label="Email"
+        label={language === "en" ? "Email" : "Adresse mail"}
         name="email"
         type="email"
-        placeholder="Entrez votre adresse mail"
+        placeholder={
+          language === "en"
+            ? "Enter your email address"
+            : "Entrez votre adresse mail"
+        }
         value={loginEmail}
         onChange={(e) => setLoginEmail(e.target.value)}
       />
       <Input
-        label="Mot de passe"
+        label={language === "en" ? "Password" : "Mot de passe"}
         name="password"
         type="password"
-        placeholder="Entrez votre mot de passe"
+        placeholder={
+          language === "en"
+            ? "Enter your password"
+            : "Entrez votre mot de passe"
+        }
         value={loginPassword}
         onChange={(e) => setLoginPassword(e.target.value)}
       />
       {error && <p className="text-red-500">{error}</p>}
       <Button variant="primary" type="button" onClick={handleLogin}>
-        Se connecter
+        {language === "en" ? "Login" : "Se connecter"}
       </Button>
     </main>
   );

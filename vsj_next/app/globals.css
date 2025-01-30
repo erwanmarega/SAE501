@@ -87,19 +87,9 @@ body {
     @apply dark:text-white;
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  p,
-  span,
   a,
   li,
   div,
-  button,
-  input,
   textarea {
     @apply dark:text-white;
   }

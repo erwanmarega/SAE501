@@ -11,8 +11,10 @@ import H1 from "../components/ui/texts/h1";
 import Loader from "../components/ui/loader";
 import ThemeToggle from "../components/header/ui/theme-toggle";
 import LanguageSwitcher from "../components/header/ui/language-switcher";
+import { useLanguage } from "@/app/components/header/ui/context/language-provider";
 
 const ActivityPage = () => {
+  const { language } = useLanguage(); // Get the current language
   const [chosenButton, setChosenButton] = useState(false);
 
   useEffect(() => {
@@ -65,31 +67,37 @@ const ActivityPage = () => {
   // Notre tableau d'objets, chacun correspondant à une carte
   const activities = [
     {
-      title: "Aquabike",
+      title: language === "en" ? "Aquabike" : "Aquabike",
       imageSrc: "/assets/img/bloc_aquabike.webp",
-      imageAlt: "Aquabike",
+      imageAlt: language === "en" ? "Aquabike" : "Aquabike",
       description:
-        "L'aquabike est un sport aquatique intense, parfait pour renforcer le bas du corps.",
+        language === "en"
+          ? "Aquabike is an intense aquatic sport, perfect for strengthening the lower body."
+          : "L'aquabike est un sport aquatique intense, parfait pour renforcer le bas du corps.",
       price: "250€",
-      badge: "Intermédiaire",
+      badge: language === "en" ? "Intermediate" : "Intermédiaire",
     },
     {
-      title: "Natation",
+      title: language === "en" ? "Swimming" : "Natation",
       imageSrc: "/assets/img/bloc_natation.webp",
-      imageAlt: "Natation",
+      imageAlt: language === "en" ? "Swimming" : "Natation",
       description:
-        "La natation est le sport aquatique élite où les meilleurs se rencontrent.",
+        language === "en"
+          ? "Swimming is the elite aquatic sport where the best meet."
+          : "La natation est le sport aquatique élite où les meilleurs se rencontrent.",
       price: "300€",
-      badge: "Élite",
+      badge: language === "en" ? "Elite" : "Élite",
     },
     {
-      title: "Aquagym",
+      title: language === "en" ? "Aquagym" : "Aquagym",
       imageSrc: "/assets/img/block_aquagym.webp",
-      imageAlt: "Aquagym",
+      imageAlt: language === "en" ? "Aquagym" : "Aquagym",
       description:
-        "L'aquagym est un excellent moyen de rester en forme tout en douceur.",
+        language === "en"
+          ? "Aquagym is a great way to stay fit gently."
+          : "L'aquagym est un excellent moyen de rester en forme tout en douceur.",
       price: "200€",
-      badge: "Débutant",
+      badge: language === "en" ? "Beginner" : "Débutant",
     },
   ];
 
@@ -107,9 +115,9 @@ const ActivityPage = () => {
   }
 
   return (
-    <section className="h-screen flex flex-col justify-center items-center">
+    <section className="h-screen flex flex-col justify-center items-center  dark:bg-gray-900 text-gray-900 dark:text-gray-100">
       <H1 className="absolute top-4 left-6">
-        Bienvenue{" "}
+        {language === "en" ? "Welcome" : "Bienvenue"}{" "}
         <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400 underline decoration-2">
           Erwan
         </span>
@@ -121,13 +129,16 @@ const ActivityPage = () => {
 
       <section className="flex flex-col items-center">
         <Logo />
-        <H3 className="text-3xl">Nos activités</H3>
+        <H3 className="text-3xl">
+          {language === "en" ? "Our Activities" : "Nos activités"}
+        </H3>
         <P className="!text-lg max-w-96 text-wrap text-center leading-tight">
-          Découvrez nos options pour profiter pleinement des activités du club
-          de natation.
+          {language === "en"
+            ? "Discover our options to fully enjoy the activities of the swimming club."
+            : "Découvrez nos options pour profiter pleinement des activités du club de natation."}
         </P>
       </section>
-      <section className="grid grid-cols-3  m-auto w-2/3 gap-12 bg-[#f7f7f7] ">
+      <section className="grid grid-cols-3 m-auto w-2/3 gap-12">
         {activities.map((activity, index) => (
           <CardActivity
             key={index}
