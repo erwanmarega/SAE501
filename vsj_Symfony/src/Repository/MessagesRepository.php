@@ -7,7 +7,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Messages>
+ * @extends ServiceEntityRepository<Message>
  */
 class MessagesRepository extends ServiceEntityRepository
 {
@@ -17,7 +17,7 @@ class MessagesRepository extends ServiceEntityRepository
     }
 
     //    /**
-    //     * @return Messages[] Returns an array of Messages objects
+    //     * @return Message[] Returns an array of Message objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -31,7 +31,7 @@ class MessagesRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Messages
+    //    public function findOneBySomeField($value): ?Message
     //    {
     //        return $this->createQueryBuilder('m')
     //            ->andWhere('m.exampleField = :val')

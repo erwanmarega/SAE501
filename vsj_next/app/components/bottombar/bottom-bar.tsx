@@ -53,7 +53,7 @@ const BottomBar: React.FC<BottomBarProps> = ({
   const isSelected = (page: string) => currentPage === page;
 
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center w-full fixed z-50">
       <motion.div
         initial={{ y: isPage ? 100 : 0 }}
         animate={{ y: showBar ? 0 : 125 }}
@@ -62,7 +62,7 @@ const BottomBar: React.FC<BottomBarProps> = ({
           stiffness: 200,
           damping: 20,
         }}
-        className="overflow-hidden bg-white dark:bg-[#2E2E2E] dark:border-[#545454] dark:border-2 w-[550px] flex items-center rounded-3xl fixed bottom-7 shadow-lg p-5 h-20 gap-8 border-1 border-[#ECECEC] m-auto"
+        className="overflow-hidden bg-white dark:bg-[#2E2E2E]  w-[550px] flex items-center rounded-3xl fixed bottom-7 shadow-lg p-5 h-20 gap-8 border-1 border-[#ECECEC] m-auto"
         style={{
           boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.1)",
         }}
@@ -142,7 +142,7 @@ const BottomBar: React.FC<BottomBarProps> = ({
             {isSelected("Stats") && (
               <>
                 <TypingText
-                  text={language === "fr" ? "Stats" : "Stats"}
+                  text={language === "fr" ? "Présence" : "Attendance"}
                   className="absolute -bottom-4 m-auto font-outfit font-bold text-[#818181] text-xs"
                 />
                 <AnimatedCloud color="rgba(52, 140, 255, 0.15)" />

@@ -1,111 +1,160 @@
-export default function Home() {
+"use client";
+
+import React, { useEffect, useState } from "react";
+import VanillaTilt from "vanilla-tilt";
+import CardActivity from "./card-activity";
+import CardRecap from "./card-recap";
+import Logo from "../components/ui/logo";
+import H3 from "../components/ui/texts/h3";
+import P from "../components/ui/texts/p";
+import H1 from "../components/ui/texts/h1";
+import Loader from "../components/ui/loader";
+import ThemeToggle from "../components/header/ui/theme-toggle";
+import LanguageSwitcher from "../components/header/ui/language-switcher";
+
+const ActivityPage = () => {
+  const [chosenButton, setChosenButton] = useState(false);
+
+  useEffect(() => {
+    console.log("CHOSENBUTTON:", chosenButton);
+
+    // Initialiser VanillaTilt sur tous les éléments avec la classe "card"
+    if (!chosenButton) {
+      VanillaTilt.init(document.querySelectorAll(".card"), {
+        max: 25,
+        speed: 5000,
+        glare: true,
+        "max-glare": 0.5,
+      });
+    }
+
+    const cards = document.querySelectorAll(".card");
+    const handleCardClick = (event: Event, card?: Element) => {
+      const target = event.target as HTMLElement;
+
+      if (target.closest("button") || target.closest(".interactive-element")) {
+        return;
+      }
+
+      if (chosenButton) {
+        return;
+      }
+
+      card?.classList.toggle("flipped");
+    };
+
+    cards.forEach((card) => {
+      card.addEventListener("click", (event) => handleCardClick(event, card));
+    });
+
+    // Nettoyer l'écouteur d'événement
+    return () => {
+      if (chosenButton) {
+        cards.forEach((card) => {
+          card.removeEventListener("click", () => handleCardClick(card));
+        });
+      }
+    };
+  }, [chosenButton]);
+
+  const [selectedCard, setSelectedCard] = useState<number | null>(null);
+  const [permanentSelectedCard, setPermanentSelectedCard] = useState<
+    number | null
+  >(null);
+
+  // Notre tableau d'objets, chacun correspondant à une carte
+  const activities = [
+    {
+      title: "Aquabike",
+      imageSrc: "/assets/img/bloc_aquabike.webp",
+      imageAlt: "Aquabike",
+      description:
+        "L'aquabike est un sport aquatique intense, parfait pour renforcer le bas du corps.",
+      price: "250€",
+      badge: "Intermédiaire",
+    },
+    {
+      title: "Natation",
+      imageSrc: "/assets/img/bloc_natation.webp",
+      imageAlt: "Natation",
+      description:
+        "La natation est le sport aquatique élite où les meilleurs se rencontrent.",
+      price: "300€",
+      badge: "Élite",
+    },
+    {
+      title: "Aquagym",
+      imageSrc: "/assets/img/block_aquagym.webp",
+      imageAlt: "Aquagym",
+      description:
+        "L'aquagym est un excellent moyen de rester en forme tout en douceur.",
+      price: "200€",
+      badge: "Débutant",
+    },
+  ];
+
+  const [hiddenCard, setHiddenCard] = useState(false);
+  const handleRemove = () => {
+    setTimeout(() => {
+      setHiddenCard(true);
+    }, 2500);
+  };
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
   return (
-    <div className="bg-gray-100 min-h-screen flex flex-col items-center px-6 py-12">
-      {/* Header */}
-      <header className="text-center">
-        <h1 className="text-2xl font-bold mb-2">
-          Bonjour <span className="text-blue-600">Erwan</span>
-        </h1>
-        <p className="text-gray-600 text-lg">Nos activités</p>
-        <p className="text-gray-500">
+    <section className="h-screen flex flex-col justify-center items-center">
+      <H1 className="absolute top-4 left-6">
+        Bienvenue{" "}
+        <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400 underline decoration-2">
+          Erwan
+        </span>
+      </H1>
+      <div className="flex items-center gap-6 top-0 right-6 p-6 absolute">
+        <ThemeToggle />
+        <LanguageSwitcher />
+      </div>
+
+      <section className="flex flex-col items-center">
+        <Logo />
+        <H3 className="text-3xl">Nos activités</H3>
+        <P className="!text-lg max-w-96 text-wrap text-center leading-tight">
           Découvrez nos options pour profiter pleinement des activités du club
           de natation.
-        </p>
-      </header>
-
-      {/* Activities Section */}
-      <section className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl">
-        {/* Card: Aquagym */}
-        <div className="bg-white rounded-lg shadow-lg p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h3 className="text-xl font-bold">Aquagym</h3>
-            <span className="text-sm bg-blue-100 text-blue-600 py-1 px-2 rounded-full">
-              Souplesse
-            </span>
-          </div>
-          <p className="text-2xl font-bold text-gray-800">225.00€</p>
-          <p className="text-sm text-gray-500">Facturation annuelle à 225 €</p>
-          <button className="mt-4 bg-blue-600 text-white py-2 px-4 rounded-md w-full hover:bg-blue-700">
-            Souscrire →
-          </button>
-          <ul className="mt-6 space-y-2 text-sm text-gray-600">
-            <li>✔️ Séances dynamiques et conviviales en musique</li>
-            <li>
-              ✔️ Exercices adaptés pour renforcer vos muscles tout en douceur
-            </li>
-            <li>
-              ✔️ Activité idéale pour fortifier le corps et améliorer votre
-              bien-être
-            </li>
-          </ul>
-          <a
-            href="#"
-            className="mt-4 inline-block text-blue-600 text-sm font-medium"
-          >
-            Voir plus →
-          </a>
-        </div>
-
-        {/* Card: Natation */}
-        <div className="bg-white rounded-lg shadow-lg p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h3 className="text-xl font-bold">Natation</h3>
-            <span className="text-sm bg-blue-100 text-blue-600 py-1 px-2 rounded-full">
-              Elite
-            </span>
-          </div>
-          <p className="text-2xl font-bold text-gray-800">300.00€</p>
-          <p className="text-sm text-gray-500">Facturation annuelle à 300 €</p>
-          <button className="mt-4 bg-blue-600 text-white py-2 px-4 rounded-md w-full hover:bg-blue-700">
-            Souscrire →
-          </button>
-          <ul className="mt-6 space-y-2 text-sm text-gray-600">
-            <li>✔️ Accès aux séances de natation libre pour tous niveaux</li>
-            <li>
-              ✔️ Cours encadrés pour perfectionner votre technique et votre
-              style
-            </li>
-            <li>✔️ Programmes adaptés aux nageurs débutants comme confirmés</li>
-          </ul>
-          <a
-            href="#"
-            className="mt-4 inline-block text-blue-600 text-sm font-medium"
-          >
-            Voir plus →
-          </a>
-        </div>
-
-        {/* Card: Aquabike */}
-        <div className="bg-white rounded-lg shadow-lg p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h3 className="text-xl font-bold">Aquabike</h3>
-            <span className="text-sm bg-blue-100 text-blue-600 py-1 px-2 rounded-full">
-              Remise en forme
-            </span>
-          </div>
-          <p className="text-2xl font-bold text-gray-800">250.00€</p>
-          <p className="text-sm text-gray-500">Facturation annuelle à 250 €</p>
-          <button className="mt-4 bg-blue-600 text-white py-2 px-4 rounded-md w-full hover:bg-blue-700">
-            Souscrire →
-          </button>
-          <ul className="mt-6 space-y-2 text-sm text-gray-600">
-            <li>
-              ✔️ Pédalez dans l’eau pour un entraînement intensif et efficace
-            </li>
-            <li>✔️ Séances qui allient cardio et renforcement musculaire</li>
-            <li>
-              ✔️ Idéal pour brûler des calories tout en préservant vos
-              articulations
-            </li>
-          </ul>
-          <a
-            href="#"
-            className="mt-4 inline-block text-blue-600 text-sm font-medium"
-          >
-            Voir plus →
-          </a>
-        </div>
+        </P>
       </section>
-    </div>
+      <section className="grid grid-cols-3  m-auto w-2/3 gap-12 bg-[#f7f7f7] ">
+        {activities.map((activity, index) => (
+          <CardActivity
+            key={index}
+            identity={index}
+            imageSrc={activity.imageSrc}
+            imageAlt={activity.imageAlt}
+            title={activity.title}
+            description={activity.description}
+            price={activity.price}
+            badge={activity.badge}
+            onMouseEnter={() => {
+              setSelectedCard(index);
+              setPermanentSelectedCard(index);
+            }}
+            onMouseLeave={() => setSelectedCard(null)}
+            selected={selectedCard}
+            chosenButton={chosenButton}
+            setChosenButton={setChosenButton}
+            permanentSelectedCard={permanentSelectedCard}
+            hiddenCard={hiddenCard}
+            handleRemove={handleRemove}
+            setIsLoading={setIsLoading}
+          />
+        ))}
+      </section>
+    </section>
   );
-}
+};
+
+export default ActivityPage;

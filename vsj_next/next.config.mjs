@@ -1,6 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  /* options de configuration ici */
+  images: {
+    domains: ['via.placeholder.com'],
+  },
+  env: {
+    NEXT_PUBLIC_API_URL: 'http://localhost:8000', 
+  },
 };
 
 export default nextConfig;
