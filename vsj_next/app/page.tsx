@@ -46,7 +46,7 @@ export default function Home() {
   return (
     <div
       className={clsx(
-        "lg:h-[100vh] flex items-center justify-center lg:overflow-y-hidden bg-[#F7F7F7] dark:bg-[#262629]",
+        "lg:h-[100vh] flex items-center justify-center lg:overflow-y-hidden",
         { "lg:!h-[100vh]": currentPage === "Dashboard" }
       )}
     >
