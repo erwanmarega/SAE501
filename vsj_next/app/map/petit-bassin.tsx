@@ -4,7 +4,7 @@ import Header from "../components/header/header";
 import { useLanguage } from "../components/header/ui/context/language-provider";
 
 const PetitBassin = ({ showHeader }: { showHeader: boolean }) => {
-  const { language } = useLanguage(); // Get the current language
+  const { language } = useLanguage();
   const [isAudioVisible, setIsAudioVisible] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isVolumeVisible, setIsVolumeVisible] = useState(false);
@@ -111,10 +111,10 @@ const PetitBassin = ({ showHeader }: { showHeader: boolean }) => {
               <span className="absolute top-4 right-4 text-md bg-blue-100 text-blue-600 dark:bg-blue-100 dark:text-blue-600 py-1 px-5 rounded-full font-mona">
                 {language === "en" ? "Recreation" : "Loisirs"}
               </span>
-              <h2 className="text-4xl font-semibold text-gray-800 font-mona">
+              <h2 className="text-4xl font-semibold text-gray-800 font-mona dark:text-white">
                 {language === "en" ? "Small Pool" : "Petit Bassin"}
               </h2>
-              <p className="text-2xl text-[#353535] font-mona">
+              <p className="text-2xl text-[#353535] font-mona dark:text-white">
                 {language === "en"
                   ? "Recreational area for everyone"
                   : "Zone récréative pour tous"}
@@ -249,14 +249,14 @@ const PetitBassin = ({ showHeader }: { showHeader: boolean }) => {
                     alt={language === "en" ? "Depth Icon" : "Icone Profondeur"}
                     className="w-8 h-8"
                   />
-                  <h3 className="text-lg font-semibold font-mona text-[#303030]">
+                  <h3 className="text-lg font-semibold font-mona text-[#303030] dark:text-white">
                     {language === "en" ? "Depth" : "Profondeur"}
                   </h3>
                 </div>
-                <p className="text-8xl font-bold text-[#303030] font-outfit mt-12">
+                <p className="text-8xl font-bold text-[#303030] font-outfit mt-12 dark:text-white">
                   1.5
                 </p>
-                <p className="text-gray-500 font-outfit">
+                <p className="text-gray-500 font-outfit dark:text-white">
                   {language === "en" ? "meters" : "mètres"}
                 </p>
               </Card>
@@ -269,14 +269,14 @@ const PetitBassin = ({ showHeader }: { showHeader: boolean }) => {
                     alt={language === "en" ? "Capacity Icon" : "Icone Capacité"}
                     className="w-8 h-8"
                   />
-                  <h3 className="text-lg font-semibold font-mona text-[#303030]">
+                  <h3 className="text-lg font-semibold font-mona text-[#303030] dark:text-white">
                     {language === "en" ? "Capacity" : "Capacité"}
                   </h3>
                 </div>
-                <p className="text-8xl font-bold text-[#303030] font-outfit mt-12">
+                <p className="text-8xl font-bold text-[#303030] font-outfit mt-12 dark:text-white">
                   50
                 </p>
-                <p className="text-gray-500 font-outfit">
+                <p className="text-gray-500 font-outfit dark:text-white">
                   {language === "en" ? "people" : "personnes"}
                 </p>
               </Card>
@@ -289,14 +289,14 @@ const PetitBassin = ({ showHeader }: { showHeader: boolean }) => {
                     alt={language === "en" ? "Age Icon" : "Icone Âge"}
                     className="w-8 h-8"
                   />
-                  <h3 className="text-lg font-semibold font-mona text-[#303030]">
+                  <h3 className="text-lg font-semibold font-mona text-[#303030] dark:text-white">
                     {language === "en" ? "Age" : "Âge"}
                   </h3>
                 </div>
-                <p className="text-8xl font-bold text-[#303030] font-outfit mt-12">
+                <p className="text-8xl font-bold text-[#303030] font-outfit mt-12 dark:text-white">
                   6+
                 </p>
-                <p className="text-gray-500 font-outfit">
+                <p className="text-gray-500 font-outfit dark:text-white">
                   {language === "en" ? "years" : "ans"}
                 </p>
               </Card>
@@ -309,14 +309,14 @@ const PetitBassin = ({ showHeader }: { showHeader: boolean }) => {
                     alt={language === "en" ? "Hours Icon" : "Icone Horaires"}
                     className="w-8 h-8"
                   />
-                  <h3 className="text-lg font-semibold font-mona text-[#303030]">
+                  <h3 className="text-lg font-semibold font-mona text-[#303030] dark:text-white">
                     {language === "en" ? "Hours" : "Horaires"}
                   </h3>
                 </div>
-                <p className="text-8xl font-bold text-[#303030] font-outfit mt-12">
+                <p className="text-8xl font-bold text-[#303030] font-outfit mt-12 dark:text-white">
                   9-18
                 </p>
-                <p className="text-gray-500 font-outfit">
+                <p className="text-gray-500 font-outfit dark:text-white">
                   {language === "en" ? "hours" : "heures"}
                 </p>
               </Card>

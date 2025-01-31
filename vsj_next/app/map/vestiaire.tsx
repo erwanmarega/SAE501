@@ -4,14 +4,14 @@ import Header from "../components/header/header";
 import { useLanguage } from "../components/header/ui/context/language-provider";
 
 const Vestiaires = ({ showHeader }: { showHeader: boolean }) => {
-  const { language } = useLanguage(); // Get the current language
+  const { language } = useLanguage();
   const [isAudioVisible, setIsAudioVisible] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isVolumeVisible, setIsVolumeVisible] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(1);
-  const [isDragging, setIsDragging] = useState(false); // Gestion du drag du cercle
+  const [isDragging, setIsDragging] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const handleAudioButtonClick = () => {
@@ -71,22 +71,21 @@ const Vestiaires = ({ showHeader }: { showHeader: boolean }) => {
     setIsVolumeVisible(!isVolumeVisible);
   };
 
-  // Drag du cercle bleu
   const handleDragStart = () => setIsDragging(true);
 
   const handleDragEnd = () => {
     setIsDragging(false);
     if (audioRef.current) {
-      audioRef.current.currentTime = currentTime; // Mise à jour après déplacement
+      audioRef.current.currentTime = currentTime;
     }
   };
 
   const handleDragMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (isDragging && duration > 0) {
       const rect = (e.currentTarget as HTMLDivElement).getBoundingClientRect();
-      const offsetX = e.clientX - rect.left; // Position du curseur
-      const newTime = (offsetX / rect.width) * duration; // Conversion en temps
-      setCurrentTime(Math.min(Math.max(newTime, 0), duration)); // Assure une limite
+      const offsetX = e.clientX - rect.left;
+      const newTime = (offsetX / rect.width) * duration;
+      setCurrentTime(Math.min(Math.max(newTime, 0), duration));
     }
   };
 
@@ -113,10 +112,10 @@ const Vestiaires = ({ showHeader }: { showHeader: boolean }) => {
                   : "Confort & Praticité"}
               </span>
 
-              <h2 className="text-4xl font-semibold text-gray-800 font-mona">
+              <h2 className="text-4xl font-semibold text-gray-800 font-mona dark:text-white">
                 {language === "en" ? "Lockers" : "Vestiaires"}
               </h2>
-              <p className="text-2xl text-[#353535] font-mona">
+              <p className="text-2xl text-[#353535] font-mona dark:text-white">
                 {language === "en"
                   ? "Comfort and practicality at your service"
                   : "Confort et praticité à votre service"}
@@ -251,14 +250,14 @@ const Vestiaires = ({ showHeader }: { showHeader: boolean }) => {
                     alt={language === "en" ? "Padlock" : "Icone Cadenas"}
                     className="w-8 h-8"
                   />
-                  <h3 className="text-lg font-semibold font-mona text-[#303030]">
+                  <h3 className="text-lg font-semibold font-mona text-[#303030]dark:text-white">
                     {language === "en" ? "Padlock" : "Cadenas"}
                   </h3>
                 </div>
-                <p className="text-8xl font-bold text-[#303030] font-outfit mt-12">
+                <p className="text-8xl font-bold text-[#303030] font-outfit mt-12 dark:text-white">
                   {language === "en" ? "Yes" : "Oui"}
                 </p>
-                <p className="text-gray-500 font-outfit">
+                <p className="text-gray-500 font-outfit dark:text-white">
                   {language === "en" ? "Lock provided" : "Cadenas fourni"}
                 </p>
               </Card>
@@ -271,14 +270,14 @@ const Vestiaires = ({ showHeader }: { showHeader: boolean }) => {
                     alt={language === "en" ? "Capacity" : "Icone Capacité"}
                     className="w-8 h-8"
                   />
-                  <h3 className="text-lg font-semibold font-mona text-[#303030]">
+                  <h3 className="text-lg font-semibold font-mona text-[#303030] dark:text-white">
                     {language === "en" ? "Capacity" : "Capacité"}
                   </h3>
                 </div>
-                <p className="text-8xl font-bold text-[#303030] font-outfit mt-12">
+                <p className="text-8xl font-bold text-[#303030] font-outfit mt-12 dark:text-white">
                   50
                 </p>
-                <p className="text-gray-500 font-outfit">
+                <p className="text-gray-500 font-outfit dark:text-white">
                   {language === "en" ? "lockers" : "casiers"}
                 </p>
               </Card>
@@ -295,14 +294,14 @@ const Vestiaires = ({ showHeader }: { showHeader: boolean }) => {
                     }
                     className="w-11 h-11"
                   />
-                  <h3 className="text-lg font-semibold font-mona text-[#303030]">
+                  <h3 className="text-lg font-semibold font-mona text-[#303030] dark:text-white">
                     {language === "en" ? "Accessibility" : "Accessibilité"}
                   </h3>
                 </div>
-                <p className="text-8xl font-bold text-[#303030] font-outfit mt-12">
+                <p className="text-8xl font-bold text-[#303030] font-outfit mt-12 dark:text-white">
                   {language === "en" ? "Yes" : "Oui"}
                 </p>
-                <p className="text-gray-500 font-outfit">
+                <p className="text-gray-500 font-outfit dark:text-white">
                   {language === "en" ? "Accessible PMR" : "Accessible PMR"}
                 </p>
               </Card>
@@ -315,14 +314,14 @@ const Vestiaires = ({ showHeader }: { showHeader: boolean }) => {
                     alt={language === "en" ? "Equipment" : "Icone Équipements"}
                     className="w-8 h-8"
                   />
-                  <h3 className="text-lg font-semibold font-mona text-[#303030]">
+                  <h3 className="text-lg font-semibold font-mona text-[#303030] dark:text-white">
                     {language === "en" ? "Equipment" : "Équipements"}
                   </h3>
                 </div>
-                <p className="text-8xl font-bold text-[#303030] font-outfit mt-12">
+                <p className="text-8xl font-bold text-[#303030] font-outfit mt-12 dark:text-white">
                   {language === "en" ? "Yes" : "Oui"}
                 </p>
-                <p className="text-gray-500 font-outfit">
+                <p className="text-gray-500 font-outfit dark:text-white">
                   {language === "en"
                     ? "Benches, showers, hair dryers"
                     : "Bancs, douches, sèches cheveux"}
