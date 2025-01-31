@@ -10,7 +10,7 @@ import H4 from "../components/ui/texts/h4";
 import { useLanguage } from "../components/header/ui/context/language-provider";
 
 const InfosPersoComponent = () => {
-  const { language } = useLanguage(); // Get the current language
+  const { language } = useLanguage();
   const [isEditing, setIsEditing] = useState(false);
 
   const [name, setName] = useState("");

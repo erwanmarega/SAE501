@@ -47,7 +47,7 @@ const CardActivity: React.FC<CardActivityProps> = ({
   setIsLoading,
   darkMode,
 }) => {
-  const { language } = useLanguage(); // Get the current language
+  const { language } = useLanguage();
 
   const whatIdName = (title: string) => {
     switch (title) {
@@ -171,7 +171,7 @@ const CardActivity: React.FC<CardActivityProps> = ({
                   variant="secondary"
                   onClick={(e) => {
                     e.stopPropagation();
-                    setIsLoading(true); // Passe à l'état de chargement
+                    setIsLoading(true);
                   }}
                 >
                   <p className="text-gray-700 dark:text-gray-300">
@@ -182,7 +182,7 @@ const CardActivity: React.FC<CardActivityProps> = ({
                 <Button
                   onClick={(e) => {
                     e.stopPropagation();
-                    setIsConfirming(true); // Passe à l'état de confirmation
+                    setIsConfirming(true);
                   }}
                 >
                   {language === "en" ? "Choose" : "Choisir"}

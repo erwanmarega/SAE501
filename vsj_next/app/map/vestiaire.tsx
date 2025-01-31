@@ -1,3 +1,4 @@
+// filepath: /c:/SAE501/website/SAE501/vsj_next/app/map/vestiaire.tsx
 import React, { useState, useRef } from "react";
 import Card from "../components/ui/card";
 import Header from "../components/header/header";
@@ -250,7 +251,7 @@ const Vestiaires = ({ showHeader }: { showHeader: boolean }) => {
                     alt={language === "en" ? "Padlock" : "Icone Cadenas"}
                     className="w-8 h-8"
                   />
-                  <h3 className="text-lg font-semibold font-mona text-[#303030]dark:text-white">
+                  <h3 className="text-lg font-semibold font-mona text-[#303030] dark:text-white">
                     {language === "en" ? "Padlock" : "Cadenas"}
                   </h3>
                 </div>

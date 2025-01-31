@@ -8,7 +8,7 @@ import DragCard from "./ui/drag-card";
 import { useLanguage } from "@/app/components/header/ui/context/language-provider";
 
 const AdminDocs = () => {
-  const { language } = useLanguage(); // Récupère la langue actuelle
+  const { language } = useLanguage();
   const members = [
     {
       name: "Erwan Marega",

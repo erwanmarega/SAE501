@@ -21,7 +21,7 @@ const LoginPage = ({
   loginPassword,
   setLoginPassword,
 }: LoginPageProps) => {
-  const { language } = useLanguage(); // Get the current language
+  const { language } = useLanguage();
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
@@ -44,8 +44,6 @@ const LoginPage = ({
       const data = await response.json();
 
       if (response.ok) {
-        /*localStorage.setItem("authToken", data.token);
-        router.push("/");*/
       } else {
         setError(data.message);
       }

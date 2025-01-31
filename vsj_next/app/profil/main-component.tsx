@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import { useLanguage } from "../components/header/ui/context/language-provider";
 
 const MainComponent = () => {
-  const { language } = useLanguage(); // Get the current language
+  const { language } = useLanguage();
   const [selected, setSelected] = useState<string>("License");
   const router = useRouter();
 

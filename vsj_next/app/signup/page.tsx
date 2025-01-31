@@ -11,7 +11,7 @@ import LanguageSwitcher from "../components/header/ui/language-switcher";
 import { useLanguage } from "../components/header/ui/context/language-provider";
 
 const Signup: React.FC = () => {
-  const { language } = useLanguage(); // Get the current language
+  const { language } = useLanguage();
   const [step, setStep] = useState(1);
   const [showConfetti, setShowConfetti] = useState(false);
   const [barWidthStep1To2, setBarWidthStep1To2] = useState(0);
@@ -38,7 +38,6 @@ const Signup: React.FC = () => {
       [name]: value,
     }));
 
-    // Validation en temps réel
     if (name === "nom" && !/^[A-Za-zÀ-ÿ\s-]{1,50}$/.test(value)) {
       setErrorMessage(
         language === "en"
@@ -93,7 +92,6 @@ const Signup: React.FC = () => {
       return;
     }
 
-    // Efface l'erreur si la valeur est correcte
     setErrorMessage("");
   };
 

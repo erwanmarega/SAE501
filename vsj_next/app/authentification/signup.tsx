@@ -28,7 +28,7 @@ const SignupPage = ({
   onSignup,
   isLoading,
 }: SignupPageProps) => {
-  const { language } = useLanguage(); // Get the current language
+  const { language } = useLanguage();
 
   return (
     <main className="flex flex-col items-center gap-6">
