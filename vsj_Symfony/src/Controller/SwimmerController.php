@@ -10,6 +10,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTManager;
+
 
 class SwimmerController extends AbstractController
 {
@@ -196,4 +198,5 @@ class SwimmerController extends AbstractController
     
         return $this->json(['message' => 'Profil mis à jour avec succès']);
     }
+
 }
