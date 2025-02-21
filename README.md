@@ -42,11 +42,3 @@ Le projet de refonte du site de l'association de natation de Villiers-sur-Marne 
 ---
 *Un projet pour renforcer la présence numérique de l'association et unir sa communauté autour des valeurs du sport.* 🌟
 
-Si vous souhaitez vous identifier, La bdd est dans le github.
-
-Avant de lancer le site avec "npm run dev", merci de bien vouloir faire la commande "npm i" pour l'installation des dépendances 😁
-
-Vous pouvez également vous connecter avec ces identifiants : 
-
-mail : **invite@gmail.com**
-MDP : **123456**
