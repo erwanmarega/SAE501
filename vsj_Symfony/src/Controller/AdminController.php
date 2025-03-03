@@ -2,9 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Training;
-use App\Entity\Group;
-use App\Entity\Competition;
+use App\Entity\Role;
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -21,6 +20,83 @@ class AdminController extends AbstractController
             'path' => 'src/Controller/AdminController.php',
         ]);
     }
+
+    #[Route('/admin/role', name: 'create_role', methods: ['POST'])]
+    public function createRole(Request $request, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        if (!$data) {
+            return $this->json(['message' => 'Données invalides'], JsonResponse::HTTP_BAD_REQUEST);
+        }
+
+        try {
+            $role = new Role();
+            $role->setName($data['name']);
+
+            $entityManager->persist($role);
+            $entityManager->flush();
+
+            return $this->json([
+                'message' => 'Rôle créé avec succès',
+                'roleId' => $role->getId(),
+            ], JsonResponse::HTTP_CREATED);
+        } catch (\Exception $e) {
+            return $this->json([
+                'message' => 'Erreur lors de la création du rôle',
+                'error' => $e->getMessage()
+            ], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    #[Route('/admin/role/{id}', name: 'update_role', methods: ['PUT'])]
+    public function updateRole(int $id, Request $request, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        $role = $entityManager->getRepository(Role::class)->find($id);
+        if (!$role) {
+            return $this->json(['message' => 'Rôle non trouvé'], JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        try {
+            $role->setName($data['name'] ?? $role->getName());
+
+            $entityManager->flush();
+
+            return $this->json([
+                'message' => 'Rôle mis à jour avec succès',
+                'roleId' => $role->getId(),
+            ], JsonResponse::HTTP_OK);
+        } catch (\Exception $e) {
+            return $this->json([
+                'message' => 'Erreur lors de la mise à jour du rôle',
+                'error' => $e->getMessage()
+            ], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    #[Route('/admin/roles/{id}', name: 'delete_role', methods: ['DELETE'])]
+    public function deleteRole(int $id, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $role = $entityManager->getRepository(Role::class)->find($id);
+        if (!$role) {
+            return $this->json(['message' => 'Rôle non trouvé'], JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        try {
+            $entityManager->remove($role);
+            $entityManager->flush();
+
+            return $this->json(['message' => 'Rôle supprimé avec succès'], JsonResponse::HTTP_OK);
+        } catch (\Exception $e) {
+            return $this->json([
+                'message' => 'Erreur lors de la suppression du rôle',
+                'error' => $e->getMessage()
+            ], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
     #[Route('/admin/training', name: 'create_training', methods: ['POST'])]
     public function createTraining(Request $request, EntityManagerInterface $entityManager): JsonResponse

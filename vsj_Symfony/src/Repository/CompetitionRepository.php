@@ -15,6 +15,31 @@ class CompetitionRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Competition::class);
     }
+    public function findNextCompetition($groupId, $date)
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.group = :groupId')
+            ->andWhere('c.dayDate > :date')
+            ->setParameter('groupId', $groupId)
+            ->setParameter('date', new \DateTime($date))
+            ->orderBy('c.dayDate', 'ASC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+    public function findLastThreeResultsBySwimmer($swimmerId)
+    {
+        return $this->createQueryBuilder('c')
+            ->join('c.results', 'r')
+            ->where('r.swimmer = :swimmerId')
+            ->setParameter('swimmerId', $swimmerId)
+            ->orderBy('c.day_competition', 'DESC')
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getResult();
+    }
+
+
 
     //    /**
     //     * @return Competition[] Returns an array of Competition objects
@@ -40,4 +65,6 @@ class CompetitionRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+
 }

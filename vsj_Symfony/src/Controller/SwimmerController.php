@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Controller;
+use App\Repository\CompetitionRepository;
 
 use App\Entity\Swimmer;
+use App\Entity\CompetitionResult;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,15 +22,14 @@ class SwimmerController extends AbstractController
     public function __construct(
         EntityManagerInterface $entityManager,
         UserPasswordHasherInterface $passwordHasher,
-        JWTTokenManagerInterface $jwtManager 
+        JWTTokenManagerInterface $jwtManager
     ) {
         $this->entityManager = $entityManager;
         $this->passwordHasher = $passwordHasher;
         $this->jwtManager = $jwtManager;
     }
 
-    
-    #[Route('/register', name:'register_swimmer', methods:['POST'])]
+    #[Route('/register', name: 'register_swimmer', methods: ['POST'])]
     public function register(Request $request): Response
     {
         $data = json_decode($request->getContent(), true);
@@ -65,8 +66,7 @@ class SwimmerController extends AbstractController
         ], Response::HTTP_CREATED);
     }
 
-    
-    #[Route('/api/complete-registration', name:'complete_registration', methods:['POST'])]
+    #[Route('/api/complete-registration', name: 'complete_registration', methods: ['POST'])]
     public function completeRegistration(Request $request): Response
     {
         $data = json_decode($request->getContent(), true);
@@ -75,7 +75,7 @@ class SwimmerController extends AbstractController
             return $this->json(['message' => 'Le nom et le prénom sont requis'], Response::HTTP_BAD_REQUEST);
         }
 
-        $user = $this->getUser(); 
+        $user = $this->getUser();
 
         if (!$user instanceof Swimmer) {
             return $this->json(['message' => 'Utilisateur non authentifié'], Response::HTTP_UNAUTHORIZED);
@@ -97,11 +97,10 @@ class SwimmerController extends AbstractController
         ], Response::HTTP_OK);
     }
 
-    
-    #[Route('/api/user-profile', name:'user_profile', methods:['GET'])]
+    #[Route('/api/user-profile', name: 'user_profile', methods: ['GET'])]
     public function getUserProfile(): Response
     {
-        $user = $this->getUser(); 
+        $user = $this->getUser();
 
         if (!$user) {
             return $this->json(['message' => 'Utilisateur non authentifié'], Response::HTTP_UNAUTHORIZED);
@@ -112,7 +111,7 @@ class SwimmerController extends AbstractController
         }
 
         return $this->json([
-            'prenom' => $user->getPrenom(),  
+            'prenom' => $user->getPrenom(),
             'nom' => $user->getNom(),
             'dateNaissance' => $user->getDateNaissance() ? $user->getDateNaissance()->format('Y-m-d') : null,
             'adresse' => $user->getAdresse(),
@@ -122,8 +121,7 @@ class SwimmerController extends AbstractController
         ]);
     }
 
-    
-    #[Route('/swimmer/login', name:'login_swimmer', methods:['POST'])]
+    #[Route('/swimmer/login', name: 'login_swimmer', methods: ['POST'])]
     public function login(Request $request): Response
     {
         $data = json_decode($request->getContent(), true);
@@ -150,22 +148,21 @@ class SwimmerController extends AbstractController
         ]);
     }
 
-   
-    #[Route('/api/user-profile', name:'update_user_profile', methods:['PUT'])]
+    #[Route('/api/user-profile', name: 'update_user_profile', methods: ['PUT'])]
     public function updateUserProfile(Request $request): Response
     {
         $user = $this->getUser();
-    
+
         if (!$user) {
             return $this->json(['message' => 'Utilisateur non authentifié'], Response::HTTP_UNAUTHORIZED);
         }
-    
+
         if (!$user instanceof Swimmer) {
             return $this->json(['message' => 'Aucun compte avec ces informations'], Response::HTTP_UNAUTHORIZED);
         }
-    
+
         $data = json_decode($request->getContent(), true);
-    
+
         if (isset($data['nom'])) {
             $user->setNom($data['nom']);
         }
@@ -191,9 +188,21 @@ class SwimmerController extends AbstractController
         if (isset($data['telephone'])) {
             $user->setTelephone($data['telephone']);
         }
-    
+
         $this->entityManager->flush();
-    
+
         return $this->json(['message' => 'Profil mis à jour avec succès']);
     }
+
+    #[Route('/api/swimmer/{id}/last-competitions', name: 'swimmer_last_competitions', methods: ['GET'])]
+    public function getLastCompetitions(int $id, CompetitionRepository $competitionRepository): JsonResponse
+    {
+        $competitions = $competitionRepository->findLastThreeResultsBySwimmer($id);
+
+        return $this->json($competitions);
+    }
+
+
+
+
 }
