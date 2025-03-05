@@ -295,7 +295,7 @@ const Signup: React.FC = () => {
                 className="w-10 h-10"
               />
             </div>
-            <h1 className="text-3xl font-bold text-black mb-6">
+            <h1 className="text-3xl font-bold text-black mb-6 dark:text-white">
               {language === "en"
                 ? "Profile successfully saved"
                 : "Profil bien enregistré"}
@@ -323,9 +323,11 @@ const Signup: React.FC = () => {
                   {language === "en" ? "Welcome" : "Bienvenue"}
                 </span>
                 ,{" "}
-                {language === "en"
-                  ? "to continue your registration, please complete your profile"
-                  : "pour continuer votre inscription, veuillez compléter votre profil"}
+                <span className="text-black dark:text-white">
+                  {language === "en"
+                    ? "to continue your registration, please complete your profile"
+                    : "pour continuer votre inscription, veuillez compléter votre profil"}
+                </span>
               </H2>
               <H3 className="mt-8">{stepTitles[step - 1]}</H3>
             </div>
@@ -416,7 +418,7 @@ const Signup: React.FC = () => {
                       ? "The name should only contain letters."
                       : "Le nom ne doit contenir que des lettres."
                   }
-                  className="col-span-1 border border-gray-300 dark:border-gray-700 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500  dark:text-gray-300"
+                  className="col-span-1 border border-gray-300 dark:border-gray-700 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-black dark:placeholder-black"
                 />
                 <input
                   type="text"
@@ -430,14 +432,14 @@ const Signup: React.FC = () => {
                       ? "The first name should only contain letters."
                       : "Le prénom ne doit contenir que des lettres."
                   }
-                  className="col-span-1 border border-gray-300 dark:border-gray-700 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500  dark:text-gray-300"
+                  className="col-span-1 border border-gray-300 dark:border-gray-700 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-black dark:placeholder-black"
                 />
                 <input
                   type="date"
                   name="dateNaissance"
                   value={formData.dateNaissance}
                   onChange={handleChange}
-                  className="col-span-1 border border-gray-300 dark:border-gray-700 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500  dark:text-gray-300"
+                  className="col-span-1 border border-gray-300 dark:border-gray-700 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-black dark:placeholder-black"
                 />
               </form>
             )}
@@ -455,7 +457,7 @@ const Signup: React.FC = () => {
                       ? "The address is invalid."
                       : "L'adresse est invalide."
                   }
-                  className="col-span-1 border border-gray-300 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="col-span-1 border border-gray-300 dark:border-gray-700 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-black dark:placeholder-black"
                 />
                 <input
                   type="text"
@@ -471,7 +473,7 @@ const Signup: React.FC = () => {
                       ? "The postal code should only contain numbers (4 to 6 characters)."
                       : "Le code postal doit contenir uniquement des chiffres (4 à 6 caractères)."
                   }
-                  className="col-span-1 border border-gray-300 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="col-span-1 border border-gray-300 dark:border-gray-700 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-black dark:placeholder-black"
                 />
                 <input
                   type="text"
@@ -485,7 +487,7 @@ const Signup: React.FC = () => {
                       ? "The city name should only contain letters."
                       : "Le nom de la ville ne doit contenir que des lettres."
                   }
-                  className="col-span-1 border border-gray-300 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="col-span-1 border border-gray-300 dark:border-gray-700 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-black dark:placeholder-black"
                 />
               </form>
             )}
@@ -504,7 +506,7 @@ const Signup: React.FC = () => {
                       ? "The phone number should contain 10 to 15 digits."
                       : "Le numéro de téléphone doit contenir 10 à 15 chiffres."
                   }
-                  className="col-span-1 border border-gray-300 dark:border-gray-700 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-full max-w-[400px] mx-auto"
+                  className="col-span-1 border border-gray-300 dark:border-gray-700 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-black dark:placeholder-black w-full max-w-[400px] mx-auto"
                 />
               </form>
             )}
