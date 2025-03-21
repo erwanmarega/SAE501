@@ -6,10 +6,10 @@ export default function LandingSection() {
       {/* Hero Section */}
       <div className="relative w-full h-[600px]">
         <Image
-          src="/assets/img/Rectangle42.png"
+          src="/assets/img/backgroundIMG_03.jpg"
           alt="Natation"
           fill
-          className="object-cover opacity-90"
+          className="object-cover opacity-100"
         />
         <div className="absolute inset-0 flex flex-col justify-center px-6 md:px-20 text-white">
           <div className="bg-white/80 rounded-lg px-2 py-0.5 shadow-md w-max inline-block">
