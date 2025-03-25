@@ -6,7 +6,7 @@ import FAQ from "./faq";
 import LandingSection from "./section";
 import ActivitiesSection from "./communication";
 
-export default function Home() {
+export default function Landing() {
   return (
     <main className="bg-white text-gray-900">
       <LandingSection />
