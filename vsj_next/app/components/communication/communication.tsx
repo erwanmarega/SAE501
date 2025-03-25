@@ -2,63 +2,82 @@
 
 import Image from "next/image";
 
-const features = [
-  { text: "Moyen de communication rapide", icon: "/icons/check.svg" },
-  { text: "Simple et intuitive", icon: "/icons/check.svg" },
-  { text: "Plus rapide que jamais", icon: "/icons/check.svg" },
+const activities = [
+  {
+    title: "Natation",
+    description:
+      "Whether you have a team of 2 or 200, our shared team inboxes keep everyone on the same page and in the loop.",
+    link: "Choisir",
+  },
+  {
+    title: "Aquagym",
+    description:
+      "An all-in-one customer service platform that helps you balance everything your customers need to be happy.",
+    link: "Choisir",
+  },
+  {
+    title: "Aquabike",
+    description:
+      "Measure what matters with Untitled's easy-to-use reports. You can filter, export, and drill down on the data in a couple clicks.",
+    link: "Choisir",
+  },
 ];
 
-export default function CommunicationSection() {
+export default function ActivitiesSection() {
   return (
-    <section className="py-16 bg-white">
-      <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
-        {/* Texte */}
-        <div className="space-y-6">
-          <div className="flex items-center space-x-2">
+    <section className="py-16 bg-gray-50">
+      <div className="max-w-6xl mx-auto px-6 flex flex-col items-center gap-12">
+        {/* Texte Section */}
+        <div className="w-full space-y-6 text-center">
+          {/* Icône */}
+          <div className="flex justify-center">
             <div className="bg-blue-100 p-3 rounded-full">
               <Image
-                src="/icons/chat.svg"
-                alt="Chat Icon"
-                width={24}
-                height={24}
+                src="/assets/img/quote.png"
+                alt="Quote Icon"
+                width={32}
+                height={32}
               />
             </div>
-            <h2 className="text-2xl font-semibold text-gray-900">
-              Communication avec <span className="font-bold">Equipe</span>
-            </h2>
           </div>
-          <p className="text-gray-600 text-lg">
-            Grâce à notre solution de messagerie, vous pouvez communiquer
-            directement avec votre coach et les différents membres de votre
-            club.
-          </p>
 
-          {/* Liste des avantages avec icônes */}
-          <ul className="space-y-3">
-            {features.map((feature, index) => (
-              <li key={index} className="flex items-center space-x-3">
-                <Image
-                  src={feature.icon}
-                  alt="Check Icon"
-                  width={24}
-                  height={24}
-                />
-                <span className="text-gray-700 text-lg">{feature.text}</span>
-              </li>
-            ))}
-          </ul>
+          {/* Titre et sous-titre */}
+          <h2 className="text-3xl font-bold text-gray-900">
+            Différentes Activités
+          </h2>
+          <p className="text-gray-600">
+            Ensemble des disciplines proposés au sein de VSJ Natation
+          </p>
         </div>
 
-        {/* Images */}
-        <div className="relative">
-          <div className="absolute top-0 left-0 w-3/4 -translate-x-6 -translate-y-6"></div>
-          <div className="relative z-10">
+        {/* Contenu Section */}
+        <div className="w-full flex flex-col md:flex-row items-center gap-12">
+          {/* Liste des activités */}
+          <div className="bg-white p-6 rounded-2xl shadow-lg space-y-6 w-full md:w-1/2">
+            {activities.map((activity, index) => (
+              <div key={index} className="space-y-2">
+                <h3 className="text-lg font-bold text-gray-900">
+                  {activity.title}
+                </h3>
+                <p className="text-gray-600 text-sm">{activity.description}</p>
+                <a
+                  href="#"
+                  className="text-blue-600 font-medium text-sm flex items-center"
+                >
+                  {activity.link} <span className="ml-1">→</span>
+                </a>
+              </div>
+            ))}
+          </div>
+
+          {/* Image */}
+          <div className="w-full md:w-1/2 flex justify-center">
             <Image
-              src="/images/chat-2.png"
-              alt="Chat Screenshot 2"
-              width={500}
-              height={350}
-              className="rounded-lg shadow-xl"
+              src="/assets/img/mockup.png"
+              alt="Pool Mockup"
+              width={600}
+              height={400}
+              className="rounded-lg"
             />
           </div>
         </div>

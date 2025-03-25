@@ -1,38 +1,54 @@
+import Image from "next/image"; // Ensure this import is correct
+
 export default function Testimonials() {
   return (
-    <section className="py-16 bg-gray-100 text-center">
+    <section className="py-16 bg-blue-50 text-center">
       <div className="max-w-4xl mx-auto">
-        {/* Titre */}
-        <h2 className="text-4xl font-bold text-gray-900">
-          Pourquoi nos utilisateurs nous font confiance
-        </h2>
+        {/* Icône et Titre */}
+        <div className="flex flex-col items-center space-y-4">
+          <div className="bg-blue-100 p-3 rounded-full">
+            <Image
+              src="/assets/img/quote.png"
+              alt="Quote Icon"
+              width={32}
+              height={32}
+            />
+          </div>
+          <h2 className="text-2xl font-bold text-gray-900">
+            Recommandations & avis
+          </h2>
+          <p className="text-gray-600">Les avis sur nos anciens travaux</p>
+        </div>
 
         {/* Carte du témoignage */}
-        <div className="mt-12 bg-white shadow-lg rounded-lg p-8 max-w-2xl mx-auto">
-          {/* Étoiles */}
-          <div className="flex justify-center gap-1 text-yellow-500 text-2xl">
-            {"★★★★★".split("").map((star, index) => (
-              <span key={index}>{star}</span>
-            ))}
-          </div>
-
-          {/* Témoignage */}
-          <p className="mt-4 text-lg text-gray-700 italic">
-            "Le site est vraiment incroyable et l'organisation des cours est
-            très efficace. J'ai pu améliorer ma technique en seulement quelques
-            semaines grâce aux conseils des coachs."
-          </p>
-
-          {/* Utilisateur */}
-          <div className="mt-6 flex items-center justify-center gap-4">
-            <img
-              src="/images/user.jpg"
+        <div className="mt-9 bg-white shadow-lg rounded-2xl p-8 max-w-3xl mx-auto">
+          <div className="flex items-start gap-4">
+            {/* Image utilisateur */}
+            <Image
+              src="/assets/img/user.png"
               alt="Utilisateur"
-              className="w-12 h-12 rounded-full object-cover border-2 border-blue-500"
+              width={64}
+              height={64}
+              className=" object-cover"
             />
-            <div>
-              <p className="text-gray-900 font-semibold">Sophie L.</p>
-              <p className="text-gray-500 text-sm">Nageuse passionnée</p>
+            {/* Étoiles et Témoignage */}
+            <div className="flex-1">
+              <div className="flex gap-1 text-yellow-500 text-xl">
+                {"★★★★★".split("").map((star, index) => (
+                  <span key={index}>{star}</span>
+                ))}
+              </div>
+              <p className="mt-4 text-gray-700">
+                Syra a révolutionné l'organisation de notre club de tennis, je
+                recommande 1000 fois, désormais l'administration est simplifiée
+                et l'engagement des joueurs a fortement augmenté ! Merci Syra
+              </p>
+              <p className="mt-4 text-gray-900 font-semibold">
+                Mélanie Delatreno
+              </p>
+              <p className="text-gray-500 text-sm">
+                Présidente du TFF Chantilly
+              </p>
             </div>
           </div>
         </div>
