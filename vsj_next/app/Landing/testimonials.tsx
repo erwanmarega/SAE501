@@ -1,8 +1,8 @@
-import Image from "next/image"; // Ensure this import is correct
+import Image from "next/image";
 
 export default function Testimonials() {
   return (
-    <section className="py-16 bg-blue-50 text-center">
+    <section className="py-16 bg-gray-50 text-center">
       <div className="max-w-4xl mx-auto">
         {/* Icône et Titre */}
         <div className="flex flex-col items-center space-y-4">
