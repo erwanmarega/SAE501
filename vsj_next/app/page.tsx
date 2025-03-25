@@ -3,7 +3,6 @@
 import "./globals.css";
 import React, { useState } from "react";
 import BottomBar from "./components/bottombar/bottom-bar";
-
 import Dashboard from "./dashboard/dashboard";
 import Calendar from "./calendar/calendar";
 import Message from "./message/message";
@@ -11,15 +10,14 @@ import Group from "./group/page";
 import Map from "./map/page";
 import StatsPage from "./stats/page";
 import clsx from "clsx";
-
 import Header from "./components/header/header";
 import { EventsProvider } from "./calendar/database/events-context";
 import Group02 from "./groupe02/group02";
-
 import MessageUpdate from "./message/message-update";
+import Landing from "./Landing/page";
 
 export default function Home() {
-  const [currentPage, setCurrentPage] = useState("Dashboard");
+  const [currentPage, setCurrentPage] = useState("");
 
   const renderPage = () => {
     switch (currentPage) {
@@ -36,11 +34,15 @@ export default function Home() {
       case "Stats":
         return <StatsPage />;
       default:
-        return <Dashboard />;
+        return <Landing />;
     }
   };
 
-  return (
+  const isLandingPage = currentPage === "";
+
+  return isLandingPage ? (
+    <Landing />
+  ) : (
     <div
       className={clsx(
         "lg:h-[100vh] flex items-center justify-center lg:overflow-y-hidden",
@@ -51,11 +53,13 @@ export default function Home() {
 
       <EventsProvider>{renderPage()}</EventsProvider>
 
-      <BottomBar
-        setCurrentPage={setCurrentPage}
-        currentPage={currentPage}
-        isPage={currentPage !== "Dashboard"}
-      />
+      {!isLandingPage && (
+        <BottomBar
+          setCurrentPage={setCurrentPage}
+          currentPage={currentPage}
+          isPage={currentPage !== "Dashboard"}
+        />
+      )}
     </div>
   );
 }
