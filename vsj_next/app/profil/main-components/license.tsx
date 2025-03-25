@@ -15,7 +15,7 @@ interface User {
 }
 
 const License = () => {
-  const { language } = useLanguage(); // Récupère la langue actuelle
+  const { language } = useLanguage(); 
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -24,7 +24,7 @@ const License = () => {
     const fetchUser = async () => {
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/user-profile`,
+          `${process.env.NEXT_PUBLIC_API_URL}/api/swimmer/me`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("authToken")}`,
@@ -82,7 +82,7 @@ const License = () => {
     <section className="flex flex-col gap-8 h-full lg:gap-2 w-full">
       <header className="flex flex-col">
         <H4>
-          {language === "en" ? "Swimming License" : "License de Natation"}
+          {language === "en" ? "Swimming Licence" : "Licence de Natation"}
         </H4>
         <P>
           {language === "en"

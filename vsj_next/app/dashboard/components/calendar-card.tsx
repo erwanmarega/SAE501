@@ -56,7 +56,7 @@ const CalendarCard = () => {
       date: "29/12/2024",
       plan: {},
     },
-    // ... potentiellement plus
+    
   ];
 
   const itemRefs = useRef<HTMLDivElement[]>([]);
@@ -83,13 +83,11 @@ const CalendarCard = () => {
           }
         }
 
-        // Only update state if it actually changes
         if (count !== visibleItemsCount) {
           setVisibleItemsCount(count);
         }
       };
 
-      // Run once on mount (after measurement) and then on resize
       handleResize();
       window.addEventListener("resize", handleResize);
       return () => window.removeEventListener("resize", handleResize);
@@ -97,9 +95,7 @@ const CalendarCard = () => {
   }, [calendarData, allMeasured, visibleItemsCount]);
 
   useEffect(() => {
-    // Une fois que le composant est monté, on set allMeasured à true
-    // pour signifier qu'on a eu un premier rendu avec tous les items.
-    // Ceci provoquera le recalcul après le rendu complet.
+  
     if (
       itemRefs.current.filter(Boolean).length === calendarData.length &&
       !allMeasured
@@ -111,7 +107,7 @@ const CalendarCard = () => {
   const itemsToRender =
     visibleItemsCount && allMeasured
       ? calendarData.slice(0, visibleItemsCount)
-      : calendarData; // Au début on affiche tout pour mesurer
+      : calendarData; 
 
   return (
     <Card className="w-full h-full row-start-8 row-end-11 col-start-1 col-end-4 grid-row-2">

@@ -10,7 +10,7 @@ import H4 from "../components/ui/texts/h4";
 import { useLanguage } from "../components/header/ui/context/language-provider";
 
 const InfosPersoComponent = () => {
-  const { language } = useLanguage(); // Get the current language
+  const { language } = useLanguage(); 
   const [isEditing, setIsEditing] = useState(false);
 
   const [name, setName] = useState("");
@@ -32,7 +32,7 @@ const InfosPersoComponent = () => {
         }
 
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/user-profile`,
+          `${process.env.NEXT_PUBLIC_API_URL}/api/swimmer/me`,
           {
             method: "GET",
             headers: {
@@ -45,8 +45,8 @@ const InfosPersoComponent = () => {
         const data = await response.json();
 
         if (response.ok) {
-          setName(data.nom);
-          setPrenom(data.prenom);
+          setName(data.prenom);
+          setPrenom(data.nom);
           setDateNaissance(data.dateNaissance);
           setAdresse(data.adresse);
           setCodePostal(data.codePostal);

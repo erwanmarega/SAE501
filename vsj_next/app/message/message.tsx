@@ -25,7 +25,7 @@ const Chat: React.FC = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/messages")
+    fetch("http://localhost:8000/api/messages/contacts")
       .then((response) => response.json())
       .then((data) => setContacts(data))
       .catch((error) => console.error("Erreur lors du chargement des contacts:", error));

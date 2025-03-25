@@ -22,7 +22,7 @@ const Header = () => {
       const fetchUserData = async () => {
         try {
           const response = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/api/user-profile`,
+            `${process.env.NEXT_PUBLIC_API_URL}/api/swimmer/me`,
             {
               method: "GET",
               headers: {
@@ -33,7 +33,7 @@ const Header = () => {
 
           if (response.ok) {
             const data = await response.json();
-            setPrenom(data.prenom);
+            setPrenom(data.nom);
           } else if (response.status === 401) {
             console.warn(
               "Token expiré ou non valide. Redirection vers la page de connexion."
