@@ -18,7 +18,6 @@ const ActivityPage = () => {
   useEffect(() => {
     console.log("CHOSENBUTTON:", chosenButton);
 
-    // Initialiser VanillaTilt sur tous les éléments avec la classe "card"
     if (!chosenButton) {
       VanillaTilt.init(document.querySelectorAll(".card"), {
         max: 25,
@@ -47,7 +46,6 @@ const ActivityPage = () => {
       card.addEventListener("click", (event) => handleCardClick(event, card));
     });
 
-    // Nettoyer l'écouteur d'événement
     return () => {
       if (chosenButton) {
         cards.forEach((card) => {
@@ -62,7 +60,6 @@ const ActivityPage = () => {
     number | null
   >(null);
 
-  // Notre tableau d'objets, chacun correspondant à une carte
   const activities = [
     {
       title: "Aquabike",

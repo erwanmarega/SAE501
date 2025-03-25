@@ -1,13 +1,6 @@
 var VanillaTilt = (function () {
     'use strict';
     
-    /**
-     * Created by Sergiu Șandor (micku7zu) on 1/27/2017.
-     * Original idea: https://github.com/gijsroge/tilt.js
-     * MIT License.
-     * Version 1.8.1
-     */
-    
     class VanillaTilt {
       constructor(element, settings = {}) {
         if (!(element instanceof Node)) {
@@ -21,7 +14,6 @@ var VanillaTilt = (function () {
         this.left = null;
         this.top = null;
     
-        // for Gyroscope sampling
         this.gammazero = null;
         this.betazero = null;
         this.lastgammazero = null;
@@ -69,7 +61,6 @@ var VanillaTilt = (function () {
       }
     
       /**
-       * Method returns element what will be listen mouse events
        * @return {Node}
        */
       getElementListener() {
@@ -93,7 +84,6 @@ var VanillaTilt = (function () {
       }
     
       /**
-       * Method set listen methods for this.elementListener
        * @return {Node}
        */
       addEventListeners() {
@@ -116,9 +106,6 @@ var VanillaTilt = (function () {
         }
       }
     
-      /**
-       * Method remove event listeners from current this.elementListener
-       */
       removeEventListeners() {
         this.elementListener.removeEventListener("mouseenter", this.onMouseEnterBind);
         this.elementListener.removeEventListener("mouseleave", this.onMouseLeaveBind);
@@ -305,14 +292,9 @@ var VanillaTilt = (function () {
         this.updateCall = null;
       }
     
-      /**
-       * Appends the glare element (if glarePrerender equals false)
-       * and sets the default style
-       */
+
       prepareGlare() {
-        // If option pre-render is enabled we assume all html/css is present for an optimal glare effect.
         if (!this.glarePrerender) {
-          // Create glare element
           const jsTiltGlare = document.createElement("div");
           jsTiltGlare.classList.add("js-tilt-glare");
     
@@ -396,23 +378,22 @@ var VanillaTilt = (function () {
       }
     
       /**
-       * Method return patched settings of instance
-       * @param {boolean} settings.reverse - reverse the tilt direction
-       * @param {number} settings.max - max tilt rotation (degrees)
-       * @param {startX} settings.startX - the starting tilt on the X axis, in degrees. Default: 0
-       * @param {startY} settings.startY - the starting tilt on the Y axis, in degrees. Default: 0
-       * @param {number} settings.perspective - Transform perspective, the lower the more extreme the tilt gets
-       * @param {string} settings.easing - Easing on enter/exit
-       * @param {number} settings.scale - 2 = 200%, 1.5 = 150%, etc..
-       * @param {number} settings.speed - Speed of the enter/exit transition
-       * @param {boolean} settings.transition - Set a transition on enter/exit
-       * @param {string|null} settings.axis - What axis should be enabled. Can be "x" or "y"
-       * @param {boolean} settings.glare - if it should have a "glare" effect
-       * @param {number} settings.max-glare - the maximum "glare" opacity (1 = 100%, 0.5 = 50%)
-       * @param {boolean} settings.glare-prerender - false = VanillaTilt creates the glare elements for you, otherwise
-       * @param {boolean} settings.full-page-listening - If true, parallax effect will listen to mouse move events on the whole document, not only the selected element
-       * @param {string|object} settings.mouse-event-element - String selector or link to HTML-element what will be listen mouse events
-       * @param {boolean} settings.reset - false = If the tilt effect has to be reset on exit
+       * @param {boolean} settings.reverse 
+       * @param {number} settings.max 
+       * @param {startX} settings.startX 
+       * @param {startY} settings.startY 
+       * @param {number} settings.perspective 
+       * @param {string} settings.easing 
+       * @param {number} settings.scale 
+       * @param {number} settings.speed
+       * @param {boolean} settings.transition 
+       * @param {string|null} settings.axis 
+       * @param {boolean} settings.glare
+       * @param {number} settings.max
+       * @param {boolean} settings.glare
+       * @param {boolean} settings.full
+       * @param {string|object} settings.mouse
+       * @param {boolean} settings.reset
        * @param {boolean} settings.reset-to-start - true = On reset event (mouse leave) will return to initial start angle (if startX or startY is set)
        * @param {gyroscope} settings.gyroscope - Enable tilting by deviceorientation events
        * @param {gyroscopeSensitivity} settings.gyroscopeSensitivity - Between 0 and 1 - The angle at which max tilt position is reached. 1 = 90deg, 0.5 = 45deg, etc..
