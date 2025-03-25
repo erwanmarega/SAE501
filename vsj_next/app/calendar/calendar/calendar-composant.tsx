@@ -28,7 +28,6 @@ const CalendarComposant = ({
   const end = endOfWeek(endOfMonth(currentDate), { locale: fr });
   let days = eachDayOfInterval({ start, end });
 
-  // Force pour avoir toujours 42 jours (6 semaines * 7 jours)
   const totalDaysNeeded = 42;
   if (days.length < totalDaysNeeded) {
     const diff = totalDaysNeeded - days.length;

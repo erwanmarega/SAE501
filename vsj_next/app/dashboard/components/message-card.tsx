@@ -23,13 +23,17 @@ const MessageCard = ({ position }: MessageCardProps) => {
     >
       <div className="-ml-1 flex items-center justify-center relative">
         <Profil size={50} />
-        <div className="bg-secondary-message h-4 w-4 rounded-full absolute top-1 -right-1 border-white dark:border-[#2E2E2E] border-4"></div>
       </div>
       <div className="flex flex-col w-full">
         <header className="flex flex-row justify-between w-full">
+          <div className="relative">
+
+        <div className="bg-secondary-message h-4 w-4 rounded-full absolute top-1 -right-1 border-white dark:border-[#2E2E2E] border-4"></div>
+
           <h3 className="font-outfit font-medium text-base text-[#424242] text-nowrap">
             Renaud emel
-          </h3>
+          </h3>          </div>
+
           <p className="font-outfit font-black text-xs mt-1 text-[#424242]">
             18:20
           </p>

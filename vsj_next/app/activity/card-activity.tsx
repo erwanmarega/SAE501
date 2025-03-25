@@ -75,7 +75,6 @@ const CardActivity: React.FC<CardActivityProps> = ({
           "col-start-1 col-end-4 !w-full no-flip flipped":
             chosenButton && permanentSelectedCard === identity,
           "!-translate-y-[666px] !absolute": hideCard,
-          // hidden: hideCard && hiddenCard,
         }
       )}
       onMouseEnter={onMouseEnter}
@@ -167,7 +166,7 @@ const CardActivity: React.FC<CardActivityProps> = ({
                   variant="secondary"
                   onClick={(e) => {
                     e.stopPropagation();
-                    setIsLoading(true); // Passe à l'état de chargement
+                    setIsLoading(true); 
                   }}
                 >
                   <p className="text-gray-700">Confirmer</p>
@@ -176,7 +175,7 @@ const CardActivity: React.FC<CardActivityProps> = ({
                 <Button
                   onClick={(e) => {
                     e.stopPropagation();
-                    setIsConfirming(true); // Passe à l'état de confirmation
+                    setIsConfirming(true); 
                   }}
                 >
                   Choisir

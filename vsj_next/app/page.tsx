@@ -10,7 +10,7 @@ import Calendar from "./calendar/calendar";
 import Message from "./message/message";
 import Group from "./group/page";
 import Map from "./map/page";
-import Stats from "./stats/stats";
+import StatsPage from "./stats/page";
 import clsx from "clsx";
 
 import Header from "./components/header/header";
@@ -37,7 +37,7 @@ export default function Home() {
       case "Map":
         return <Map />;
       case "Stats":
-        return <Stats />;
+        return <StatsPage />;
       default:
         return <Dashboard />;
     }
