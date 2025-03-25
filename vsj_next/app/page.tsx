@@ -3,7 +3,6 @@
 import "./globals.css";
 import React, { useState } from "react";
 import BottomBar from "./components/bottombar/bottom-bar";
-
 import Dashboard from "./dashboard/dashboard";
 import Calendar from "./calendar/calendar";
 import Message from "./message/message";
@@ -39,7 +38,11 @@ export default function Home() {
     }
   };
 
-  return (
+  const isLandingPage = currentPage === "";
+
+  return isLandingPage ? (
+    <Landing />
+  ) : (
     <div
       className={clsx(
         "lg:h-[100vh] flex items-center justify-center lg:overflow-y-hidden",
@@ -50,11 +53,13 @@ export default function Home() {
 
       <EventsProvider>{renderPage()}</EventsProvider>
 
-      <BottomBar
-        setCurrentPage={setCurrentPage}
-        currentPage={currentPage}
-        isPage={currentPage !== "Dashboard"}
-      />
+      {!isLandingPage && (
+        <BottomBar
+          setCurrentPage={setCurrentPage}
+          currentPage={currentPage}
+          isPage={currentPage !== "Dashboard"}
+        />
+      )}
     </div>
   );
 }
