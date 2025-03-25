@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\CompetitionRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: CompetitionRepository::class)]
 class Competition
@@ -13,33 +15,41 @@ class Competition
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(name: 'title_competition', length: 255)]
     private ?string $title = null;
 
-    #[ORM\Column(type: 'date')]
+    #[ORM\Column(name: 'day_competition', type: 'date')]
     private ?\DateTimeInterface $dayDate = null;
 
-    #[ORM\Column(type: 'time')]
+    #[ORM\Column(name: 'hour_competition', type: 'time')]
     private ?\DateTimeInterface $hourDate = null;
 
-    #[ORM\Column(type: 'time')]
+    #[ORM\Column(name: 'duration_competition', type: 'time')]
     private ?\DateTimeInterface $duration = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(name: 'address_competition', length: 255)]
     private ?string $address = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(name: 'category_competition', length: 255)]
     private ?string $category = null;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(name: 'description_competition', type: 'text')]
     private ?string $description = null;
 
-    #[ORM\Column(type: 'boolean')]
+    #[ORM\Column(name: 'is_defined_competition', type: 'boolean')]
     private ?bool $isDefined = null;
 
     #[ORM\ManyToOne(targetEntity: Group::class)]
-    #[ORM\JoinColumn(name: 'group_id', referencedColumnName: 'id', nullable: false)]
+    #[ORM\JoinColumn(name: 'groups_id', referencedColumnName: 'id', nullable: false)]
     private ?Group $group = null;
+
+    #[ORM\OneToMany(mappedBy: 'competition', targetEntity: CompetitionResult::class)]
+    private Collection $results;
+
+    public function __construct()
+    {
+        $this->results = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -54,7 +64,6 @@ class Competition
     public function setTitle(string $title): self
     {
         $this->title = $title;
-
         return $this;
     }
 
@@ -66,7 +75,6 @@ class Competition
     public function setDayDate(\DateTimeInterface $dayDate): self
     {
         $this->dayDate = $dayDate;
-
         return $this;
     }
 
@@ -78,7 +86,6 @@ class Competition
     public function setHourDate(\DateTimeInterface $hourDate): self
     {
         $this->hourDate = $hourDate;
-
         return $this;
     }
 
@@ -90,7 +97,6 @@ class Competition
     public function setDuration(\DateTimeInterface $duration): self
     {
         $this->duration = $duration;
-
         return $this;
     }
 
@@ -102,7 +108,6 @@ class Competition
     public function setAddress(string $address): self
     {
         $this->address = $address;
-
         return $this;
     }
 
@@ -114,7 +119,6 @@ class Competition
     public function setCategory(string $category): self
     {
         $this->category = $category;
-
         return $this;
     }
 
@@ -126,7 +130,6 @@ class Competition
     public function setDescription(string $description): self
     {
         $this->description = $description;
-
         return $this;
     }
 
@@ -138,7 +141,6 @@ class Competition
     public function setIsDefined(bool $isDefined): self
     {
         $this->isDefined = $isDefined;
-
         return $this;
     }
 
@@ -150,8 +152,32 @@ class Competition
     public function setGroup(Group $group): self
     {
         $this->group = $group;
+        return $this;
+    }
+
+    public function getResults(): Collection
+    {
+        return $this->results;
+    }
+
+    public function addResult(CompetitionResult $result): self
+    {
+        if (!$this->results->contains($result)) {
+            $this->results[] = $result;
+            $result->setCompetition($this);
+        }
 
         return $this;
     }
 
+    public function removeResult(CompetitionResult $result): self
+    {
+        if ($this->results->removeElement($result)) {
+            if ($result->getCompetition() === $this) {
+                $result->setCompetition(null);
+            }
+        }
+
+        return $this;
+    }
 }

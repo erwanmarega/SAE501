@@ -1,14 +1,17 @@
 import React, { useState, useRef } from "react";
 import Card from "../components/ui/card";
 import Header from "../components/header/header";
+import { useLanguage } from "../components/header/ui/context/language-provider";
 
-const Pataugeoire = () => {
+const Pateugoire = ({ showHeader }: { showHeader: boolean }) => {
+  const { language } = useLanguage();
   const [isAudioVisible, setIsAudioVisible] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isVolumeVisible, setIsVolumeVisible] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(1);
+  const [isDragging, setIsDragging] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const handleAudioButtonClick = () => {
@@ -31,7 +34,7 @@ const Pataugeoire = () => {
   };
 
   const handleTimeUpdate = () => {
-    if (audioRef.current) {
+    if (!isDragging && audioRef.current) {
       setCurrentTime(audioRef.current.currentTime);
     }
   };
@@ -68,30 +71,53 @@ const Pataugeoire = () => {
     setIsVolumeVisible(!isVolumeVisible);
   };
 
-  return (
-    <div className="h-[100vh] flex flex-col items-center bg-[#F7F7F7] dark:bg-[#262629] overflow-hidden">
-      <Header />
+  const handleDragStart = () => setIsDragging(true);
 
-      <div className="flex flex-col items-center justify-center h-full w-full">
-        <div className="grid grid-cols-[3fr_2fr] gap-10 w-[90%] lg:w-[1400px] h-[85%]">
+  const handleDragEnd = () => {
+    setIsDragging(false);
+    if (audioRef.current) {
+      audioRef.current.currentTime = currentTime;
+    }
+  };
+
+  const handleDragMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (isDragging && duration > 0) {
+      const rect = (e.currentTarget as HTMLDivElement).getBoundingClientRect();
+      const offsetX = e.clientX - rect.left;
+      const newTime = (offsetX / rect.width) * duration;
+      setCurrentTime(Math.min(Math.max(newTime, 0), duration));
+    }
+  };
+
+  return (
+    <div
+      className="min-h-screen flex flex-col items-center overflow-auto"
+      style={{ transform: "scale(0.8)" }}
+    >
+      {showHeader && <Header />}
+
+      <div className="flex flex-col items-center justify-center w-full pt-20">
+        <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-10 w-[90%] lg:w-[1400px] h-auto">
           <Card className="!px-0 !py-0 h-full">
             <img
-              src="/images/pataugeoire.jpg"
-              alt="Pataugeoire"
+              src="/images/pateugoire.jpg"
+              alt={language === "en" ? "Paddling Pool" : "Pateugoire"}
               className="w-full h-full object-cover rounded-lg"
             />
           </Card>
 
           <section className="grid grid-rows-[1fr_2fr] gap-6 h-full">
             <Card className="flex flex-col items-center justify-center text-center p-6 relative">
-              <span className="absolute top-4 right-4 text-md bg-blue-100 text-blue-600 py-1 px-5 rounded-full font-mona">
-                Enfants
+              <span className="absolute top-4 right-4 text-md bg-blue-100 text-blue-600 dark:bg-blue-100 dark:text-blue-600 py-1 px-5 rounded-full font-mona">
+                {language === "en" ? "Recreation" : "Loisirs"}
               </span>
-              <h2 className="text-4xl font-semibold text-gray-800 font-mona">
-                Pataugeoire
+              <h2 className="text-4xl font-semibold text-gray-800 font-mona dark:text-white">
+                {language === "en" ? "Paddling Pool" : "Pateugoire"}
               </h2>
-              <p className="text-2xl text-[#353535] font-mona">
-                Espace ludique pour les petits
+              <p className="text-2xl text-[#353535] font-mona dark:text-white">
+                {language === "en"
+                  ? "Recreational area for everyone"
+                  : "Zone récréative pour tous"}
               </p>
 
               {!isAudioVisible ? (
@@ -102,10 +128,12 @@ const Pataugeoire = () => {
                   >
                     <img
                       src="./assets/img/Vector.png"
-                      alt="Écouter Icone"
+                      alt={language === "en" ? "Listen" : "Écouter"}
                       className="w-5 h-5"
                     />
-                    <span className="font-medium">Écouter</span>
+                    <span className="font-medium">
+                      {language === "en" ? "Listen" : "Écouter"}
+                    </span>
                   </button>
                 </div>
               ) : (
@@ -116,7 +144,7 @@ const Pataugeoire = () => {
                   >
                     <img
                       src="./assets/img/recu.png"
-                      alt="Reculer de 15s"
+                      alt={language === "en" ? "Rewind 15s" : "Reculer de 15s"}
                       className="w-8 h-8"
                     />
                   </button>
@@ -127,13 +155,13 @@ const Pataugeoire = () => {
                     {isPlaying ? (
                       <img
                         src="./assets/img/pause.png"
-                        alt="Pause"
+                        alt={language === "en" ? "Pause" : "Pause"}
                         className="w-10 h-10"
                       />
                     ) : (
                       <img
                         src="./assets/img/rectan.png"
-                        alt="Play"
+                        alt={language === "en" ? "Play" : "Lire"}
                         className="w-9 h-9"
                       />
                     )}
@@ -144,35 +172,41 @@ const Pataugeoire = () => {
                   >
                     <img
                       src="./assets/img/avan.png"
-                      alt="Avancer de 15s"
+                      alt={language === "en" ? "Forward 15s" : "Avancer de 15s"}
                       className="w-8 h-8"
                     />
                   </button>
-                  <div className="flex items-center gap-2 w-48 justify-center">
-                    <input
-                      type="range"
-                      min="0"
-                      max={duration}
-                      value={currentTime}
-                      onChange={(e) => {
-                        if (audioRef.current) {
-                          audioRef.current.currentTime = parseFloat(
-                            e.target.value
-                          );
-                          setCurrentTime(audioRef.current.currentTime);
-                        }
-                      }}
-                      className="w-full appearance-none rounded-full bg-gray-300"
-                    />
+                  <div
+                    className="relative flex items-center gap-2 w-48"
+                    onMouseMove={handleDragMove}
+                    onMouseUp={handleDragEnd}
+                    onMouseLeave={handleDragEnd}
+                  >
+                    <div className="relative w-full h-1 bg-gray-300 rounded-full">
+                      <div
+                        className="absolute top-0 left-0 h-1 bg-blue-500 rounded-full"
+                        style={{
+                          width: `${(currentTime / duration) * 100}%`,
+                        }}
+                      ></div>
+                      <div
+                        className="absolute top-1/2 w-4 h-4 bg-blue-500 rounded-full cursor-pointer transform -translate-x-1/2 -translate-y-1/2"
+                        style={{
+                          left: `${(currentTime / duration) * 100}%`,
+                        }}
+                        onMouseDown={handleDragStart}
+                      ></div>
+                    </div>
                     <span>
                       {Math.floor(currentTime / 60)}:
                       {("0" + Math.floor(currentTime % 60)).slice(-2)}
                     </span>
                   </div>
+
                   <div className="relative flex items-center gap-2 w-24">
                     <img
                       src="./assets/img/volume.png"
-                      alt="Volume"
+                      alt={language === "en" ? "Volume" : "Volume"}
                       className="w-6 h-6 cursor-pointer"
                       onClick={toggleVolumeVisibility}
                     />
@@ -206,79 +240,85 @@ const Pataugeoire = () => {
               />
             </Card>
 
-            <section className="grid grid-cols-2 grid-rows-2 gap-6 mt-8">
+            <section className="grid grid-cols-2 grid-rows-2 gap-6 mt-8 overflow-auto">
               {/* Carte 1 */}
-              <Card className="relative flex flex-col items-center justify-center text-center p-6">
+              <Card className="relative flex flex-col items-center justify-center text-center p-6 min-h-[200px] overflow-auto">
                 <div className="absolute top-4 left-4 flex items-center gap-2">
                   <img
-                    src="./assets/img/equi.png"
-                    alt="Icone Profondeur"
+                    src="./assets/img/Group 480.png"
+                    alt={language === "en" ? "Depth Icon" : "Icone Profondeur"}
                     className="w-8 h-8"
                   />
-                  <h3 className="text-lg font-semibold font-mona text-[#303030]">
-                    Equipement
+                  <h3 className="text-lg font-semibold font-mona text-[#303030] dark:text-white">
+                    {language === "en" ? "Depth" : "Profondeur"}
                   </h3>
                 </div>
-                <p className="text-8xl font-bold text-[#303030] font-outfit mt-12">
-                  Oui
+                <p className="text-8xl font-bold text-[#303030] font-outfit mt-12 dark:text-white">
+                  1.5
                 </p>
-                <p className="text-gray-500 font-outfit">
-                  Jeux aquatiques disponibles
+                <p className="text-gray-500 font-outfit dark:text-white">
+                  {language === "en" ? "meters" : "mètres"}
                 </p>
               </Card>
 
               {/* Carte 2 */}
-              <Card className="relative flex flex-col items-center justify-center text-center p-6">
+              <Card className="relative flex flex-col items-center justify-center text-center p-6 min-h-[200px] overflow-auto">
                 <div className="absolute top-4 left-4 flex items-center gap-2">
                   <img
                     src="./assets/img/capa.png"
-                    alt="Icone Capacité"
+                    alt={language === "en" ? "Capacity Icon" : "Icone Capacité"}
                     className="w-8 h-8"
                   />
-                  <h3 className="text-lg font-semibold font-mona text-[#303030]">
-                    Capacité
+                  <h3 className="text-lg font-semibold font-mona text-[#303030] dark:text-white">
+                    {language === "en" ? "Capacity" : "Capacité"}
                   </h3>
                 </div>
-                <p className="text-8xl font-bold text-[#303030] font-outfit mt-12">
-                  30
+                <p className="text-8xl font-bold text-[#303030] font-outfit mt-12 dark:text-white">
+                  50
                 </p>
-                <p className="text-gray-500 font-outfit">enfants</p>
+                <p className="text-gray-500 font-outfit dark:text-white">
+                  {language === "en" ? "people" : "personnes"}
+                </p>
               </Card>
 
               {/* Carte 3 */}
-              <Card className="relative flex flex-col items-center justify-center text-center p-6">
+              <Card className="relative flex flex-col items-center justify-center text-center p-6 min-h-[200px] overflow-auto">
                 <div className="absolute top-4 left-4 flex items-center gap-2">
                   <img
-                    src="./assets/img/Group 498.png"
-                    alt="Icone Température"
+                    src="./assets/img/gat.png"
+                    alt={language === "en" ? "Age Icon" : "Icone Âge"}
                     className="w-8 h-8"
                   />
-                  <h3 className="text-lg font-semibold font-mona text-[#303030]">
-                    Température
+                  <h3 className="text-lg font-semibold font-mona text-[#303030] dark:text-white">
+                    {language === "en" ? "Age" : "Âge"}
                   </h3>
                 </div>
-                <p className="text-8xl font-bold text-[#303030] font-outfit mt-12">
-                  28
+                <p className="text-8xl font-bold text-[#303030] font-outfit mt-12 dark:text-white">
+                  6+
                 </p>
-                <p className="text-gray-500 font-outfit">°C</p>
+                <p className="text-gray-500 font-outfit dark:text-white">
+                  {language === "en" ? "years" : "ans"}
+                </p>
               </Card>
 
               {/* Carte 4 */}
-              <Card className="relative flex flex-col items-center justify-center text-center p-6">
+              <Card className="relative flex flex-col items-center justify-center text-center p-6 min-h-[200px] overflow-auto">
                 <div className="absolute top-4 left-4 flex items-center gap-2">
                   <img
                     src="./assets/img/Horloge.png"
-                    alt="Icone Horaires"
+                    alt={language === "en" ? "Hours Icon" : "Icone Horaires"}
                     className="w-8 h-8"
                   />
-                  <h3 className="text-lg font-semibold font-mona text-[#303030]">
-                    Horaires
+                  <h3 className="text-lg font-semibold font-mona text-[#303030] dark:text-white">
+                    {language === "en" ? "Hours" : "Horaires"}
                   </h3>
                 </div>
-                <p className="text-8xl font-bold text-[#303030] font-outfit mt-12">
-                  9-19
+                <p className="text-8xl font-bold text-[#303030] font-outfit mt-12 dark:text-white">
+                  9-18
                 </p>
-                <p className="text-gray-500 font-outfit">heures</p>
+                <p className="text-gray-500 font-outfit dark:text-white">
+                  {language === "en" ? "hours" : "heures"}
+                </p>
               </Card>
             </section>
           </section>
@@ -288,4 +328,4 @@ const Pataugeoire = () => {
   );
 };
 
-export default Pataugeoire;
+export default Pateugoire;

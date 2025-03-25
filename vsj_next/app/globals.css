@@ -55,7 +55,17 @@
 }
 
 body {
-  background-color: #f7f7f7;
+  background-size: cover;
+  background-position: center;
+  background-color: none !important;
+}
+
+.light {
+  background-image: url("/assets/img/fond2.png");
+}
+
+.dark {
+  background-image: url("/assets/img/fond.png") !important;
 }
 
 .progress-bar {
@@ -77,20 +87,8 @@ body {
     @apply dark:text-white;
   }
 
-  /* Optionnel : Définir d'autres éléments textuels pour hériter de la couleur du corps */
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  p,
-  span,
   a,
   li,
-  div,
-  button,
-  input,
   textarea {
     @apply dark:text-white;
   }

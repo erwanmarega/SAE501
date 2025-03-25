@@ -6,6 +6,7 @@ import VanillaTilt from "vanilla-tilt";
 import Button from "../components/ui/button";
 import clsx from "clsx";
 import Link from "next/link";
+import { useLanguage } from "@/app/components/header/ui/context/language-provider";
 
 interface CardActivityProps {
   identity: number;
@@ -24,6 +25,7 @@ interface CardActivityProps {
   hiddenCard: boolean;
   handleRemove: () => void;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  darkMode: boolean;
 }
 
 const CardActivity: React.FC<CardActivityProps> = ({
@@ -43,22 +45,20 @@ const CardActivity: React.FC<CardActivityProps> = ({
   hiddenCard,
   handleRemove,
   setIsLoading,
+  darkMode,
 }) => {
+  const { language } = useLanguage();
+
   const whatIdName = (title: string) => {
     switch (title) {
       case "Aquabike":
         return "aquabike-card";
-        break;
       case "Natation":
         return "natation-card";
-        break;
       case "Aquagym":
         return "aquagym-card";
-
-        break;
-
       default:
-        break;
+        return "";
     }
   };
 
@@ -82,7 +82,9 @@ const CardActivity: React.FC<CardActivityProps> = ({
     >
       {/* Recto de la carte */}
       <div
-        className="card__front flex flex-col justify-between h-full py-2 px-4 sm:rounded-lg md:rounded-xl lg:rounded-xl xl:rounded-2xl w-full border-[#BDCBDD] border-[1px] shadow-activity"
+        className={`card__front flex flex-col justify-between h-full py-2 px-4 sm:rounded-lg md:rounded-xl lg:rounded-xl xl:rounded-2xl w-full border-[#BDCBDD] border-[1px] shadow-activity ${
+          darkMode ? "bg-black dark:bg-black" : "bg-white dark:bg-gray-800"
+        }`}
         id={whatIdName(title)}
       >
         <header
@@ -106,20 +108,20 @@ const CardActivity: React.FC<CardActivityProps> = ({
             }}
           />
         </header>
-        <div className="w-[95%] rounded-full m-auto h-[2px] bg-[#E8EAE9] absolute top-[55%] left-2"></div>
+        <div className="w-[95%] rounded-full m-auto h-[2px] bg-[#E8EAE9] dark:bg-[#4A4A4A] absolute top-[55%] left-2"></div>
 
         <main className="flex flex-col justify-between h-full">
           <h3
-            className="text-center font-outfit font-black text-[#232323] mx-auto mt-auto mb-0
+            className="text-center font-outfit font-black text-[#232323] dark:text-gray-100 mx-auto mt-auto mb-0
             text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
           >
             {title}
           </h3>
-          <p className="font-mona font-normal text-[#6A6A6A] px-2 mt-2 sm:text-2xs md:text-2xs lg:text-xs xl:text-sm 2xl:text-base h-20">
+          <p className="font-mona font-normal text-[#6A6A6A] dark:text-gray-300 px-2 mt-2 sm:text-2xs md:text-2xs lg:text-xs xl:text-sm 2xl:text-base h-20">
             {description}
           </p>
           <div className="flex justify-between items-center px-2 mt-2">
-            <p className="font-outfit font-medium sm:text-2xs md:text-2xs lg:text-xs xl:text-sm 2xl:text-base">
+            <p className="font-outfit font-medium sm:text-2xs md:text-2xs lg:text-xs xl:text-sm 2xl:text-base text-gray-900 dark:text-gray-100">
               {price}
             </p>
             {/*BADGE*/}
@@ -138,7 +140,7 @@ const CardActivity: React.FC<CardActivityProps> = ({
       {/* Verso de la carte */}
       <div
         className={clsx(
-          "card__back flex flex-col justify-between h-full p-6 sm:rounded-lg md:rounded-xl lg:rounded-xl xl:rounded-2xl relative w-full"
+          "card__back flex flex-col justify-between h-full p-6 sm:rounded-lg md:rounded-xl lg:rounded-xl xl:rounded-2xl relative w-full bg-white dark:bg-gray-800"
         )}
       >
         {/*BADGE*/}
@@ -152,85 +154,97 @@ const CardActivity: React.FC<CardActivityProps> = ({
           </div>
           {/*BADGE*/}
           <div className="flex flex-col gap-2">
-            {" "}
-            <h3 className="font-mona text-2xl">Natation</h3>
-            <p className="font-outfit font-bold text-medium text-2xl">
+            <h3 className="font-mona text-2xl text-gray-900 dark:text-gray-100">
+              {language === "en" ? "Swimming" : "Natation"}
+            </h3>
+            <p className="font-outfit font-bold text-medium text-2xl text-gray-900 dark:text-gray-100">
               300.00€
             </p>
-            <p className="font-mona font-regular text-[#B1B5B8] text-sm">
-              Facturation annuelle à 300 €
-            </p>{" "}
+            <p className="font-mona font-regular text-[#B1B5B8] dark:text-[#B1B5B8] text-sm">
+              {language === "en"
+                ? "Annual billing at 300€"
+                : "Facturation annuelle à 300 €"}
+            </p>
             <div className="flex justify-center mt-4">
               {isConfirming ? (
                 <Button
                   variant="secondary"
                   onClick={(e) => {
                     e.stopPropagation();
-                    setIsLoading(true); 
+                    setIsLoading(true);
                   }}
                 >
-                  <p className="text-gray-700">Confirmer</p>
+                  <p className="text-gray-700 dark:text-gray-300">
+                    {language === "en" ? "Confirm" : "Confirmer"}
+                  </p>
                 </Button>
               ) : (
                 <Button
                   onClick={(e) => {
                     e.stopPropagation();
-                    setIsConfirming(true); 
+                    setIsConfirming(true);
                   }}
                 >
-                  Choisir
+                  {language === "en" ? "Choose" : "Choisir"}
                 </Button>
               )}
             </div>
           </div>
         </header>
-        <div className="w-[95%] rounded-full m-auto h-[1px] bg-[#E8EAE9] -mt-3 mb-3"></div>
+        <div className="w-[95%] rounded-full m-auto h-[1px] bg-[#E8EAE9] dark:bg-[#4A4A4A] -mt-3 mb-3"></div>
         <main className="flex flex-col justify-between h-full">
           <div className="flex flex-col relative">
             <div className="flex flex-col gap-2">
               <div className="flex gap-4">
                 <img
                   src="assets/icons/checkV.svg"
-                  alt="Valide"
+                  alt={language === "en" ? "Valid" : "Valide"}
                   height={15}
                   width={15}
                 />
-                <p className="font-mona font-medium text-xs">
-                  Accès aux séances de natation libre pour tous niveaux
+                <p className="font-mona font-medium text-xs text-gray-900 dark:text-gray-100">
+                  {language === "en"
+                    ? "Access to free swimming sessions for all levels"
+                    : "Accès aux séances de natation libre pour tous niveaux"}
                 </p>
               </div>
               <div className="flex gap-4">
                 <img
                   src="assets/icons/checkV.svg"
-                  alt="Valide"
+                  alt={language === "en" ? "Valid" : "Valide"}
                   height={15}
                   width={15}
                 />
-                <p className="font-mona font-medium text-xs">
-                  Cours encadrés pour perfectionner votre technique et votre
-                  endurance
+                <p className="font-mona font-medium text-xs text-gray-900 dark:text-gray-100">
+                  {language === "en"
+                    ? "Supervised courses to improve your technique and endurance"
+                    : "Cours encadrés pour perfectionner votre technique et votre endurance"}
                 </p>
               </div>
               <div className="flex gap-4">
                 <img
                   src="assets/icons/checkV.svg"
-                  alt="Valide"
+                  alt={language === "en" ? "Valid" : "Valide"}
                   height={15}
                   width={15}
-                />{" "}
-                <p className="font-mona font-medium text-xs">
-                  Programmes adaptés aux nageurs débutants comme confirmés
+                />
+                <p className="font-mona font-medium text-xs text-gray-900 dark:text-gray-100">
+                  {language === "en"
+                    ? "Programs adapted to both beginner and advanced swimmers"
+                    : "Programmes adaptés aux nageurs débutants comme confirmés"}
                 </p>
               </div>
               <div className="flex gap-4">
                 <img
                   src="assets/icons/checkV.svg"
-                  alt="Valide"
+                  alt={language === "en" ? "Valid" : "Valide"}
                   height={15}
                   width={15}
-                />{" "}
-                <p className="font-mona font-medium text-xs">
-                  Programmes adaptés aux nageurs débutants comme confirmés
+                />
+                <p className="font-mona font-medium text-xs text-gray-900 dark:text-gray-100">
+                  {language === "en"
+                    ? "Programs adapted to both beginner and advanced swimmers"
+                    : "Programmes adaptés aux nageurs débutants comme confirmés"}
                 </p>
               </div>
             </div>

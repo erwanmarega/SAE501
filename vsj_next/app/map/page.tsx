@@ -11,7 +11,7 @@ import SpaBienEtre from "./spa";
 import Vestiaires from "./vestiaire";
 
 const MapPage = () => {
-  const [selectedPage, setSelectedPage] = useState("spa");
+  const [selectedPage, setSelectedPage] = useState("vestiaire");
 
   const whatShow = (value: string) => {
     switch (value) {
@@ -43,7 +43,7 @@ const MapPage = () => {
   };
 
   return (
-    <div className="lg:h-[100vh] flex items-center justify-center lg:overflow-y-hidden bg-[#F7F7F7] dark:bg-[#262629]">
+    <div className="lg:h-[100vh] flex items-center justify-center lg:overflow-y-hidden dark:bg-none bg-cover bg-center">
       {/* Composant d'en-tête */}
       <Header />
       {whatShow(selectedPage)}

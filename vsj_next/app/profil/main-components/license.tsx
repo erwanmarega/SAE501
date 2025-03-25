@@ -54,8 +54,7 @@ const License = () => {
     };
 
     fetchUser();
-  }, [language]); // Ajout de `language` pour s'assurer que la langue est prise en compte lors de l'appel API
-
+  }, [language]); 
   if (loading) {
     return <div>{language === "en" ? "Loading..." : "Chargement..."}</div>;
   }

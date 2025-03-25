@@ -2,12 +2,9 @@
 
 import React, { useState } from "react";
 import Card from "../../components/ui/card";
-import InputSelectUpdate from "../../components/ui/input-select-update";
-import InputNumber from "../../components/ui/input-number";
-import H4 from "../../components/ui/texts/h4";
-import ToggleSlide from "../../authentification/ui/toggle-slide";
 import RightBarEffectif from "./right-bar-effectif";
 import RightBarPlanning from "./right-bar-planning";
+import RightBarRole from "./right-bar-role";
 
 interface RightBarProps {
   swimmerValue: number;
@@ -15,7 +12,9 @@ interface RightBarProps {
   coachValue: number;
   setCoachValue: React.Dispatch<React.SetStateAction<number>>;
   toggleValue: string;
-  setToggleValue: React.Dispatch<React.SetStateAction<"Effectif" | "Planning">>;
+  setToggleValue: React.Dispatch<
+    React.SetStateAction<"Effectif" | "Planning" | "Rôle">
+  >;
 }
 
 const RightBar = ({
@@ -26,26 +25,7 @@ const RightBar = ({
   toggleValue,
   setToggleValue,
 }: RightBarProps) => {
-  const options = [
-    { value: "baby-swimming", label: "Natation Bébé", icon: "/icons/baby.png" },
-    {
-      value: "kids-swimming",
-      label: "Natation Enfants",
-      icon: "/icons/kids.png",
-    },
-    {
-      value: "teens-swimming",
-      label: "Natation Ados",
-      icon: "/icons/teens.png",
-    },
-    {
-      value: "adults-swimming",
-      label: "Natation Adultes",
-      icon: "/icons/adults.png",
-    },
-  ];
-
-  const handleToggleAuth = (active: "Effectif" | "Planning") => {
+  const handleToggleAuth = (active: "Effectif" | "Planning" | "Rôle") => {
     setToggleValue(active);
   };
 
@@ -60,27 +40,50 @@ const RightBar = ({
             setCoachValue={setCoachValue}
           />
         );
-        break;
       case "Planning":
         return <RightBarPlanning />;
-        break;
-
+      case "Rôle":
+        return <RightBarRole />;
       default:
         return null;
-        break;
     }
   };
 
   return (
     <Card className="row-start-1 row-end-9 col-start-2 col-end-2 h-full w-full !p-6 flex flex-col gap-4">
-      <ToggleSlide
-        leftLabel={"Effectif"}
-        rightLabel={"Planning"}
-        onChange={(position) =>
-          handleToggleAuth(position === "left" ? "Effectif" : "Planning")
-        }
-      />
+      {/* Boutons de navigation */}
+      <div className="flex gap-2">
+        <button
+          className={`px-4 py-2 rounded-md ${
+            toggleValue === "Effectif"
+              ? "bg-blue-500 text-white"
+              : "bg-gray-200"
+          }`}
+          onClick={() => handleToggleAuth("Effectif")}
+        >
+          Effectif
+        </button>
+        <button
+          className={`px-4 py-2 rounded-md ${
+            toggleValue === "Planning"
+              ? "bg-blue-500 text-white"
+              : "bg-gray-200"
+          }`}
+          onClick={() => handleToggleAuth("Planning")}
+        >
+          Planning
+        </button>
+        <button
+          className={`px-4 py-2 rounded-md ${
+            toggleValue === "Rôle" ? "bg-blue-500 text-white" : "bg-gray-200"
+          }`}
+          onClick={() => handleToggleAuth("Rôle")}
+        >
+          Rôle
+        </button>
+      </div>
 
+      {/* Affichage du contenu sélectionné */}
       {whatShow(toggleValue)}
     </Card>
   );

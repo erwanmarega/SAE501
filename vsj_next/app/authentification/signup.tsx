@@ -3,90 +3,72 @@
 import React, { useState } from "react";
 import Input from "@/app/components/ui/input";
 import Button from "@/app/components/ui/button";
-import { useRouter } from "next/navigation";
+import { useLanguage } from "@/app/components/header/ui/context/language-provider";
 
-const SignupPage: React.FC = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
+interface SignupPageProps {
+  handleToggle: (active: "Connexion" | "Inscription") => void;
+  signupEmail: string;
+  setSignupEmail: React.Dispatch<React.SetStateAction<string>>;
+  signupPassword: string;
+  setSignupPassword: React.Dispatch<React.SetStateAction<string>>;
+  confirmPassword: string;
+  setConfirmPassword: React.Dispatch<React.SetStateAction<string>>;
+  onSignup: () => void;
+  isLoading: boolean;
+}
 
-  const onSignup = async () => {
-    setError(null);
-
-    if (!email || !password || !confirmPassword) {
-      setError("Veuillez remplir tous les champs obligatoires.");
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      setError("Les mots de passe ne correspondent pas.");
-      return;
-    }
-
-    if (password.length < 6) {
-      setError("Le mot de passe doit contenir au moins 6 caractères.");
-      return;
-    }
-
-    setIsLoading(true);
-
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/register`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password }),
-        }
-      );
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        setError(data.message || "Une erreur est survenue.");
-      } else {
-        if (data.token) {
-          localStorage.setItem("authToken", data.token);
-        }
-        router.push("/signup");
-      }
-    } catch (err) {
-      setError("Une erreur réseau est survenue.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
+const SignupPage = ({
+  handleToggle,
+  signupEmail,
+  setSignupEmail,
+  signupPassword,
+  setSignupPassword,
+  confirmPassword,
+  setConfirmPassword,
+  onSignup,
+  isLoading,
+}: SignupPageProps) => {
+  const { language } = useLanguage();
 
   return (
     <main className="flex flex-col items-center gap-6">
-      {error && <p className="text-red-500">{error}</p>}
-
       <Input
-        label="Email"
+        label={language === "en" ? "Email" : "Adresse mail"}
         name="email"
         type="email"
-        placeholder="Entrez votre adresse mail"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        placeholder={
+          language === "en"
+            ? "Enter your email address"
+            : "Entrez votre adresse mail"
+        }
+        value={signupEmail}
+        onChange={(e) => setSignupEmail(e.target.value)}
         autoComplete="email"
       />
       <Input
-        label="Mot de passe"
+        label={language === "en" ? "Password" : "Mot de passe"}
         name="password"
         type="password"
-        placeholder="Entrez votre mot de passe"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        placeholder={
+          language === "en"
+            ? "Enter your password"
+            : "Entrez votre mot de passe"
+        }
+        value={signupPassword}
+        onChange={(e) => setSignupPassword(e.target.value)}
         autoComplete="new-password"
       />
       <Input
-        label="Confirmer le mot de passe"
+        label={
+          language === "en" ? "Confirm Password" : "Confirmer le mot de passe"
+        }
         name="confirmPassword"
         type="password"
-        placeholder="Confirmez votre mot de passe"
+        placeholder={
+          language === "en"
+            ? "Confirm your password"
+            : "Confirmez votre mot de passe"
+        }
         value={confirmPassword}
         onChange={(e) => setConfirmPassword(e.target.value)}
         autoComplete="new-password"
@@ -98,7 +80,13 @@ const SignupPage: React.FC = () => {
         onClick={onSignup}
         disabled={isLoading}
       >
-        {isLoading ? "Chargement..." : "S'inscrire"}
+        {isLoading
+          ? language === "en"
+            ? "Loading..."
+            : "Chargement..."
+          : language === "en"
+          ? "Sign Up"
+          : "S'inscrire"}
       </Button>
     </main>
   );
