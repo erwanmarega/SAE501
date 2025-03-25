@@ -3,7 +3,7 @@ import Profil from "../components/profil/profil";
 import EditIcon from "../components/ui/interactive-icons/edit";
 import HProfilName from "../components/ui/texts/h-profil-name";
 import HProfilAge from "../components/ui/texts/h-profil-age";
-import { useLanguage } from "../components/header/ui/context/language-provider"; // Importer le contexte de langue
+import { useLanguage } from "../components/header/ui/context/language-provider"; 
 import api from "../utils/axiosInstance";
 
 interface UserProfile {
