@@ -13,7 +13,7 @@ interface UserProfile {
 }
 
 const ProfilComponent = () => {
-  const { language } = useLanguage(); // Obtenir la langue actuelle
+  const { language } = useLanguage(); 
   const [prenom, setPrenom] = useState<string | null>(null);
   const [age, setAge] = useState<number | null>(null);
 
@@ -27,7 +27,7 @@ const ProfilComponent = () => {
 
     const fetchUserProfile = async () => {
       try {
-        const response = await api.get<UserProfile>("/api/user-profile", {
+        const response = await api.get<UserProfile>("/api/swimmer/me", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -35,7 +35,7 @@ const ProfilComponent = () => {
 
         if (response.status === 200) {
           const data = response.data;
-          setPrenom(data.prenom);
+          setPrenom(data.nom);
 
           if (data.dateNaissance) {
             const birthDate = new Date(data.dateNaissance);

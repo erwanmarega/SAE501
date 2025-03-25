@@ -49,7 +49,6 @@ const ContainerMessage = ({
   useEffect(() => {
     const fetchUserInfo = async () => {
       if (!selectedDiscussion) return;
-
       try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/messages/conversation/${selectedDiscussion}`, {
           headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` },

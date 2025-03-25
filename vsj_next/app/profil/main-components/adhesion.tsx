@@ -6,9 +6,8 @@ import H4 from "@/app/components/ui/texts/h4";
 import { useLanguage } from "@/app/components/header/ui/context/language-provider";
 
 const Adhesion = () => {
-  const { language } = useLanguage(); // Récupère la langue actuelle
+  const { language } = useLanguage(); 
 
-  // Tableau d’adhésions
   const adhesions = [
     {
       variant: "default",
