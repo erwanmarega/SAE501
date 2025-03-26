@@ -5,7 +5,7 @@ import Card from "../components/ui/card";
 import EditIcon from "../components/ui/interactive-icons/edit";
 import H4 from "../components/ui/texts/h4";
 import P from "../components/ui/texts/p";
-import { useLanguage } from "@/app/components/header/ui/context/language-provider"; // Import du contexte langue
+import { useLanguage } from "@/app/components/header/ui/context/language-provider"; 
 
 const BioComponent = () => {
   const { language } = useLanguage();
@@ -14,7 +14,6 @@ const BioComponent = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Charger la bio au montage
   useEffect(() => {
     fetchBio();
   }, []);

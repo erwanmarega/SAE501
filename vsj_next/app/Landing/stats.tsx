@@ -2,7 +2,6 @@ export default function Stats() {
   return (
     <section className="py-16 bg-white text-center">
       <div className="max-w-5xl mx-auto">
-        {/* Titre */}
         <h2 className="text-4xl font-bold text-gray-900">
           Les performances en chiffres
         </h2>

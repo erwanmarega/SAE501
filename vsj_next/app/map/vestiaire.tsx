@@ -92,7 +92,7 @@ const Vestiaires = ({ showHeader }: { showHeader: boolean }) => {
 
   return (
     <div
-      className="min-h-screen flex flex-col items-center overflow-auto"
+      className="min-h-screen flex flex-col items-center overflow-hidden"
       style={{ transform: "scale(0.8)" }}
     >
       <div className="flex flex-col items-center justify-center w-full pt-20">

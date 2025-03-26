@@ -37,7 +37,6 @@ export default function LandingSection() {
           </p>
         </div>
 
-        {/* Connexion & Inscription */}
         <div className="absolute top-6 right-6 flex items-center gap-4 font-['Mona_Sans']">
           <Link href="/authentification">
             <button className="px-6 py-3 bg-white text-[#348CFF] rounded-lg shadow-lg hover:bg-gray-100">
@@ -71,10 +70,13 @@ export default function LandingSection() {
             </div>
             <p className="text-gray-900 font-medium">L'App mobile</p>
           </div>
+
+          {/* Texte à espacer davantage du titre dans la carte */}
         </div>
       </div>
 
-      <div className="C">
+      {/* Features Section */}
+      <div className="container mx-auto px-6 py-12 relative -mt-24 z-10">
         <div className="bg-white shadow-xl rounded-2xl p-10 max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="grid grid-cols-2 gap-6">
             {[

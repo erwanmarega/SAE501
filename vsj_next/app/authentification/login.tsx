@@ -43,7 +43,7 @@ const LoginPage = ({
 
       if (response.ok) {
         localStorage.setItem("authToken", data.token);
-        router.push("/");
+        router.push("/dashboard");
       } else {
         setError(data.message);
       }
