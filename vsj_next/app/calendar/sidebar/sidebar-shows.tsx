@@ -31,7 +31,6 @@ const SidebarShows = ({ setWhatShow }: SidebarShowsProps) => {
             </p>
           </div>
         </div>
-        {/* Badge date */}
       </header>
 
       <main

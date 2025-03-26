@@ -5,13 +5,11 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { useEvents } from "../database/events-context";
 
-// Components
 import CloseButton from "../ui/closeButton";
 import Button from "@/app/components/ui/button";
 import H4 from "@/app/components/ui/texts/h4";
 import P from "@/app/components/ui/texts/p";
 
-// Icons
 import IntensitySelect from "../ui/intensity-select";
 import Group from "@/app/components/ui/group";
 
@@ -26,7 +24,6 @@ const SideBarShow = ({ setWhatShow }: SideBarShowProps) => {
 
   const { event, date } = selectedEvent;
 
-  // Conversion texte -> niveau
   const intensityToLevel = (intensity: string) => {
     switch (intensity.toLowerCase()) {
       case "facile":
@@ -40,7 +37,6 @@ const SideBarShow = ({ setWhatShow }: SideBarShowProps) => {
     }
   };
 
-  // Conversion niveau -> texte
   const levelToIntensity = (level: number) => {
     switch (level) {
       case 1:
@@ -84,7 +80,6 @@ const SideBarShow = ({ setWhatShow }: SideBarShowProps) => {
     nextCompetition.event.title === event.title &&
     nextCompetition.event.status === event.status;
 
-  // Afficher bouton présent/absent si swimmer et si événement = prochain entraînement ou prochaine compétition
   const showPresenceButtons =
     userStatus === "swimmer" && (isNextTrain || isNextCompetition);
 
@@ -93,7 +88,6 @@ const SideBarShow = ({ setWhatShow }: SideBarShowProps) => {
       {userStatus !== "swimmer" && (
         <CloseButton onClick={() => setWhatShow("category")} />
       )}
-      {/*BADGE*/}
       <div className="absolute top-4 left-4">
         <div className="bg-primary/15 rounded-full py-2 px-4">
           <p className="text-primary font-mona font-medium text-xs text-center whitespace-nowrap">
@@ -101,7 +95,6 @@ const SideBarShow = ({ setWhatShow }: SideBarShowProps) => {
           </p>
         </div>
       </div>
-      {/*BADGE*/}
       <header className="w-full flex flex-col gap-4 items-center p-4 mt-4">
         <div>
           <H4 className="!text-2xl text-center mb-0">{event.title}</H4>

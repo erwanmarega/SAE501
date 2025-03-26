@@ -24,12 +24,10 @@ export default function SegmentedPieChart() {
     }
   };
 
-  // Fonction pour terminer le glissement
   const handleMouseUp = () => {
     setIsDragging(false);
   };
 
-  // Mettre à jour l'angle en fonction de la position du curseur
   const updateAngle = (e: React.MouseEvent<SVGSVGElement>) => {
     if (svgRef.current) {
       const rect = svgRef.current.getBoundingClientRect();

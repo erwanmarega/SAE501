@@ -7,13 +7,12 @@ interface CalendarEventDetails {
 }
 
 interface CalendarEvent {
-  status: "training" | "competition" | null; // cohérent et bien orthographié
+  status: "training" | "competition" | null;
   title: string;
   details: CalendarEventDetails;
   isDefined: boolean;
 }
 
-// Exemple de DataEvents
 const DataEvents: Record<string, CalendarEvent[]> = {
   "25/12/2024": [
     {

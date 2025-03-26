@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import Card from "../components/ui/card";
 import Header from "../components/header/header";
 import { useLanguage } from "../components/header/ui/context/language-provider";
+import UnityPage from "../components/3D/UnityPage";
 
 const SpaBienEtre = () => {
   const { language } = useLanguage();
@@ -90,18 +91,11 @@ const SpaBienEtre = () => {
   };
 
   return (
-    <div
-      className="min-h-screen flex flex-col items-center overflow-auto"
-      style={{ transform: "scale(0.8)" }}
-    >
+    <div className="min-h-screen flex flex-col items-center overflow-hidden">
       <div className="flex flex-col items-center justify-center w-full pt-20">
-        <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-10 w-[90%] lg:w-[1400px] h-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-[7fr_3fr] gap-10 w-[90%] lg:w-[1400px] h-auto">
           <Card className="!px-0 !py-0 h-full">
-            <img
-              src="/images/spa.jpg"
-              alt="SPA"
-              className="w-full h-full object-cover rounded-lg"
-            />
+            <UnityPage />
           </Card>
 
           <section className="grid grid-rows-[1fr_2fr] gap-6 h-full">
@@ -110,10 +104,10 @@ const SpaBienEtre = () => {
                 {language === "en" ? "Well-being" : "Bien-être"}
               </span>
 
-              <h2 className="text-4xl font-semibold text-gray-800 font-mona dark:text-white">
+              <h2 className="text-6xl font-semibold text-gray-800 font-mona dark:text-white">
                 {language === "en" ? "SPA" : "SPA"}
               </h2>
-              <p className="text-2xl text-[#353535] font-mona dark:text-white">
+              <p className="text-xl text-[#353535] font-mona dark:text-white">
                 {language === "en"
                   ? "Enjoy a moment of relaxation in our dedicated space."
                   : "Profitez d'un moment de relaxation dans notre espace dédié."}
@@ -252,7 +246,7 @@ const SpaBienEtre = () => {
                     {language === "en" ? "Equipment" : "Équipements"}
                   </h3>
                 </div>
-                <p className="text-8xl font-bold text-[#303030] font-outfit mt-12 dark:text-white">
+                <p className="text-6xl font-bold text-[#303030] font-outfit mt-12 dark:text-white">
                   10+
                 </p>
                 <p className="text-gray-500 font-outfit dark:text-white">
@@ -274,7 +268,7 @@ const SpaBienEtre = () => {
                     {language === "en" ? "Reservation" : "Réservation"}
                   </h3>
                 </div>
-                <p className="text-8xl font-bold text-[#303030] font-outfit mt-12 dark:text-white">
+                <p className="text-6xl font-bold text-[#303030] font-outfit mt-12 dark:text-white">
                   {language === "en" ? "Yes" : "Oui"}
                 </p>
                 <p className="text-gray-500 font-outfit dark:text-white">
@@ -296,7 +290,7 @@ const SpaBienEtre = () => {
                     {language === "en" ? "Services" : "Services"}
                   </h3>
                 </div>
-                <p className="text-8xl font-bold text-[#303030] font-outfit mt-12 dark:text-white">
+                <p className="text-6xl font-bold text-[#303030] font-outfit mt-12 dark:text-white">
                   15+
                 </p>
                 <p className="text-gray-500 font-outfit dark:text-white">
@@ -318,7 +312,7 @@ const SpaBienEtre = () => {
                     {language === "en" ? "Hours" : "Horaires"}
                   </h3>
                 </div>
-                <p className="text-8xl font-bold text-[#303030] font-outfit mt-12 dark:text-white">
+                <p className="text-6xl font-bold text-[#303030] font-outfit mt-12 dark:text-white">
                   9-22
                 </p>
                 <p className="text-gray-500 font-outfit dark:text-white">

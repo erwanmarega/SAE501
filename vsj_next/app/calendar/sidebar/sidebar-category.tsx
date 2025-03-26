@@ -5,14 +5,11 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useEvents } from "../database/events-context";
-
-// Components
 import CloseButton from "../ui/closeButton";
 import Button from "@/app/components/ui/button";
 import H4 from "@/app/components/ui/texts/h4";
 import P from "@/app/components/ui/texts/p";
 import SelectWithIcons from "@/app/components/ui/select-withIcons";
-// On importe le nouveau composant
 import GroupCard from "../ui/group-card";
 
 interface Group {

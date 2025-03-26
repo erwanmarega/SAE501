@@ -1,0 +1,27 @@
+#piechart-container {
+  font-size: 0.85rem;
+  height: max-content;
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: -10px;
+
+  .recharts-wrapper {
+    width: auto !important;
+  }
+
+  #title-piechart {
+    font-size: 1.35rem;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+  }
+
+  .chartpie-text {
+    font-size: 1.2rem;
+  }
+  .small-chartpieText {
+    font-size: 0.7rem;
+    max-width: 10px;
+    text-wrap: wrap;
+  }
+}

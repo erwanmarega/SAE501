@@ -78,7 +78,6 @@ const SideBarAdminEdit = ({ setWhatShow }: SideBarAdminEditProps) => {
     setSelectedDiscipline(e.target.value);
   };
 
-  // Définir les groupes pour chaque section
   const groups = [
     {
       title: "Entraînements",
