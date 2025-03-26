@@ -7,7 +7,6 @@ export default function Stats() {
           Les performances en chiffres
         </h2>
 
-        {/* Conteneur des statistiques */}
         <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-12 text-blue-600">
           {[
             { value: "25%", label: "d'amélioration" },

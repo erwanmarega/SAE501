@@ -33,10 +33,42 @@ export default function Testimonials() {
             />
             {/* Étoiles et Témoignage */}
             <div className="flex-1">
-              <div className="flex gap-1 text-yellow-500 text-xl">
-                {"★★★★★".split("").map((star, index) => (
-                  <span key={index}>{star}</span>
-                ))}
+              <div className="flex gap-1">
+                <Image
+                  src="/assets/img/etoiles.png"
+                  alt="Star"
+                  width={24}
+                  height={24}
+                  className="object-contain"
+                />
+                <Image
+                  src="/assets/img/star.png"
+                  alt="Star"
+                  width={24}
+                  height={24}
+                  className="object-contain"
+                />
+                <Image
+                  src="/assets/img/star.png"
+                  alt="Star"
+                  width={24}
+                  height={24}
+                  className="object-contain"
+                />
+                <Image
+                  src="/assets/img/star.png"
+                  alt="Star"
+                  width={24}
+                  height={24}
+                  className="object-contain"
+                />
+                <Image
+                  src="/assets/img/etoiles.png"
+                  alt="Star"
+                  width={24}
+                  height={24}
+                  className="object-contain"
+                />
               </div>
               <p className="mt-4 text-gray-700">
                 Syra a révolutionné l'organisation de notre club de tennis, je
