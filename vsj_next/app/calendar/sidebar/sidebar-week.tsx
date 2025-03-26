@@ -18,7 +18,6 @@ interface SidebarWeekProps {
 }
 
 const SidebarWeek = ({ setWhatShow }: SidebarWeekProps) => {
-  // Définir les états pour chaque input number
   const [value1, setValue1] = useState<number>(1);
   const [value2, setValue2] = useState<number>(1);
 

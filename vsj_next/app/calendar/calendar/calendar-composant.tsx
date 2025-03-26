@@ -30,7 +30,9 @@ const CalendarComposant = () => {
   const { language } = useLanguage();
   const [currentDate] = useState(new Date()); // Plus besoin de setCurrentDate
   const [trainings, setTrainings] = useState<Training[]>([]);
-  const [selectedTraining, setSelectedTraining] = useState<Training | null>(null);
+  const [selectedTraining, setSelectedTraining] = useState<Training | null>(
+    null
+  );
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -113,8 +115,7 @@ const CalendarComposant = () => {
       setTrainings(trainingData.trainings || []);
     } catch (err: any) {
       setError(
-        err.message ||
-          (language === "en" ? "Unknown error" : "Erreur inconnue")
+        err.message || (language === "en" ? "Unknown error" : "Erreur inconnue")
       );
     } finally {
       setLoading(false);
@@ -124,7 +125,7 @@ const CalendarComposant = () => {
   useEffect(() => {
     const month = format(currentDate, "yyyy-MM");
     fetchUserTrainings(month);
-  }, []); // Plus de dépendance à currentDate
+  }, []);
 
   const openTrainingModal = (training: Training) => {
     setSelectedTraining(training);
@@ -156,7 +157,6 @@ const CalendarComposant = () => {
 
   return (
     <div className="flex flex-col h-full w-full p-4 relative">
-      {/* En-tête des jours de la semaine */}
       <div className="grid grid-cols-7 gap-1 mb-2">
         {["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"].map((day, index) => (
           <div
@@ -168,7 +168,6 @@ const CalendarComposant = () => {
         ))}
       </div>
 
-      {/* Grille du calendrier */}
       <main
         className="grid grid-cols-7 gap-1 h-full"
         style={{
@@ -177,8 +176,9 @@ const CalendarComposant = () => {
       >
         {days.map((day) => {
           const formattedDate = format(day, "dd/MM/yyyy");
-          const eventsForDay = trainings.filter((training) =>
-            format(new Date(training.date), "dd/MM/yyyy") === formattedDate
+          const eventsForDay = trainings.filter(
+            (training) =>
+              format(new Date(training.date), "dd/MM/yyyy") === formattedDate
           );
           const lastEvent = eventsForDay[eventsForDay.length - 1] || null;
 
@@ -210,7 +210,8 @@ const CalendarComposant = () => {
                 borderColor,
                 {
                   "opacity-50": isOutsideMonth,
-                  "cursor-pointer hover:rounded-md hover:shadow-md hover:-translate-y-1": hasTraining,
+                  "cursor-pointer hover:rounded-md hover:shadow-md hover:-translate-y-1":
+                    hasTraining,
                   "border-2": isToday,
                 }
               )}
@@ -245,7 +246,8 @@ const CalendarComposant = () => {
                       {language === "en" ? "Training" : "Entraînement"}
                     </p>
                     <p className="font-outfit text-2xs font-medium text-[#818181] truncate max-w-[80px]">
-                      {lastEvent.title || (language === "en" ? "Session" : "Séance")}
+                      {lastEvent.title ||
+                        (language === "en" ? "Session" : "Séance")}
                     </p>
                   </div>
                 </div>
@@ -255,7 +257,6 @@ const CalendarComposant = () => {
         })}
       </main>
 
-      {/* Modal pour les détails de l'entraînement */}
       {isModalOpen && selectedTraining && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-xl p-6 w-11/12 max-w-md shadow-lg">
@@ -313,7 +314,9 @@ const CalendarComposant = () => {
               <span className="font-semibold text-gray-700">
                 {language === "en" ? "Intensity" : "Intensité"}
               </span>
-              <span className="text-gray-600">{selectedTraining.intensity}</span>
+              <span className="text-gray-600">
+                {selectedTraining.intensity}
+              </span>
             </div>
 
             <div className="flex items-center justify-between mb-4">

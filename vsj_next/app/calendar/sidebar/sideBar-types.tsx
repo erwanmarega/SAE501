@@ -19,7 +19,6 @@ const SideBarTypes = ({ setWhatShow }: SideBarTypesProps) => {
         <h3 className="text-center text-2xl font-mona font-semibold text-[#484848]">
           Mes séances types
         </h3>
-        {/*SELECT*/}
       </header>
       <main className="flex flex-wrap justify-center gap-4 px-0">
         {sessionEntries.map(([title, session]) => (

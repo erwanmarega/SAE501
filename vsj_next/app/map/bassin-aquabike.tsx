@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import Card from "../components/ui/card";
 import Header from "../components/header/header";
 import { useLanguage } from "../components/header/ui/context/language-provider";
+import UnityPage from "../components/3D/UnityPage";
 
 const BassinAquabike = ({ showHeader }: { showHeader: boolean }) => {
   const { language } = useLanguage();
@@ -90,20 +91,13 @@ const BassinAquabike = ({ showHeader }: { showHeader: boolean }) => {
   };
 
   return (
-    <div
-      className="min-h-screen flex flex-col items-center overflow-auto"
-      style={{ transform: "scale(0.8)" }}
-    >
+    <div className="min-h-screen flex flex-col items-center overflow-hidden">
       {showHeader && <Header />}
 
       <div className="flex flex-col items-center justify-center w-full pt-20">
-        <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-10 w-[90%] lg:w-[1400px] h-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-[7fr_3fr] gap-10 w-[90%] lg:w-[1400px] h-auto">
           <Card className="!px-0 !py-0 h-full">
-            <img
-              src="/images/bassin-aquabike.jpg"
-              alt={language === "en" ? "Aquabike Pool" : "Bassin Aquabike"}
-              className="w-full h-full object-cover rounded-lg"
-            />
+            <UnityPage />
           </Card>
 
           <section className="grid grid-rows-[1fr_2fr] gap-6 h-full">
@@ -111,7 +105,7 @@ const BassinAquabike = ({ showHeader }: { showHeader: boolean }) => {
               <span className="absolute top-4 right-4 text-md bg-blue-100 text-blue-600 dark:bg-blue-100 dark:text-blue-600 py-1 px-5 rounded-full font-mona">
                 {language === "en" ? "Recreation" : "Loisirs"}
               </span>
-              <h2 className="text-4xl font-semibold text-gray-800 dark:text-white font-mona">
+              <h2 className="text-6xl font-semibold text-gray-800 dark:text-white font-mona">
                 {language === "en" ? "Aquabike Pool" : "Bassin Aquabike"}
               </h2>
               <p className="text-2xl text-[#353535] font-mona dark:text-white">
@@ -253,7 +247,7 @@ const BassinAquabike = ({ showHeader }: { showHeader: boolean }) => {
                     {language === "en" ? "Depth" : "Profondeur"}
                   </h3>
                 </div>
-                <p className="text-8xl font-bold text-[#303030] dark:text-white font-outfit mt-12">
+                <p className="text-6xl font-bold text-[#303030] dark:text-white font-outfit mt-12">
                   1.5
                 </p>
                 <p className="text-gray-500 font-outfit dark:text-white">
@@ -273,7 +267,7 @@ const BassinAquabike = ({ showHeader }: { showHeader: boolean }) => {
                     {language === "en" ? "Capacity" : "Capacité"}
                   </h3>
                 </div>
-                <p className="text-8xl font-bold text-[#303030] font-outfit mt-12 dark:text-white">
+                <p className="text-6xl font-bold text-[#303030] font-outfit mt-12 dark:text-white">
                   50
                 </p>
                 <p className="text-gray-500 font-outfit dark:text-white">
@@ -293,7 +287,7 @@ const BassinAquabike = ({ showHeader }: { showHeader: boolean }) => {
                     {language === "en" ? "Age" : "Âge"}
                   </h3>
                 </div>
-                <p className="text-8xl font-bold text-[#303030] font-outfit mt-12 dark:text-white">
+                <p className="text-6xl font-bold text-[#303030] font-outfit mt-12 dark:text-white">
                   6+
                 </p>
                 <p className="text-gray-500 font-outfit dark:text-white">
@@ -313,7 +307,7 @@ const BassinAquabike = ({ showHeader }: { showHeader: boolean }) => {
                     {language === "en" ? "Hours" : "Horaires"}
                   </h3>
                 </div>
-                <p className="text-8xl font-bold text-[#303030] font-outfit mt-12 dark:text-white">
+                <p className="text-6xl font-bold text-[#303030] font-outfit mt-12 dark:text-white">
                   9-18
                 </p>
                 <p className="text-gray-500 font-outfit dark:text-white">

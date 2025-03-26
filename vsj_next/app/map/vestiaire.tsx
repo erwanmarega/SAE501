@@ -3,6 +3,7 @@ import React, { useState, useRef } from "react";
 import Card from "../components/ui/card";
 import Header from "../components/header/header";
 import { useLanguage } from "../components/header/ui/context/language-provider";
+import UnityPage from "../components/3D/UnityPage";
 
 const Vestiaires = ({ showHeader }: { showHeader: boolean }) => {
   const { language } = useLanguage();
@@ -90,33 +91,48 @@ const Vestiaires = ({ showHeader }: { showHeader: boolean }) => {
     }
   };
 
+  const [selected, setSelected] = useState("");
+
+  const Title = (selected: string) => {
+    switch (selected) {
+      case "Bureau":
+        return "Bureau";
+      case "Bassi Olympique":
+        return "Bassi Olympique";
+      case "Hammam":
+        return "Hammam";
+      case "Sauna":
+        return "Sauna";
+      case "Vestaires":
+        return "Vestaires";
+      case "Accueil":
+        return "Accueil";
+      case "Pateaugoire":
+        return "Pateaugoire";
+      default:
+        return "Vestiaires";
+    }
+  };
   return (
-    <div
-      className="min-h-screen flex flex-col items-center overflow-hidden"
-      style={{ transform: "scale(0.8)" }}
-    >
+    <div className="min-h-screen flex flex-col items-center overflow-hidden">
       <div className="flex flex-col items-center justify-center w-full pt-20">
-        <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-10 w-[90%] lg:w-[1400px] h-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-[7fr_3fr] gap-10 w-[90%] lg:w-[1400px] h-auto">
           <Card className="!px-0 !py-0 h-full">
-            <img
-              src="/images/vestiaires.jpg"
-              alt="Vestiaires"
-              className="w-full h-full object-cover rounded-lg"
-            />
+            <UnityPage setSelected={setSelected} />
           </Card>
 
-          <section className="grid grid-rows-[1fr_2fr] gap-6 h-full">
+          <section className="grid grid-rows-[1fr_2fr] gap-4 h-full">
             <Card className="flex flex-col items-center justify-center text-center p-6 relative">
-              <span className="absolute top-4 right-4 text-sm bg-blue-100 text-blue-600 dark:bg-blue-200 dark:text-blue-700 py-1 px-4 rounded-full font-mona">
+              <span className="absolute top-4 right-4 text-xs bg-blue-100 text-blue-600 dark:bg-blue-200 dark:text-blue-700 py-1 px-4 rounded-full font-mona">
                 {language === "en"
                   ? "Comfort & Practicality"
                   : "Confort & Praticité"}
               </span>
 
               <h2 className="text-4xl font-semibold text-gray-800 font-mona dark:text-white">
-                {language === "en" ? "Lockers" : "Vestiaires"}
+                {Title(selected)}
               </h2>
-              <p className="text-2xl text-[#353535] font-mona dark:text-white">
+              <p className="text-lg text-[#353535] font-mona dark:text-white">
                 {language === "en"
                   ? "Comfort and practicality at your service"
                   : "Confort et praticité à votre service"}
@@ -126,7 +142,7 @@ const Vestiaires = ({ showHeader }: { showHeader: boolean }) => {
                 <div className="group">
                   <button
                     onClick={handleAudioButtonClick}
-                    className="mt-6 px-8 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 flex items-center gap-2 group-hover:animate-bounce"
+                    className="mt-6 px-8 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 flex items-center gap-2"
                   >
                     <img
                       src="./assets/img/Vector.png"
@@ -255,7 +271,7 @@ const Vestiaires = ({ showHeader }: { showHeader: boolean }) => {
                     {language === "en" ? "Padlock" : "Cadenas"}
                   </h3>
                 </div>
-                <p className="text-8xl font-bold text-[#303030] font-outfit mt-12 dark:text-white">
+                <p className="text-6xl font-bold text-[#303030] font-outfit mt-12 dark:text-white">
                   {language === "en" ? "Yes" : "Oui"}
                 </p>
                 <p className="text-gray-500 font-outfit dark:text-white">
@@ -275,7 +291,7 @@ const Vestiaires = ({ showHeader }: { showHeader: boolean }) => {
                     {language === "en" ? "Capacity" : "Capacité"}
                   </h3>
                 </div>
-                <p className="text-8xl font-bold text-[#303030] font-outfit mt-12 dark:text-white">
+                <p className="text-7xl font-bold text-[#303030] font-outfit mt-12 dark:text-white">
                   50
                 </p>
                 <p className="text-gray-500 font-outfit dark:text-white">
@@ -299,7 +315,7 @@ const Vestiaires = ({ showHeader }: { showHeader: boolean }) => {
                     {language === "en" ? "Accessibility" : "Accessibilité"}
                   </h3>
                 </div>
-                <p className="text-8xl font-bold text-[#303030] font-outfit mt-12 dark:text-white">
+                <p className="text-6xl font-bold text-[#303030] font-outfit mt-12 dark:text-white">
                   {language === "en" ? "Yes" : "Oui"}
                 </p>
                 <p className="text-gray-500 font-outfit dark:text-white">
@@ -319,7 +335,7 @@ const Vestiaires = ({ showHeader }: { showHeader: boolean }) => {
                     {language === "en" ? "Equipment" : "Équipements"}
                   </h3>
                 </div>
-                <p className="text-8xl font-bold text-[#303030] font-outfit mt-12 dark:text-white">
+                <p className="text-6xl font-bold text-[#303030] font-outfit mt-12 dark:text-white">
                   {language === "en" ? "Yes" : "Oui"}
                 </p>
                 <p className="text-gray-500 font-outfit dark:text-white">

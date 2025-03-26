@@ -1,0 +1,107 @@
+@import "../../../styles/variables.scss";
+
+#card-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 18px 20px;
+
+    border-radius: 15px;
+    box-shadow: 0px 2.5px 15px 0px rgba(0, 0, 0, 0.15);
+
+    height: 155px;
+    width: 300px;
+    position: relative;
+
+    .information-icon {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        height: 15px;
+    }
+
+    h1,
+    h3 {
+        margin-block: 0;
+    }
+
+    h3 {
+        font-family: $font-hel-b;
+        font-size: 1rem;
+    }
+
+    main {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+    .row-card {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 15px;
+
+        .title-card {
+            font-size: 1rem;
+        }
+
+        .bottom-text {
+            font-family: $font-hel-r;
+            color: #475467;
+            .blue {
+                font-family: $font-hel-m;
+            }
+        }
+    }
+
+    h1 {
+        font-size: 33px;
+    }
+
+    .badgeCircle-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        .text-part {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+        }
+        .great-circle {
+            background-color: rgb(29, 140, 236, 0.15);
+            height: 40px;
+            width: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 100%;
+        }
+        .small-circle {
+            background-color: rgb(29, 140, 236, 0.85);
+            height: 25px;
+            width: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 100%;
+        }
+
+        img {
+            height: 9px;
+        }
+
+        p {
+            text-wrap: wrap;
+            max-width: 100px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #585858;
+        }
+
+        h2 {
+            font-size: 2rem;
+        }
+    }
+}
