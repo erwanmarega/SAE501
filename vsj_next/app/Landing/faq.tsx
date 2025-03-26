@@ -25,10 +25,8 @@ export default function FAQ() {
   return (
     <section className="py-16 bg-white">
       <div className="max-w-4xl mx-auto">
-        {/* Titre */}
         <h2 className="text-4xl font-bold text-center text-gray-900">FAQ</h2>
 
-        {/* Liste des FAQ */}
         <div className="mt-8 space-y-4">
           {faqs.map((faq, index) => (
             <details
