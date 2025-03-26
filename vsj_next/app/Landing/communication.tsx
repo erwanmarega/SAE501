@@ -27,9 +27,7 @@ export default function ActivitiesSection() {
   return (
     <section className="py-16 bg-gray-50">
       <div className="max-w-6xl mx-auto px-6 flex flex-col items-center gap-12">
-        {/* Texte Section */}
         <div className="w-full space-y-6 text-center">
-          {/* Icône */}
           <div className="flex justify-center">
             <div className="bg-blue-100 p-3 rounded-full">
               <Image
@@ -41,7 +39,6 @@ export default function ActivitiesSection() {
             </div>
           </div>
 
-          {/* Titre et sous-titre */}
           <h2 className="text-3xl font-bold text-gray-900">
             Différentes Activités
           </h2>
@@ -50,9 +47,7 @@ export default function ActivitiesSection() {
           </p>
         </div>
 
-        {/* Contenu Section */}
         <div className="w-full flex flex-col md:flex-row items-center gap-12">
-          {/* Liste des activités */}
           <div className="bg-white p-6 rounded-2xl shadow-lg space-y-6 w-full md:w-1/2">
             {activities.map((activity, index) => (
               <div key={index} className="space-y-2">
@@ -70,7 +65,6 @@ export default function ActivitiesSection() {
             ))}
           </div>
 
-          {/* Image */}
           <div className="w-full md:w-1/2 flex justify-center">
             <Image
               src="/assets/img/mockup.png"

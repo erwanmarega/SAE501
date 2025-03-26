@@ -11,25 +11,25 @@ import GoogleIcon from "@/public/assets/icons/google_icon.svg";
 import Message from "./ui/message";
 import { useLanguage } from "../components/header/ui/context/language-provider";
 import { useRouter } from "next/navigation";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import ThemeToggle from "../components/header/ui/theme-toggle";
 import LanguageSwitcher from "../components/header/ui/language-switcher";
 
 import BackgroundIMG_01 from "@/public/assets/img/login/backgroundIMG_01.png";
 
+interface AuthResponse {
+  token?: string; 
+  message?: string; 
+}
+
 const AuthentificationPage = () => {
   const { language } = useLanguage();
   const router = useRouter();
-  const [toggleValue, setToggleValue] = useState<"Connexion" | "Inscription">(
-    "Connexion"
-  );
-
-  const handleToggleAuth = (active: "Connexion" | "Inscription") => {
-    setToggleValue(active);
-  };
+  const [toggleValue, setToggleValue] = useState<"Connexion" | "Inscription">("Connexion");
 
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
+  const [loginError, setLoginError] = useState<string | null>(null);
 
   const [signupEmail, setSignupEmail] = useState("");
   const [signupPassword, setSignupPassword] = useState("");
@@ -38,7 +38,16 @@ const AuthentificationPage = () => {
   const [signupSuccess, setSignupSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  const handleToggleAuth = (active: "Connexion" | "Inscription") => {
+    setToggleValue(active);
+    setLoginError(null);
+    setSignupError(null);
+    setSignupSuccess(false);
+  };
+
   const onSignup = async (): Promise<boolean> => {
+    console.log("onSignup appelé");
+
     if (!signupEmail || !signupPassword || !signupConfirmPassword) {
       setSignupError("Veuillez remplir tous les champs obligatoires.");
       return false;
@@ -60,14 +69,28 @@ const AuthentificationPage = () => {
       setIsLoading(true);
 
       const data = { email: signupEmail, password: signupPassword };
+      console.log("Données d'inscription :", data);
 
-      const response = await axios.post("http://localhost:8000/swimmer", data, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response: AxiosResponse<AuthResponse> = await axios.post(
+        "http://localhost:8000/register",
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log("Réponse inscription :", response);
 
       if (response.status === 201) {
+        const token = response.data.token;
+        if (token) {
+          localStorage.setItem("authToken", token);
+          console.log("Jeton stocké après inscription :", token);
+        } else {
+          console.warn("Aucun jeton trouvé dans la réponse d'inscription");
+        }
         setSignupSuccess(true);
         setTimeout(() => {
           router.push("/signup");
@@ -76,10 +99,18 @@ const AuthentificationPage = () => {
       }
       return false;
     } catch (err: any) {
-      if (err.response && err.response.status === 409) {
-        setSignupError("Il y a déjà un compte avec cette adresse mail.");
+      console.error("Erreur inscription :", err);
+      if (err.response) {
+        const errorData = err.response.data as AuthResponse;
+        if (err.response.status === 409) {
+          setSignupError("Il y a déjà un compte avec cette adresse mail.");
+        } else {
+          setSignupError(
+            `Erreur ${err.response.status} : ${errorData.message || "Réessayez."}`
+          );
+        }
       } else {
-        setSignupError("Vérifiez vos informations ou réessayez.");
+        setSignupError("Une erreur réseau est survenue. Réessayez.");
       }
       return false;
     } finally {
@@ -88,6 +119,13 @@ const AuthentificationPage = () => {
   };
 
   const handleLogin = async () => {
+    setLoginError(null);
+
+    if (!loginEmail || !loginPassword) {
+      setLoginError("Veuillez remplir tous les champs.");
+      return;
+    }
+
     try {
       const response = await fetch("http://localhost:8000/swimmer/login", {
         method: "POST",
@@ -100,15 +138,24 @@ const AuthentificationPage = () => {
         }),
       });
 
-      const data = await response.json();
+      const data: AuthResponse = await response.json();
+      console.log("Réponse connexion :", data);
 
       if (response.ok) {
+        const token = data.token;
+        if (token) {
+          localStorage.setItem("authToken", token);
+          console.log("Jeton stocké après connexion :", token);
+        } else {
+          console.warn("Aucun jeton trouvé dans la réponse de connexion");
+        }
         router.push("/");
       } else {
-        alert(data.message);
+        setLoginError(data.message || "Email ou mot de passe incorrect.");
       }
     } catch (error) {
-      alert("Une erreur est survenue");
+      console.error("Erreur réseau lors de la connexion :", error);
+      setLoginError("Une erreur réseau est survenue.");
     }
   };
 
@@ -121,6 +168,7 @@ const AuthentificationPage = () => {
         loginPassword={loginPassword}
         setLoginPassword={setLoginPassword}
         handleLogin={handleLogin}
+        loginError={loginError}
       />
     ) : (
       <SignupPage
@@ -168,9 +216,7 @@ const AuthentificationPage = () => {
             leftLabel={language === "fr" ? "Connexion" : "Login"}
             rightLabel={language === "fr" ? "Inscription" : "Sign Up"}
             onChange={(position) =>
-              handleToggleAuth(
-                position === "left" ? "Connexion" : "Inscription"
-              )
+              handleToggleAuth(position === "left" ? "Connexion" : "Inscription")
             }
             className="text-gray-900 dark:text-gray-900"
           />
@@ -182,32 +228,34 @@ const AuthentificationPage = () => {
           {toggleValue === "Connexion" ? (
             <>
               <Button variant="outline" icon={GoogleIcon}>
-                {language === "fr"
-                  ? "Se connecter avec Google"
-                  : "Login with Google"}
+                {language === "fr" ? "Se connecter avec Google" : "Login with Google"}
               </Button>
+              <p className="font-mona font-light text-xs">
+                {language === "fr" ? "Vous n'avez pas de compte ?" : "Don't have an account?"}{" "}
+                <span
+                  className="font-bold cursor-pointer text-blue-500 dark:text-blue-500"
+                  onClick={() => handleToggleAuth("Inscription")}
+                >
+                  {language === "fr" ? "S'inscrire" : "Sign Up"}
+                </span>
+              </p>
             </>
           ) : (
             <>
               <Button variant="outline" icon={GoogleIcon}>
-                {language === "fr"
-                  ? "S'inscrire avec Google"
-                  : "Sign Up with Google"}
+                {language === "fr" ? "S'inscrire avec Google" : "Sign Up with Google"}
               </Button>
+              <p className="font-mona font-light text-xs">
+                {language === "fr" ? "Vous avez déjà un compte ?" : "Already have an account?"}{" "}
+                <span
+                  className="font-bold cursor-pointer text-blue-500 dark:text-blue-500"
+                  onClick={() => handleToggleAuth("Connexion")}
+                >
+                  {language === "fr" ? "Se connecter" : "Login"}
+                </span>
+              </p>
             </>
           )}
-
-          <p className="font-mona font-light text-xs">
-            {language === "fr"
-              ? "Vous n'avez pas de compte ?"
-              : "Don't have an account?"}{" "}
-            <span
-              className="font-bold cursor-pointer text-blue-500 dark:text-blue-500"
-              onClick={() => handleToggleAuth("Inscription")}
-            >
-              {language === "fr" ? "S'inscrire" : "Sign Up"}
-            </span>
-          </p>
         </footer>
       </section>
       <section className="hidden md:flex relative m-3 rounded-xl overflow-hidden">

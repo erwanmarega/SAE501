@@ -29,8 +29,7 @@ const Adhesion = () => {
     },
   ];
 
-  // On vérifie s’il n’y a que 2 adhésions
-  // et on ajoute une "carte d'ajout" en plus :
+ 
   adhesions.push({
     variant: "add",
     price: null,

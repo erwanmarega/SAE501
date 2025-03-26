@@ -11,8 +11,8 @@ interface SignupPageProps {
   setSignupEmail: React.Dispatch<React.SetStateAction<string>>;
   signupPassword: string;
   setSignupPassword: React.Dispatch<React.SetStateAction<string>>;
-  confirmPassword: string;
-  setConfirmPassword: React.Dispatch<React.SetStateAction<string>>;
+  signupConfirmPassword: string;
+  setSignupConfirmPassword: React.Dispatch<React.SetStateAction<string>>;
   onSignup: () => void;
   isLoading: boolean;
 }
@@ -23,8 +23,8 @@ const SignupPage = ({
   setSignupEmail,
   signupPassword,
   setSignupPassword,
-  confirmPassword,
-  setConfirmPassword,
+  signupConfirmPassword,
+  setSignupConfirmPassword,
   onSignup,
   isLoading,
 }: SignupPageProps) => {
@@ -69,8 +69,8 @@ const SignupPage = ({
             ? "Confirm your password"
             : "Confirmez votre mot de passe"
         }
-        value={confirmPassword}
-        onChange={(e) => setConfirmPassword(e.target.value)}
+        value={signupConfirmPassword}
+        onChange={(e) => setSignupConfirmPassword(e.target.value)}
         autoComplete="new-password"
       />
 
